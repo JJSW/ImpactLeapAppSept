@@ -1,0 +1,100 @@
+@model ImpactLeapApp.Models.OrderModels.Saving
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<form asp-action="Edit">
+    <div class="admin-margin">
+        <div class="page-heading">
+            <h3>Saving Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.SavingName)</h3>
+        </div>
+
+        <input type="hidden" asp-for="SavingId" />
+
+        <div class="form-horizontal admin-margin-detail">
+
+            <div class="form-group">
+                <label asp-for="SavingName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="SavingName" class="form-control" />
+                    <span asp-validation-for="SavingName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="DiscountMethod" class="form-control">
+                        <option value="0">Fixed</option>
+                        <option value="1">Percentage</option>
+                    </select>
+                    <span asp-validation-for="DiscountMethod" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SavingRate" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="SavingRate" class="form-control" />
+                    <span asp-validation-for="SavingRate" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectFrom" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="SelectFrom" class="form-control" />
+                    <span asp-validation-for="SelectFrom" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectTo" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="SelectTo" class="form-control" />
+                    <span asp-validation-for="SelectTo" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group form-no-max-width">
+                <label asp-for="Description" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsActive" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="IsActive" class="form-control" />
+                    <span asp-validation-for="IsActive" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <a asp-action="Details" asp-route-id="@Model.SavingId"
+               role="button" class="btn btn-default">
+                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+            </a>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+}
+
+

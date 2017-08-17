@@ -1,0 +1,465 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetail>
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "New Order";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+<!-- page heading start-->
+<div class="page-heading">
+    <h3 class="inv-col">
+        Order number:<span>@Html.Raw(strSpacer)@ViewData["OrderNumber"] </span>
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            Analysis
+        </li>
+        <li class="active">Upload portfolio</li>
+    </ul>
+</div>
+
+<div class="wrapper">
+
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Upload portfolio
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+
+                    <div class="alert alert-success">
+                        <p>Please upload details of your portfolio, including holding names, ISINs and positions (number of shares or debt held), and enter any additional comments in the area below.</p>
+                    </div>
+
+                    <form class="dropzone dropzone-preview"
+                          id="dropzoneForm"
+                          asp-action="UploadFile"
+                          asp-controller="Order"
+                          method="post"
+                          style="text-align:left !important">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+
+                    <form id="noteFromUserForm" method="post" role="form">
+                        <div class="form-group">
+                            <textarea id="noteFromUser"
+                                      name="noteFromUser"
+                                      class="form-control"
+                                      placeholder="Add any additional comments"
+                                      rows="3"
+                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                        </div>
+                    </form>
+
+                    <button id="submitFileComment" type="submit" value="Submit"
+                            class="btn btn-primary input-icon">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Upload file and comment
+                    </button>
+
+                    <span id="submitResult"></span>
+
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Order summary
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover general-table">
+                        <thead>
+                            <tr>
+                                <td class="col-sm-4"></td>
+                                <td class="col-sm-8"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var subTotal = 0;}
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                <tr></tr>
+                                subTotal += Model.ElementAt(@i).Module.UnitPrice;
+                            }
+                        </tbody>
+
+                        <tr>
+                            <td class="text-left">
+                                Sub-total
+                            </td>
+                            <td>
+                                $@subTotal
+                            </td>
+                        </tr>
+
+
+                        <tr style="border-bottom:double; border-bottom-color:gainsboro">
+                            <td class="text-left text-danger">
+                                Multiple module saving
+                            </td>
+                            @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
+                            {
+                                <td class="text-danger">
+                                    -$@ViewBag.SelectionDiscount
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">
+                                    0
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td class="text-left text-danger">
+                                Promotion Discount
+                            </td>
+
+                            @if (!object.Equals((string)TempData["PromotionDiscountRate"], "0"))
+                            {
+                                <td class="text-danger">
+                                    @TempData["PromotionDiscountRate"]
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">
+                                    0
+                                </td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td style="font-size:medium; font-weight: bold;" align="left">
+                                Total to pay :
+                            </td>
+                            @if (ViewBag.TotalToPay != null)
+                            {
+                                <td>
+                                    <b>
+                                        <label style="font-size: large;">$@ViewBag.TotalToPay</label>
+                                    </b>
+                                </td>
+                            }
+                            else
+                            {
+                                <td><b style="font-size: large;">0</b></td>
+                            }
+                        </tr>
+                    </table>
+
+                    @if (ViewBag.TotalToPay != "0")
+                    {
+                        @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
+                        {
+                            <button id="promoCode"
+                                    asp-controller="Order"
+                                    asp-action="SubmitPromoCode"
+                                    class="btn btn-success">
+                                Promotion Code
+                            </button>
+                        }
+                        else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
+                        {
+                            <button class="btn btn-success disabled" pointer-events:none;">
+
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                @Html.Raw(strSpacer)Applied
+
+                            </button>
+                        }
+                        else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
+                        {
+                            <button id="promoCode"
+                                    asp-controller="Order"
+                                    asp-action="SubmitPromoCode"
+                                    class="btn btn-success">
+                                Promotion Code
+
+                            </button>
+                            <span class="alert alert-danger alert-custom">
+                                The promotion code is already used
+                            </span>
+                        }
+                    }
+
+                    <br />
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a href="@Url.Action("Index", "Billing", new { @id = ViewData["OrderId"] })"
+                           class="btn btn-primary btn-new-order"
+                           role="button"
+                           id="proceedButton">
+                            Proceed to payment&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="proceedButton"
+                           asp-controller="Order"
+                           asp-action="CheckTempUser"
+                           asp-route-id="@ViewData["OrderId"]"
+                           class="btn btn-primary btn-new-order"
+                           role="button">
+                            Proceed to payment&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<div id="promotionCodeForm"></div>
+<div id="checkProceedForm">
+    <div class="alert alert-info text-center" style="margin-top:25px;">
+        Please click the upload button to proceed
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Forgot Password ?</h4>
+            </div>
+
+            <form asp-controller="Account" asp-action="ForgotPassword" method="post">
+
+                <br />
+                <div class="modal-body">
+                    <div class="alert alert-info text-center">
+                        Please email <a href="mailto:info@impactleap.com">info@impactleap.com</a> to get your password reset
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <!--dropzone-->
+    <link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
+    <link rel="stylesheet" href="~/lib/dropzone/dist/basic.css" />
+    <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>
+
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="~/css/bootstrap-reset.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script type="text/javascript">
+
+        var isCommentSubmitted = false;
+        var isFileSubmitted = false;
+        var isFileInQueue = false;
+
+        $(document).ready(function () {
+
+            $("#proceedButton").on("click", function (e) {
+                console.log(noteFromUser);
+
+                if (isFileInQueue) {
+                    if (isFileSubmitted == false) {
+                        openProceedDialog();
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                if ($("#noteFromUser").val() || $.trim("#noteFromUser").val()) {
+                    if (isCommentSubmitted == false) {
+                        openProceedDialog();
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+            });
+        });
+
+        function openProceedDialog() {
+            $("#checkProceedForm").dialog({
+                type: "GET",
+                autoOpen: true,
+                resizable: true,
+                modal: true,
+                draggable: false,
+                title: "Did you forget to upload comment or file?",
+                position: { my: "top", at: "top+50", of: window },
+                show: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                hide: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                width: 600,
+                height: 250,
+
+                buttons: {
+                    "Back": {
+                        text: "Back",
+                        class: "btn btn-default btn-modal",                        
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                },
+
+                create: function () {
+                    $(this).closest(".ui-dialog")
+                        .find(".ui-button")
+                        .removeClass("ui-corner-all");
+                }
+
+            });
+        }
+
+        $(document).ready(function () {
+            $("#submitFileComment").on("click", function () {
+                submitNote();
+            });
+            return false;
+        });
+
+        function submitNote() {
+            var isSuccess = false;
+
+            if ($("#noteFromUser").val() != "") {
+                var noteFromUser = { noteFromUser: $("#noteFromUser").val() }
+                $.ajax({
+                    type: "POST",
+                    url: "/Order/SubmitNote",
+                    data: noteFromUser,
+                    dataType: "json",
+                    success: function (result, status, xhr) {
+
+                    },
+                });
+                isSuccess = true;
+            }
+            if (isSuccess) {
+                $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;comment saved</span>");
+                isCommentSubmitted = true;
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        Dropzone.options.dropzoneForm = {
+
+            maxFiles: 10,
+            //Prevent Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            paramName: "file",
+            dictDefaultMessage: "Drop files or click here to upload",
+
+            init: function () {
+                var submitButton = document.querySelector("#submitFileComment");
+                var myDropzone = this; //closure
+
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue();
+                    var acceptedFileCount = myDropzone.getAcceptedFiles().length;
+                    console.log(acceptedFileCount);
+
+                    if (acceptedFileCount > 0) {
+                        isFileSubmitted = true;
+                    }
+                });
+
+                // Send additional parameter (optional)
+                /*this.on("sending", function (file, xhr, formData) {
+                  formData.append("noteFromUser", $("#noteFromUser").val());
+                });*/
+
+                this.on("maxfilesexceeded", function (data) {
+                    var res = eval('(' + data.xhr.responseText + ')');
+                });
+
+                this.on("addedfile", function (file) {
+
+                    if (file.size > 0) {
+                        isFileInQueue = true;
+                    }
+
+                    console.log(isFileInQueue, isFileSubmitted);
+
+                    var removeButton = Dropzone.createElement("<button class=\"btn btn-default\" style=\"margin-left:7px;margin-top:10px;\">Remove file</button>");
+
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        _this.removeFile(file);
+                        // AJAX request to delete file (optional)
+                    });
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        $("#promoCode").on("click", function () {
+            $("#promotionCodeForm").dialog({
+                type: "GET",
+                autoOpen: true,
+                resizable: true,
+                modal: true,
+                draggable: false,
+                title: "Enter your promotion code",
+                position: { my: "top", at: "top+50", of: window },
+                show: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                hide: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                width: 600,
+                height: 200,
+
+                open: function () {
+                    $(this).load('@Url.Action("SubmitPromoCode", "Order")');
+                },
+            });
+        return false;
+        });
+    </script>
+
+}

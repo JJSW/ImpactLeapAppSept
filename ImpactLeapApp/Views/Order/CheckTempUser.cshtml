@@ -1,0 +1,52 @@
+
+@{
+    ViewData["Title"] = "Check Temp User";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+@if (ViewData["CheckUser"].Equals("NeedRegister"))
+{
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-success text-center">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Registration required</h3>
+            </div>
+
+            <div class="panel-body">
+                <h4>Please register to proceed the order</h4> 
+
+                <br />
+                <br/>
+                <a id="Register" asp-controller="Order" asp-action="PartialRegister" class="btn btn-primary btn-lg">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Register
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else if (ViewData["CheckUser"].Equals("NeedLogin"))
+{
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-success text-center">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Login required</h3>
+            </div>
+
+            <div class="panel-body">
+                <h4>This email is already registered</h4>
+                <h4>Please login to proceed with your order</h4>
+
+                <br />
+                <br />
+                <a id="Register" asp-controller="Order" asp-action="PartialLogin" class="btn btn-primary btn-lg">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Login
+                </a>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,112 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.Module>
+
+@{
+    ViewData["Title"] = "Index";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Module Summary</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                Admin
+            </li>
+            <li class="active">
+                Module Summary
+            </li>
+        </ul>
+        <br />
+        <a asp-action="Create" role="button" class="btn btn-default">
+            <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
+        </a>
+    </div>
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of modules
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+
+                    </header>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="table" id="dynamic-table" style="table-layout:auto">
+                                <thead>
+                                    <tr>
+                                        <th style="width:3%">
+                                            ID
+                                        </th>
+                                        <th style="width:20%; max-width:30%;">
+                                            @Html.DisplayNameFor(model => model.ModuleName)
+                                        </th>
+                                        <th style="width:45%; word-wrap: break-word;">
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th style="width:7%;">
+                                            @Html.DisplayNameFor(model => model.UnitPrice)
+                                        </th>
+                                        <th style="width:25%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ModuleId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ModuleName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @item.UnitPrice.ToString("C0", formatProvider)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+}

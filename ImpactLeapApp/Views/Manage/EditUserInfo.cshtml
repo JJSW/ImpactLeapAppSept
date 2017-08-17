@@ -1,0 +1,102 @@
+@model ImpactLeapApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit User Info";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="col-md-5 center-column">
+    <div class="page-heading">
+        <h3>Edit User Profile</h3>
+        <ul class="breadcrumb">
+            <li>
+                Admin account
+            </li>
+            <li class="active">User Profile</li>
+        </ul>
+    </div>
+
+    <form asp-controller="Manage" asp-action="EditUserInfo" id="userInfoForm">
+        <div class="wrapper">
+            <div class="panel">
+                <div class="panel-body">
+                    <ul class="p-info">
+                        <li>
+                            <div class="title">@Html.DisplayNameFor(Model => Model.Email)</div>
+                            <div class="desk">
+                                <input id="emailInput" asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger admin-align-middle"></span>
+                                <div id="emailChange" class="text-danger" style="margin-top:5px;"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">@Html.DisplayNameFor(Model => Model.FirstName)</div>
+                            <div class="desk">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">@Html.DisplayNameFor(Model => Model.LastName)</div>
+                            <div class="desk">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">@Html.DisplayNameFor(Model => Model.CompanyName)</div>
+                            <div class="desk">
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-success btn-margin-15"
+                        type="submit"
+                        id="saveButton"
+                        onclick="submitUserInfoForm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Save
+                </button>
+
+                <a class="btn btn-default" style="margin-left:-5px;"
+                    asp-action="Index" >
+                    <i class="fa fa-ban" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <!--icheck-->
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
+    <script type="text/javascript" src="~/js/icheck-init.js"></script>
+    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+
+    <script type="text/javascript">
+        function submitUserInfoForm() {
+            $("#userInfoForm").submit();
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        var savedEmail = $("#emailInput").val();
+
+        $(document).ready(function () {
+            $("#emailInput").keyup(function () {
+                if ($("#emailInput").val() != savedEmail) {
+                    $("#emailChange").html("&nbsp;&nbsp;Required to login again");
+                }
+            });
+        });
+    </script>
+
+}

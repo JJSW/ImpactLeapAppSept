@@ -1,0 +1,322 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.TempOrderViewModel>
+@using ImpactLeapApp.Models.OrderModels;
+
+@using Microsoft.AspNetCore.Identity
+@using ImpactLeapApp.Models
+
+@{
+    ViewData["Title"] = "Order";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
+
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>
+        Select modules
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            Analysis
+        </li>
+        <li class="active">Select modules</li>
+    </ul>
+    <div class="state-info">
+        <section class="panel">
+            <div class="panel-body">
+                <button class="btn btn-info text-center" style="padding: 10px;"
+                        data-toggle="modal" href="#myModal" type="button">
+                    Request information
+                </button>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<form action="/Order/NewOrder" method="post">
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of modules
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+                    </header>
+
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="display table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%">
+                                            #
+                                        </th>
+                                        <th style="width:23%; max-width:30%">
+                                            @Html.DisplayNameFor(model => model.Modules.ModuleName)
+                                        </th>
+                                        <th style="width:45%">
+                                            Details
+                                        </th>
+                                        <th style="width:10%">
+                                            Price (USD)
+                                        </th>
+                                        <th style="width:10%">
+                                            Select
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.ElementAt(@i).Modules.ModuleId</td>
+                                            <td>
+                                                <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                    @Model.ElementAt(@i).Modules.ModuleName
+                                                </label>
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Modules.Description
+                                            </td>
+                                            <td>
+                                                <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                    @if (String.Equals(Model.ElementAt(@i).Modules.UnitPrice.ToString(), "0"))
+                                                    {
+                                                        <span class="text-danger">FREE</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model.ElementAt(@i).Modules.UnitPrice.ToString("C0", formatProvider)
+                                                    }
+
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="flat-green single-row">
+                                                    <div class="radio _margin-top-0 _margin-bottom-0">
+                                                        @if (@i == 0)
+                                                        {
+                                                            <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                            <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover general-table">
+                            <thead>
+                                <tr>
+                                    <th class="inv-col col-md-4"><span>Order total</span></th>
+                                    <th class="inv-col col-md-2"><span>Total</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total price</td>
+                                    <td>
+                                        <span name="totalPrice"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Multiple module saving</td>
+                                    <td>
+                                        <input type="hidden" name="selectionDiscount" value="0" style="width:50px; border:none;" />
+                                        <span class="text-danger" name="selectionDiscountDisplay"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total to pay</td>
+                                    <td>
+                                        <input type="hidden" name="totalToPay" value="0" style="width:60px; border:none;" />
+                                        <span name="totalToPayDisplay"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body" style="display:table">
+                        Where shall we send your analysis?<br /><br />
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                        }
+                        else
+                        {
+                            <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
+                        }
+
+                        <button type="submit" class="btn btn-primary btn-new-order">
+                            Next step&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div id="AddUserForm"></div>
+
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Request Information</h4>
+            </div>
+
+            <form asp-controller="Account" asp-action="ForgotPassword" method="post">
+
+                <br />
+                <div class="modal-body">
+                    <div class="alert alert-info text-center">
+                        To request further information or an example report, please email: <a href="mailto:info@impactleap.com">info@impactleap.com</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
+    <!--icheck-->
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
+    <script type="text/javascript" src="~/js/icheck-init.js"></script>
+    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_modules.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        var totalPrice = 0;
+        var selectionDiscount = 0;
+        var totalToPay = 0;
+
+        $(document).ready(function () {
+            $(".adv-table").on("ifChanged", ":checkbox", function () {
+                calculateTotal();
+            });
+        });
+
+        function calculateTotal() {
+
+            var tempTotalPrice = 0;
+            var tempSelectionDiscount = 0;
+            var tempTotalToPay = 0;
+
+            var isFixedSaving = false;
+            var isPercentageSaving = false;
+
+            $(":checkbox:checked.chkBox").each(function () {
+                var jsonObj = JSON.parse($(this).val());
+                //console.log($(this).val());
+                tempTotalPrice += jsonObj.modules.unitPrice;
+            });
+
+            var selectedModules = $(":checkbox:checked.chkBox").length;
+
+            var savingData = @savingDataJson;
+            console.log(savingData);
+
+            $.each(savingData, function (key, value) {
+                if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
+                    if (value.discountMethod == 0) {
+                        isFixedSaving = true;
+                        isPercentageSaving = false;
+                    } else if (value.discountMethod == 1) {
+                        isPercentageSaving = true;
+                        isFixedSaving = false;
+                    }
+                    tempSelectionDiscount = value.savingRate;
+                }
+            });
+
+            $("span[name=totalPrice]").text("$" + tempTotalPrice);
+
+            // Multiple saving
+            $("input[name=selectionDiscount]").val(tempSelectionDiscount);
+
+            if (tempSelectionDiscount != null || tempSelectionDiscount != 0) {
+
+                if (isFixedSaving) {
+                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                } else if (isPercentageSaving) {
+                    var percentageSaving = (tempTotalPrice * tempSelectionDiscount) / 100;
+                    console.log(percentageSaving);
+                    $("span[name=selectionDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSelectionDiscount + "%)");
+                    tempSelectionDiscount = percentageSaving;
+                } else {
+                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                }
+            }
+
+
+            // Total to pay
+            tempTotalToPay = (tempTotalPrice - tempSelectionDiscount);
+
+            $("input[name=totalToPay]").val(tempTotalToPay);
+
+            if (tempTotalToPay != null || tempTotalToPay != 0) {
+                $("span[name=totalToPayDisplay]").text("$" + tempTotalToPay.toFixed(0));
+            }
+
+            totalPrice = tempTotalPrice;
+            selectionDiscount = tempSelectionDiscount;
+            totalToPay = tempTotalToPay;
+        }
+
+    </script>
+
+}

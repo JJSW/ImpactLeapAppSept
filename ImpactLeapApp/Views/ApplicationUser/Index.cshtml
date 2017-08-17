@@ -1,0 +1,157 @@
+@model IEnumerable<ImpactLeapApp.Models.ApplicationUser>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Admin / User";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>User Summary</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                Admin
+            </li>
+            <li class="active">
+                User Summary
+            </li>
+        </ul>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            <br />
+            <a asp-action="Create" role="button" class="btn btn-default">
+                <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
+            </a>
+        }
+    </div>
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        User information
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+
+                    </header>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="table" id="dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Id)
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CompanyName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UserRole)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        var modelNum = @i + 1;
+                                        <tr>
+                                            <td>
+                                                @modelNum
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).FirstName @Model.ElementAt(@i).LastName
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Email
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).CompanyName
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).UserRole
+                                            </td>
+
+                                            <td>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                    </a>
+                                                }
+                                                else if (User.IsInRole("Manager"))
+                                                {
+                                                    if (Model.ElementAt(@i).UserRole == UserRoleList.Admin)
+                                                    {
+                                                        <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                        </a>
+                                                        <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                        </a>
+                                                        <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                        </a>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_users.js"></script>
+}

@@ -1,0 +1,32 @@
+@using ImpactLeapApp.Models.BillingModels
+@model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
+
+@{
+    ViewData["Title"] = "BillingDetails";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+@if (Model != null)
+{
+    <div class="panel">
+        <div class="panel-body invoice">
+
+            <div class="col-md-4 col-md-offset-0 col-sm-4 col-sm-offset-0 inv-title-vertical-center">
+                <h1 class="inv-title">Order Summary</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-0 col-sm-4 col-sm-offset-0">
+                </div>
+                <div class="col-md-4 col-md-offset-3 col-sm-4 col-sm-offset-3">
+                    <div class="inv-col"><span>Order Number : </span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</div>
+                    <div class="inv-col"><span>Order Date :  </span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate)</div>
+                    <div class="inv-col"><span>Order Status :</span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderStatus)</div>
+                    <div class="inv-col"><span>Total Due: </span>@Html.Raw(strSpacer)$@ViewData["AmountDisplay"]</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

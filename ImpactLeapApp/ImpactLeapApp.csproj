@@ -1,0 +1,180 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UserSecretsId>aspnet-ImpactWebsite-7da2974d-6e31-4e80-a5b3-fa9e1024b495</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\uploads\**" />
+    <Content Remove="wwwroot\uploads\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\**" />
+    <None Remove="wwwroot\uploads\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot/images\background_1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\bootstrap-reset.css" />
+    <Content Include="wwwroot\css\site.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\css\style-responsive.css" />
+    <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\images\404-error.png" />
+    <Content Include="wwwroot\images\500-error.png" />
+    <Content Include="wwwroot\images\alert.png" />
+    <Content Include="wwwroot\images\back_disabled.png" />
+    <Content Include="wwwroot\images\back_enabled.png" />
+    <Content Include="wwwroot\images\back_enabled_hover.png" />
+    <Content Include="wwwroot\images\details_close.png" />
+    <Content Include="wwwroot\images\details_open.png" />
+    <Content Include="wwwroot\images\error.png" />
+    <Content Include="wwwroot\images\forward_disabled.png" />
+    <Content Include="wwwroot\images\forward_enabled.png" />
+    <Content Include="wwwroot\images\forward_enabled_hover.png" />
+    <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
+    <Content Include="wwwroot\images\favicon.png" />
+    <Content Include="wwwroot\images\input-spinner.gif" />
+    <Content Include="wwwroot\images\minus.png" />
+    <Content Include="wwwroot\images\plus-white.png" />
+    <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\images\sort_asc.png" />
+    <Content Include="wwwroot\images\sort_asc_disabled.png" />
+    <Content Include="wwwroot\images\sort_both.png" />
+    <Content Include="wwwroot\images\sort_desc copy.png" />
+    <Content Include="wwwroot\images\sort_desc.png" />
+    <Content Include="wwwroot\images\sort_desc_disabled.png" />
+    <Content Include="wwwroot\js\bootstrap.min.js" />
+    <Content Include="wwwroot\js\dynamic_table_init.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_default.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
+    <Content Include="wwwroot\js\html5shiv.js" />
+    <Content Include="wwwroot\js\icheck-init.js" />
+    <Content Include="wwwroot\js\modernizr.min.js" />
+    <Content Include="wwwroot\js\respond.min.js" />
+    <Content Include="wwwroot\js\scripts.js" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
+    <Content Include="wwwroot\lib\dropzone\.bower.json" />
+    <Content Include="wwwroot\lib\dropzone\bower.json" />
+    <Content Include="wwwroot\lib\dropzone\dist\basic.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone-amd-module.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\basic.min.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone-amd-module.min.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\readme.md" />
+    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-flat-red.png" />
+    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-flat.png" />
+    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-nice.png" />
+    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-simple.png" />
+    <Content Include="wwwroot\lib\ion.rangeSlider\PSD\sprite-skin.psd" />
+    <Content Include="wwwroot\lib\jquery-ui\.bower.json" />
+    <Content Include="wwwroot\lib\jquery-ui\.gitignore" />
+    <Content Include="wwwroot\lib\jquery-ui\bower.json" />
+    <Content Include="wwwroot\lib\jquery-ui\component.json" />
+    <Content Include="wwwroot\lib\jquery-ui\composer.json" />
+    <Content Include="wwwroot\lib\jquery-ui\jquery-ui.js" />
+    <Content Include="wwwroot\lib\jquery-ui\jquery-ui.min.js" />
+    <Content Include="wwwroot\lib\jquery-ui\package.json" />
+    <Content Include="wwwroot\lib\jquery-ui\README.md" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\.jshintrc" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\core.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\data.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\disable-selection.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effect.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-drop.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-explode.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-fade.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-pulsate.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-scale.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-slide.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\escape-selector.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\focusable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\form-reset-mixin.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\form.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\ie.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\jquery-1-7.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\keycode.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\labels.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\plugin.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\position.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\safe-active-element.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\safe-blur.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\scroll-parent.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\tabbable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\unique-id.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\version.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widget.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\accordion.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\autocomplete.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\button.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\checkboxradio.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\controlgroup.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\datepicker.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\dialog.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\draggable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\droppable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\menu.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\mouse.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\progressbar.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\resizable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\selectable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\selectmenu.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\slider.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\sortable.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\spinner.js" />
+    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\tooltip.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="microsoft.aspnetcore.testhost" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="microsoft.extensions.platformabstractions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.17" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.17" />
+    <PackageReference Include="stripe.net" Version="8.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery-ui\themes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\OrderAdmin\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

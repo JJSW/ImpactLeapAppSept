@@ -1,0 +1,129 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetailViewModel>
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+@{
+    var orderNum = Model.FirstOrDefault().OrderNum;
+    var noteFromUser = Model.FirstOrDefault().NoteFromUser;
+    var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
+}
+
+<div class="col-md-10">
+    <div class="page-heading">
+        <h3 class="inv-col">
+            Order Details : <span>@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum) </span>
+        </h3>
+        <ul class="breadcrumb">
+            <li>
+                Order Summary
+            </li>
+            <li class="active">Order Details</li>
+        </ul>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover general-table orderDetailTable">
+                            <tr class="active">
+                                <th class="col-md-1">
+                                    #
+                                </th>
+                                <th class="col-md-7">
+                                    @Html.DisplayNameFor(model => model.ModuleName)
+                                </th>
+                            </tr>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var moduleNum = @i + 1;
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.ElementAt(@i).ModuleId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.ElementAt(@i).ModuleName)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                        <a asp-action="Index"
+                           class="btn btn-primary" role="button">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Back to list
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            @if (uploadedFileName != null)
+            {
+                var filePath = Model.FirstOrDefault().UploadedFilePath;
+                string fileLink = filePath + uploadedFileName;
+                <div class="col-md-6">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr class="active">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UploadedFileName)
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="@fileLink">
+                                            @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            }
+
+            @if (noteFromUser != null)
+            {
+                <div class="col-md-6">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <table class="table displayFullNote">
+                                <tr class="active">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoteFromUser)
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <td class="displayFullNote">
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- delete edit function by request
+
+                            <a asp-controller="OrderSummary"
+                               asp-action="EditNote"
+                               asp-route-id="@ViewData["OrderNum"]"
+                               class="btn btn-primary"
+                               role="button">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                @Html.Raw(strSpacer)Edit
+                            </a>
+                            -->
+                        </div>
+                    </section>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

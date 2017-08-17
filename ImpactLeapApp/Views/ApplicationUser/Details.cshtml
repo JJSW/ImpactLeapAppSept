@@ -1,0 +1,64 @@
+@model ImpactLeapApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>User Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.Email)</h3>
+    </div>
+
+    <div>
+        <div class="form-horizontal admin-margin-detail">
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Model.Email
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.LastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.CompanyName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserRole" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.UserRole)
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <a asp-action="Index" class="btn btn-default" role="button">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                @Html.Raw(strSpacer)Back to list
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.Id"
+               role="button" class="btn btn-default">
+                <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+            </a>
+        </div>
+    </div>
+</div>

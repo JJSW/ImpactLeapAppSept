@@ -1,0 +1,166 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetailViewModel>
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+@{
+    string strSpacer = "&nbsp;&nbsp;";
+    var totalAmount = Model.FirstOrDefault().TotalAmount / 100;
+    var orderNum = Model.FirstOrDefault().OrderNum;
+    var noteFromUser = Model.FirstOrDefault().NoteFromUser;
+    var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
+}
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Order Details :@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</h3>
+    </div>
+
+    <div>
+        <div class="form-horizontal admin-margin-detail">
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(Model => Model.FirstOrDefault().UserEmail)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderedDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().OrderedDate)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.TotalAmount)</label>
+                <div class="col-md-10 admin-align-middle">
+                    $@totalAmount
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderStatus)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().OrderStatus)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.SalesRep)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().SalesRep)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.NoteFromAdmin)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().NoteFromAdmin)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.DeliveredDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().DeliveredDate)
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <section class="panel">
+                <div class="panel-body">
+                    <table class="table table-hover general-table orderDetailTable">
+                        <tr class="active">
+                            <th class="col-md-1">
+                                #
+                            </th>
+                            <th class="col-md-7">
+                                @Html.DisplayNameFor(model => model.ModuleName)
+                            </th>
+                        </tr>
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            var moduleNum = @i + 1;
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => Model.ElementAt(@i).ModuleId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => Model.ElementAt(@i).ModuleName)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        @if (uploadedFileName != null)
+            {
+                var filePath = Model.FirstOrDefault().UploadedFilePath;
+                string fileLink = filePath + uploadedFileName;
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr class="active">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UploadedFileName)
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <a href="@fileLink">
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </section>
+            </div>
+        }
+
+        @if (noteFromUser != null)
+            {
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table displayFullNote">
+                            <tr class="active">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NoteFromUser)
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td class="displayFullNote">
+                                    @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        }
+    </div>
+
+    <div>
+        <a asp-action="Index" class="btn btn-default" role="button">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            @Html.Raw(strSpacer)Back to list
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.FirstOrDefault().OrderId"
+           role="button" class="btn btn-default">
+            <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+        </a>
+    </div>
+</div>
+<br />

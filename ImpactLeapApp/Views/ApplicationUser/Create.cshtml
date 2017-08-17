@@ -1,0 +1,106 @@
+@model ImpactLeapApp.Models.AccountViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create User";
+
+    var passwordRules = "<b>Your password must contain characters from the following categories: </b><br />"
+                + " - English uppercase letters, <br />"
+                + " - English lowercase letters, <br />"
+                + " - Numbers (0 - 9), <br />"
+                + " - Non-alphanumeric characters (!, $, #, etc.).";
+
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<form asp-action="Create">
+    <div class="admin-margin">
+        <div class="page-heading">
+            <h3>Create User</h3>
+        </div>
+
+        <div class="form-horizontal admin-margin-detail">
+
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Password" type="password" placeholder="Password" class="form-control"
+                           data-toggle="tooltip"
+                           data-placement="right"
+                           data-html="true"
+                           title=@passwordRules>
+                    <span asp-validation-for="Password" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="ConfirmPassword" type="password" placeholder="Re-type Password" class="form-control">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserRole" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="UserRole" class="form-control">
+                        <option value="1">Mananger</option>
+                        <option value="2">Member</option>
+                    </select>
+                </div>
+            </div>
+
+            <br />
+            <div class="admin-margin-buttons">
+                <a asp-action="Index" class="btn btn-default" role="button">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Back to list
+                </a>
+
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+}

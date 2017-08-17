@@ -1,0 +1,103 @@
+@using ImpactLeapApp.Models.BillingModels
+@model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
+
+@{
+    ViewData["Title"] = "BillingDetails";
+}
+
+@{
+    string noteFromUser = null;
+    string uploadedFileName = null;
+    if (Model != null)
+    {
+        noteFromUser = Model.FirstOrDefault().NoteFromUser;
+        uploadedFileName = Model.FirstOrDefault().UploadedFileName;
+    }
+}
+
+
+@if (Model != null)
+{
+    <div class="panel">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered table-invoice table-invoice-detail">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
+                            <th class="text-center">Unit Price</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var moduleNum = @i + 1;
+                            <tr>
+                                <td>@Model.ElementAt(@i).ModuleId</td>
+                                <td>@Model.ElementAt(@i).ModuleName</td>
+                                <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (uploadedFileName != null)
+                {
+                <div class="col-md-6">
+                    <table class="table table-bordered table-invoice table-invoice-detail">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UploadedFileName)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            @if (noteFromUser != null)
+                {
+                <div class="col-md-6">
+                    <table class="table table-bordered table-invoice table-invoice-detail displayFullNote">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NoteFromUser)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+else
+{
+    <div class="alert alert-warning" style="margin: 30px; display:table;">
+        <p>You haven't selected any module yet. </p>
+        <br />
+        <a class="btn btn-primary" asp-controller="Order" asp-action="Index">
+            Start Analysis
+        </a>
+    </div>
+}

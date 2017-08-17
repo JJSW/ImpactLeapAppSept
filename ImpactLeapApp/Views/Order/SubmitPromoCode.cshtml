@@ -1,0 +1,37 @@
+@model Promotion
+@using ImpactLeapApp.Models.OrderModels
+@{
+    ViewData["Title"] = "Promotion";
+}
+
+<form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Order" method="post" role="form">    
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-3">
+            <input asp-for="PromotionCode" class="form-control" placeholder="promotion code" />
+            <span asp-validation-for="PromotionCode" class="text-danger"></span>
+        </div> 
+        <input style="width: 70px; margin-top: 60px; margin-right:20px; float:right;" type="submit" class="btn btn-primary" value="Apply" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $('#promoCodeForm').on('submit', function (e) {
+        e.preventDefault();
+        if ($(this).valid()) {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success == false) {
+                        alert('The promotion code is not available');
+                    } else {
+                        window.location = 'NewOrder';
+                    }
+                },
+            });
+        };
+    });
+</script>

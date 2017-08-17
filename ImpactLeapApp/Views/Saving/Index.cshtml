@@ -1,0 +1,193 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.Saving>
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Saving Summary</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                Admin
+            </li>
+            <li class="active">
+                Saving Summary
+            </li>
+        </ul>
+        <br />
+        <a asp-action="Create" role="button" class="btn btn-default">
+            <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
+        </a>
+    </div>
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of savings
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+
+                    </header>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="table" id="dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SavingId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SavingName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SavingRate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SelectFrom)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.SelectTo)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SavingId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SavingName)
+                                            </td>
+
+                                            @if (item.DiscountMethod == SavingDiscountMethodList.Fixed)
+                                            {
+                                                <td>
+                                                    $@Html.DisplayFor(modelItem => item.SavingRate)
+                                                </td>
+                                            }
+                                            else if (item.DiscountMethod == SavingDiscountMethodList.Percentage)
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SavingRate)%
+                                                </td>
+                                            }
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SelectFrom)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SelectTo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.SavingId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.SavingId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.SavingId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+
+    <!-- ion.RangeSlider-->
+    <link rel="stylesheet" href="~/lib/ion.rangeSlider/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="~/lib/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" />
+
+    <script type="text/javascript" src="~/lib/ion.rangeSlider/js/ion.rangeSlider.js"></script>
+
+    <script type="text/javascript">
+
+        var $range = $(".range-slider");
+        var min = @ViewBag.MinimumSelectedFrom;
+        var max = @ViewBag.MaximumSelctedTo;
+
+        $(document).ready(function () {
+
+            $range.ionRangeSlider({
+                type: "double",
+                grid: true,
+                grid_margin: false,
+                grid_num: max,
+                min: 0,
+                max: max,
+                disable: true,
+                onStart: function (data) {
+                    addSpecialAreas(data.slider);
+                }
+            });
+        });
+
+        $.each(savingData.savingID, function (i){
+            $.each(savingData.savingID[i], function (key, val){
+                alert(key + val);
+            });
+        });
+
+        var selectFrom = 5;
+        var selectTo = 10;
+
+        function addSpecialAreas($slider) {
+            var area = [selectFrom, selectTo];
+            var $line = $slider.find(".irs-line");
+            var left_percent = area[0] / (max - min) * 100;
+            var right_percent = area[1] / (max - min) * 100;
+            var width_percent = right_percent - left_percent;
+
+            $line.append("<div class='area' style='left: " + left_percent +
+                "%; width: " + width_percent +
+                "%; right: " + right_percent +
+                "%;'></div>")
+        }
+    </script>
+
+
+}

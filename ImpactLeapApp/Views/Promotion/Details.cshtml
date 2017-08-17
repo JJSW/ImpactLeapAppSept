@@ -1,0 +1,96 @@
+@model ImpactLeapApp.Models.OrderModels.Promotion
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Module Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.PromotionName)</h3>
+    </div>
+
+    <div class="form-horizontal admin-margin-detail">
+
+        <div class="form-group">
+            <label asp-for="PromotionName" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.PromotionName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PromotionCode" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.PromotionCode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.DiscountMethod)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DiscountRate" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @if (Model.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                {
+                    <span>
+                        $@Html.DisplayFor(model => model.DiscountRate)
+                    </span>
+                }
+                else if (Model.DiscountMethod == PromotionDiscountMethodList.Percentage)
+                {
+                    <span>
+                        @Html.DisplayFor(model => model.DiscountRate)%
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateFrom" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.DateFrom)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateTo" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.DateTo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsActive" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.IsActive)
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div>
+        <a asp-action="Index" class="btn btn-default" role="button">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            @Html.Raw(strSpacer)Back to list
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.PromotionId"
+           role="button" class="btn btn-default">
+            <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+        </a>
+    </div>
+</div>

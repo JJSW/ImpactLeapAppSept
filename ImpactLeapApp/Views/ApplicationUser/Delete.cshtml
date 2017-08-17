@@ -1,0 +1,97 @@
+@model ImpactLeapApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="text-danger">
+        <h3>Are you sure you want to delete this ?</h3>
+    </div>
+    <div class="page-heading">
+        <h3>Order Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.Email)</h3>
+    </div>
+
+    <div>
+        <div class="form-horizontal admin-margin-detail">
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Model.Email
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.LastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.CompanyName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UserRole" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.UserRole)
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <form asp-action="Delete">
+            <a asp-action="Index" class="btn btn-default" role="button">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                @Html.Raw(strSpacer)Back to list
+            </a>
+
+            <button class="btn btn-danger" 
+                    data-toggle="modal" 
+                    href="#warningModal" 
+                    type="button">
+                Delete
+            </button>
+        </form>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="modalLabel" role="dialog" tabindex="-1" id="warningModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete Confirm</h4>
+            </div>
+
+            <form asp-action="Delete" method="post">
+
+                <br />
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center">
+                        You will not be able to access this user's data
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Confirm" class="btn btn-danger" />
+
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

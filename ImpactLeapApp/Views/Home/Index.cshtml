@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-md-6 center-column">
+
+            <!-- page heading start-->
+            <div class="page-heading">
+                <h3>
+                    Start your analysis
+                </h3>
+                <ul class="breadcrumb">
+                    <li>
+                        Analysis
+                    </li>
+                    <li class="active">Index</li>
+                </ul>
+            </div>
+            <br />
+            <section class="panel">
+                <header class="panel-heading">
+                    Application index
+                </header>
+                <div class="panel-body">
+
+                    <div class="well">
+                        <h4 class="text-center">
+                            <strong>
+                                Select modules and upload portfolio:
+                            </strong>
+                        </h4>
+                        <br>
+
+                        <div class="text-center">
+                            <a asp-controller="Order"
+                               asp-action="Index"
+                               class="btn btn-primary btn-lg ">
+                                Start analysis
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default text-center">
+                        <div class="panel-body">
+                            Return to website index : @Html.Raw(strSpacer)
+                            <a href="http://www.impactleap.com/">
+                                Homepage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</form>

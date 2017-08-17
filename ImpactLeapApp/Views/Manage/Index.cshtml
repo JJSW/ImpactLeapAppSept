@@ -1,0 +1,65 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="col-md-5 center-column">
+    <div class="page-heading">
+        <h3>User Profile</h3>
+        <ul class="breadcrumb">
+            <li>
+                Admin account
+            </li>
+            <li class="active">User Profile</li>
+        </ul>
+    </div>
+
+    <div class="wrapper">
+        <div class="panel">
+            <div class="panel-body">
+                <ul class="p-info">
+                    <li>
+                        <div class="title">@Html.DisplayNameFor(Model => Model.Email)</div>
+                        <div class="desk">@Html.DisplayFor(Model => Model.Email)</div>
+                    </li>
+                    <li>
+                        <div class="title">Name</div>
+                        <div class="desk">@Html.DisplayFor(Model => Model.FirstName) @Html.DisplayFor(Model => Model.LastName)</div>
+                    </li>
+                    <li>
+                        <div class="title">@Html.DisplayNameFor(Model => Model.CompanyName)</div>
+                        <div class="desk">@Html.DisplayFor(Model => Model.CompanyName)</div>
+                    </li>
+                    <li>
+                        <div class="title">Password</div>
+                        <div class="desk">
+                            @if (Model.PasswordHash != null)
+            {
+                                <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">
+                                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                    @Html.Raw(strSpacer)Change
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">
+                                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                    @Html.Raw(strSpacer)Create
+                                </a>
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <a asp-controller="Manage"
+               asp-action="EditUserInfo"
+               class="btn btn-primary btn-margin-15"
+               role="button">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                @Html.Raw(strSpacer)Edit
+            </a>
+        </div>
+    </div>
+</div>

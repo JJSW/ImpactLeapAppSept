@@ -1,0 +1,146 @@
+@using Microsoft.Extensions.Options
+@using ImpactLeapApp.Models.BillingModels
+@model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
+
+@inject IOptions<StripeSettings> Stripe
+
+@{
+    ViewData["Title"] = "Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+
+<!--
+    Display and connect to Stripe API
+    There are 3 conditions to be able to proceed the payment.
+    1. Total amount exists
+    2. Total amount is not 0 (default module)
+    3. The client has a billing address (optional)
+-->
+@if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] != 0)
+{
+    var orderId = 0;
+    var bAddressId = (int)@ViewData["BillingAddressId"];
+    foreach (var m in Model) { orderId = m.OrderId; }
+
+    <!--
+        Create options to send to Stripe API.
+        Billing address can be sent from the API by turning on the option.
+        Default currecty is CAD, however it can be changed by dynmically with extented functions
+    -->
+    <form action="/Billing/Charge" method="post">
+
+        <div class="btn-center">
+            <input type="submit"
+                   id="StripePay"
+                   value="Pay with card"
+                   class="btn btn-primary btn-lg"
+                   role="button"
+                   data-key='@Stripe.Value.PublishableKey'
+                   data-amount="@ViewData["Amount"]"
+                   data-currency="USD"
+                   data-name="Impact Website"
+                   data-description="@ViewData["ModuleCount"] Module(s)"
+                   data-email="@ViewData["Email"]"
+                   data-billing-address="false"
+                   data-zip-code="false"
+                   data-locale="auto"
+                   data-image="/images/favicon.png" />
+
+            <span>
+                <a asp-controller="Billing"
+                   asp-action="Cancel"
+                   asp-route-id="@ViewData["OrderId"]"
+                   role="button"
+                   class="btn btn-default btn-lg"
+                   style="margin-left:15px;">
+                    Cancel
+                </a>
+            </span>
+        </div>
+
+        <!--
+            Creates Stripe tokens for custom payment process.
+            In this case, deals with a specific order with a specific user billing address
+        -->
+        <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#StripePay').on('click', function (event) {
+                    event.preventDefault();
+                    var $button = $(this),
+                        $form = $button.parents('form');
+                    var opts = $.extend({}, $button.data(), {
+                        token: function (result) {
+
+                            var $stripeToken = $('<input>').attr({ type: 'hidden', name: 'stripeToken', value: result.id })
+                            var $stripeEmail = $('<input>').attr({ type: 'hidden', name: 'stripeEmail', value: result.email })
+                            var $orderId = $('<input>').attr({ type: 'hidden', name: 'orderId', value: @orderId })
+                            var $bAddressId =$('<input>').attr({ type: 'hidden', name: 'bAddressId', value: @bAddressId })
+
+                            $form.append($stripeToken).append($stripeEmail).append($orderId).append($bAddressId)
+                            .submit();
+                        }
+                    });
+                    StripeCheckout.open(opts);
+                });
+            });
+        </script>
+    </form>
+
+
+}
+else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
+{
+    var orderId = 0;
+    foreach (var a in Model) { orderId = a.OrderId; }
+
+    <div class="btn-center">
+        <a class="btn btn-primary btn-lg"
+           href="@Url.Action("ChargeDefault", "Billing", new { id = @orderId})">
+            Complete Order
+        </a>
+
+        <span>
+            <a asp-controller="Billing"
+               asp-action="Cancel"
+               asp-route-id="@ViewData["OrderId"]"
+               role="button"
+               class="btn btn-default btn-lg"
+               style="margin-left:15px;">
+                Cancel
+            </a>
+        </span>
+    </div>
+}
+else
+{
+    <div style="margin:30px; display:table;">
+        <div class="alert alert-danger">No payment to make</div>
+    </div>
+}
+
+
+<br /><br />
+
+
+@Html.Partial("_BillingInvoice", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
+
+<br />
+
+
+<!--Display payment details as a partial view -->
+@Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
+<br />
+
+<!--Display billing address details as a partial view
+<hr/>
+@Html.Partial("_BillingAddress", (BillingAddress)ViewBag.BillingAddress)
+<br />
+-->
