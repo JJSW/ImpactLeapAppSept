@@ -20,7 +20,6 @@ namespace ImpactLeapApp.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.RemovePluralizingTableNameConvention();
         }
 
         // User models
@@ -34,6 +33,6 @@ namespace ImpactLeapApp.Data
         public DbSet<Saving> Savings { get; set; }
 
         public DbSet<Module> Modules { get; set; }
-        public DbSet<Investment> Investments { get; set; }
+        public DbSet<Fund> Funds { get; set; }
     }
 }

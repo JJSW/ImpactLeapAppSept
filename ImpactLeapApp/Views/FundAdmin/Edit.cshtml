@@ -1,0 +1,69 @@
+@model ImpactLeapApp.Models.Fund
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Fund</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="FundId" />
+        <div class="form-group">
+            <label asp-for="FundName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FundName" class="form-control" />
+                <span asp-validation-for="FundName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FundManager" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FundManager" class="form-control" />
+                <span asp-validation-for="FundManager" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Strategy" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Strategy" class="form-control" />
+                <span asp-validation-for="Strategy" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Geography" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Geography" class="form-control" />
+                <span asp-validation-for="Geography" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ModifiedDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

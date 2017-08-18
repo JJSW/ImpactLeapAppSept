@@ -106,7 +106,7 @@ namespace ImpactLeapApp
             // Set stripe key to Stripe config so that it can be called.
             StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
 
-            ModuleSeedData.Initialize(context);
+            SeedData.Initialize(context);
             RoleSeedData.Initialize(app.ApplicationServices);
         }
     }

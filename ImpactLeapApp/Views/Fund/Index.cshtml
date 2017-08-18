@@ -1,0 +1,62 @@
+@model IEnumerable<ImpactLeapApp.Models.Fund>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FundName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FundManager)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Strategy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Geography)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifiedDate)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FundName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FundManager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strategy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Geography)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

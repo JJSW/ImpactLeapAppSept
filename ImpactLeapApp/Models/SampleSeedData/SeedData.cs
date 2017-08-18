@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace ImpactLeapApp.Models.SampleSeedData
 {
-    public class ModuleSeedData
+    public class SeedData
     {
         public static void Initialize(ApplicationDbContext db)
         {
             GetModules(db);
+            GetFunds(db);
             GetSavings(db);
             GetPromotions(db);
         }
@@ -78,6 +79,34 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 });
                 db.SaveChanges();
             }
+        }
+
+        public static void GetFunds(ApplicationDbContext db)
+        {
+            if (!db.Funds.Any())
+            {
+                db.Funds.Add(new Fund()
+                {
+                    FundName = "Jupiter Absolute Return",
+                    FundManager = "Jupiter",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Funds.Add(new Fund()
+                {
+                    FundName = "Saturn Absolute Return",
+                    FundManager = "Saturn",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+                db.SaveChanges();
+            }
+
         }
 
         public static void GetSavings(ApplicationDbContext db)

@@ -6,7 +6,7 @@
 
 <form asp-action="Index">
     <div class="row">
-        <div class="col-md-6 center-column">
+        <div class="col-md-8 center-column">
 
             <!-- page heading start-->
             <div class="page-heading">
@@ -26,31 +26,49 @@
                     Application index
                 </header>
                 <div class="panel-body">
+                    <div>
+                        <div class="well">
+                            <h4 class="text-center">
+                                <strong>
+                                    Select modules and upload portfolio:
+                                </strong>
+                            </h4>
+                            <br>
 
-                    <div class="well">
-                        <h4 class="text-center">
-                            <strong>
-                                Select modules and upload portfolio:
-                            </strong>
-                        </h4>
-                        <br>
+                            <div class="text-center">
+                                <a asp-controller="Order"
+                                   asp-action="Index"
+                                   class="btn btn-primary btn-lg ">
+                                    Start analysis
+                                </a>
+                            </div>
+                        </div>
 
-                        <div class="text-center">
-                            <a asp-controller="Order"
-                               asp-action="Index"
-                               class="btn btn-primary btn-lg ">
-                                Start analysis
-                            </a>
+                        <div class="well">
+                            <h4 class="text-center">
+                                <strong>
+                                    Select Funds:
+                                </strong>
+                            </h4>
+                            <br>
+
+                            <div class="text-center">
+                                <a asp-controller="Fund"
+                                   asp-action="Index"
+                                   class="btn btn-primary btn-lg ">
+                                    Select Funds
+                                </a>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel panel-default text-center">
-                        <div class="panel-body">
-                            Return to website index : @Html.Raw(strSpacer)
-                            <a href="http://www.impactleap.com/">
-                                Homepage
-                            </a>
-                        </div>
+                <div class="panel panel-default text-center" style="float:">
+                    <div class="panel-body">
+                        Return to website index : @Html.Raw(strSpacer)
+                        <a href="http://www.impactleap.com/">
+                            Homepage
+                        </a>
                     </div>
                 </div>
             </section>
