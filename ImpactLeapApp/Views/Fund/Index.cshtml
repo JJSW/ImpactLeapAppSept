@@ -4,102 +4,191 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
 }
 
-<h2>Index</h2>
+<div class="page-heading">
+    <h3>
+        Select Fund
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            Fund
+        </li>
+        <li class="active">Select Fund</li>
+    </ul>
+    <div class="state-info">
+        <section class="panel">
+            <div class="panel-body">
+                <a class="btn btn-info text-center"
+                   style="padding: 10px;"
+                   role="button"
+                   asp-controller="Order"
+                   asp-action="Index">
+                    Order
+                </a>
+            </div>
+        </section>
+    </div>
 
-<div class="state-info">
-    <section class="panel">
-        <div class="panel-body">
-            <a class="btn btn-info text-center"
-               style="padding: 10px;"
-               role="button"
-               asp-controller="Order"
-               asp-action="Index">
-                Order
-            </a>
-        </div>
-    </section>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FundName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FundManager)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Strategy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Geography)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModifiedDate)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FundName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FundManager)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Strategy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Geography)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>
-            <td>
+<form action="/Fund/NewFund" method="post">
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of funds
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+                    </header>
 
-<div class="col-md-6">
-    <section class="panel">
-        <div class="panel-body" style="display:table">
-            Where shall we send your analysis?<br /><br />
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
-            }
-            else
-            {
-                <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
-            }
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="display table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%">
+                                            @Html.DisplayNameFor(model => model.FundId)
+                                        </th>
+                                        <th style="width:20%; max-width:30%">
+                                            @Html.DisplayNameFor(model => model.FundName)
+                                        </th>
+                                        <th style="width:15%">
+                                            @Html.DisplayNameFor(model => model.FundManager)
+                                        </th>
+                                        <th style="width:15%">
+                                            @Html.DisplayNameFor(model => model.Strategy)
+                                        </th>
+                                        <th style="width:15%">
+                                            @Html.DisplayNameFor(model => model.Geography)
+                                        </th>
+                                        <th style="width:20%">
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th style="width:10%">
+                                            Select
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.ElementAt(@i).FundId</td>
+                                            <td>@Model.ElementAt(@i).FundName</td>
+                                            <td>
+                                                @Model.ElementAt(@i).FundManager
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Strategy
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Geography
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Description
+                                            </td>
+                                            <td>
+                                                <div class="flat-green single-row">
+                                                    <div class="radio _margin-top-0 _margin-bottom-0">
+                                                        <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
 
-            <button type="submit" class="btn btn-primary btn-new-order">
-                Next step&nbsp;
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
-</div>
 
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover general-table">
+                            <thead>
+                                <tr>
+                                    <th class="inv-col col-md-4"><span>Order total</span></th>
+                                    <th class="inv-col col-md-2"><span>Total</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total price</td>
+                                    <td>
+                                        <span name="totalPrice"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Multiple module saving</td>
+                                    <td>
+                                        <input type="hidden" name="selectionDiscount" value="0" style="width:50px; border:none;" />
+                                        <span class="text-danger" name="selectionDiscountDisplay"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total to pay</td>
+                                    <td>
+                                        <input type="hidden" name="totalToPay" value="0" style="width:60px; border:none;" />
+                                        <span name="totalToPayDisplay"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body" style="display:table">
+                        Where shall we send your analysis?<br /><br />
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                        }
+                        else
+                        {
+                            <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
+                        }
+
+                        <button type="submit" class="btn btn-primary btn-new-order">
+                            Next step&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</form>
 
 @section scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
+    <!--icheck-->
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
+    <script type="text/javascript" src="~/js/icheck-init.js"></script>
+    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_modules.js"></script>
 }

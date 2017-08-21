@@ -4,16 +4,14 @@
 @using Microsoft.AspNetCore.Identity
 @using ImpactLeapApp.Models
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = "Order";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
-
-    string strSpacer = "&nbsp;&nbsp;";
 }
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 <!-- page heading start-->
 <div class="page-heading">
@@ -242,8 +240,6 @@
 
     <!--dynamic table initialization -->
     <script type="text/javascript" src="~/js/dynamic_table_init_modules.js"></script>
-
-
 
     <script type="text/javascript">
 

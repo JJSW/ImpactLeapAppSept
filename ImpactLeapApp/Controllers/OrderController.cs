@@ -43,8 +43,8 @@ namespace ImpactLeapApp.Controllers
 
         public OrderController(ApplicationDbContext context,
                                UserManager<ApplicationUser> UserManager,
-                               IHostingEnvironment environment,
                                SignInManager<ApplicationUser> SignInManager,
+                               IHostingEnvironment environment,
                                IOptions<IdentityCookieOptions> identityCookieOptions,
                                ILoggerFactory loggerFactory)
         {
@@ -60,7 +60,7 @@ namespace ImpactLeapApp.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
-            ViewData["error"] = message;
+            ViewData["Error"] = message;
             _promotionDiscountRate = "0";
 
             if (_signInManager.IsSignedIn(User))
@@ -91,10 +91,12 @@ namespace ImpactLeapApp.Controllers
         {
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = _totalDay;
+
             ViewBag.SelectionDiscount = _selectionDiscount;
             ViewBag.PromotionStatus = _promotionStatus;
             ViewBag.TotalToPay = _totalToPay;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
