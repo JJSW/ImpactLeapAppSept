@@ -12,7 +12,7 @@ namespace ImpactLeapApp.Models.SampleSeedData
         public static void Initialize(ApplicationDbContext db)
         {
             GetModules(db);
-            GetFunds(db);
+            GetPortfolios(db);
             GetSavings(db);
             GetPromotions(db);
         }
@@ -81,11 +81,11 @@ namespace ImpactLeapApp.Models.SampleSeedData
             }
         }
 
-        public static void GetFunds(ApplicationDbContext db)
+        public static void GetPortfolios(ApplicationDbContext db)
         {
-            if (!db.Funds.Any())
+            if (!db.Portfolios.Any())
             {
-                db.Funds.Add(new Fund()
+                db.Portfolios.Add(new Portfolio()
                 {
                     FundName = "Jupiter Absolute Return",
                     FundManager = "Jupiter",
@@ -95,7 +95,7 @@ namespace ImpactLeapApp.Models.SampleSeedData
                     ModifiedDate = DateTime.Today,
                 });
 
-                db.Funds.Add(new Fund()
+                db.Portfolios.Add(new Portfolio()
                 {
                     FundName = "Saturn Absolute Return",
                     FundManager = "Saturn",

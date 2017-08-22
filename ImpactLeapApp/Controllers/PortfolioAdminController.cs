@@ -22,7 +22,7 @@ namespace ImpactLeapApp.Controllers
         // GET: Fund
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Funds.ToListAsync());
+            return View(await _context.Portfolios.ToListAsync());
         }
 
         // GET: Fund/Details/5
@@ -33,8 +33,8 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
-            var fund = await _context.Funds
-                .SingleOrDefaultAsync(m => m.FundId == id);
+            var fund = await _context.Portfolios
+                .SingleOrDefaultAsync(m => m.PortfolioId == id);
             if (fund == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FundId,FundName,FundManager,Strategy,Geography,Description,ModifiedDate")] Fund fund)
+        public async Task<IActionResult> Create([Bind("FundId,FundName,FundManager,Strategy,Geography,Description,ModifiedDate")] Portfolio fund)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
-            var fund = await _context.Funds.SingleOrDefaultAsync(m => m.FundId == id);
+            var fund = await _context.Portfolios.SingleOrDefaultAsync(m => m.PortfolioId == id);
             if (fund == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FundId,FundName,FundManager,Strategy,Geography,Description,ModifiedDate")] Fund fund)
+        public async Task<IActionResult> Edit(int id, [Bind("PortfolioId,FundName,FundManager,Strategy,Geography,Description,ModifiedDate")] Portfolio fund)
         {
-            if (id != fund.FundId)
+            if (id != fund.PortfolioId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ImpactLeapApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FundExists(fund.FundId))
+                    if (!FundExists(fund.PortfolioId))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
-            var fund = await _context.Funds
-                .SingleOrDefaultAsync(m => m.FundId == id);
+            var fund = await _context.Portfolios
+                .SingleOrDefaultAsync(m => m.PortfolioId == id);
             if (fund == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace ImpactLeapApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var fund = await _context.Funds.SingleOrDefaultAsync(m => m.FundId == id);
-            _context.Funds.Remove(fund);
+            var fund = await _context.Portfolios.SingleOrDefaultAsync(m => m.PortfolioId == id);
+            _context.Portfolios.Remove(fund);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool FundExists(int id)
         {
-            return _context.Funds.Any(e => e.FundId == id);
+            return _context.Portfolios.Any(e => e.PortfolioId == id);
         }
     }
 }

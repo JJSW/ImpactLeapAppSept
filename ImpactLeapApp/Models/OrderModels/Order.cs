@@ -57,11 +57,17 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Modules")]
         public string ModuleIds { get; set; }
 
-        [Display(Name = "Selection Discount")]
+        [Display(Name = "Total Price")]
+        public int TotalPrice { get; set; }
+
+        [Display(Name = "Saving Discount")]
         public int SelectionDiscount { get; set; }
 
-        [Display(Name = "Total Amount")]
-        public int TotalAmount { get; set; }
+        [Display(Name = "Saving Discount Method")]
+        public SavingDiscountMethodList SelectionDiscountMethod { get; set; }
+
+        [Display(Name = "Total To Pay")]
+        public int TotalToPay { get; set; }
 
         [Display(Name = "Promotion ID")]
         public Int32 PromotionId { get; set; }
@@ -75,7 +81,7 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Uploaded File Name")]
         public string UploadedFileName { get; set; }
 
-        [Display(Name = "Investment ID")]
-        public Int32 InvestmentId { get; set; }
+        [Display(Name = "Portfolio ID")]
+        public Int32 PortfolioId { get; set; }
     }
 }

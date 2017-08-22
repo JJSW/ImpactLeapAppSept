@@ -70,10 +70,11 @@ namespace ImpactLeapApp.Controllers
                                           ModuleId = m.ModuleId,
                                           ModuleName = m.ModuleName,
                                           UnitPrice = m.UnitPrice,
-                                          TotalAmount = o.TotalAmount,
+                                          TotalToPay = o.TotalToPay,
                                           OrderStatus = o.OrderStatus,
                                           NoteFromUser = o.NoteFromUser,
                                           UploadedFileName = o.UploadedFileName,
+                                          PortfolidId = o.PortfolioId,
                                       }).ToList();
 
                 var temps = billingDetails.Where(x => x.UserId == user.Id).Where(y => y.OrderId == id).ToList();
@@ -89,17 +90,18 @@ namespace ImpactLeapApp.Controllers
                         ModuleId = billing.ModuleId,
                         ModuleName = billing.ModuleName,
                         UnitPrice = billing.UnitPrice,
-                        TotalAmount = billing.TotalAmount,
+                        TotalToPay = billing.TotalToPay,
                         OrderStatus = billing.OrderStatus,
                         NoteFromUser = billing.NoteFromUser,
                         UploadedFileName = billing.UploadedFileName,
+                        PortfolioId = billing.PortfolidId,
                     });
                 };
 
                 foreach (var billing in billingVMs)
                 {
                     moduleCount += 1;
-                    totalAmount = billing.TotalAmount;
+                    totalAmount = billing.TotalToPay;
                 }
 
                 ViewBag.BillingDetails = billingVMs;

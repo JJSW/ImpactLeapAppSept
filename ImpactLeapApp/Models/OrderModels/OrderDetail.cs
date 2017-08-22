@@ -23,8 +23,5 @@ namespace ImpactLeapApp.Models.OrderModels
         public string ModuleName { get; set; }
  
         public Module Module { get; set; }
-
-        [Display(Name = "Fund Number")]
-        public Fund FundId { get; set; }
     }
 }

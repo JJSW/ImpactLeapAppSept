@@ -24,6 +24,7 @@
                     <div class="inv-col"><span>Order Date :  </span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate)</div>
                     <div class="inv-col"><span>Order Status :</span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderStatus)</div>
                     <div class="inv-col"><span>Total Due: </span>@Html.Raw(strSpacer)$@ViewData["AmountDisplay"]</div>
+                    <div>Portfolio ID = @Html.DisplayFor(Model => Model.FirstOrDefault().PortfolioId)</div>
                 </div>
             </div>
 

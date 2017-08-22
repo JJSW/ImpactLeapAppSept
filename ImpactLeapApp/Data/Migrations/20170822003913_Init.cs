@@ -82,23 +82,6 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Investments",
-                columns: table => new
-                {
-                    InvestmentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EstimateValue = table.Column<decimal>(nullable: false),
-                    ISIN = table.Column<string>(maxLength: 160, nullable: true),
-                    InvestmentName = table.Column<string>(maxLength: 160, nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    ShareNumber = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Investments", x => x.InvestmentId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Modules",
                 columns: table => new
                 {
@@ -122,7 +105,6 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DeliveredDate = table.Column<DateTime>(nullable: true),
-                    InvestmentId = table.Column<int>(nullable: false),
                     IsPromotionCodeApplied = table.Column<bool>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleIds = table.Column<string>(nullable: true),
@@ -131,10 +113,13 @@ namespace WebApplication1.Data.Migrations
                     OrderNum = table.Column<string>(nullable: true),
                     OrderStatus = table.Column<int>(nullable: false),
                     OrderedDate = table.Column<DateTime>(nullable: false),
+                    PortfolioId = table.Column<int>(nullable: false),
                     PromotionId = table.Column<int>(nullable: false),
                     SalesRep = table.Column<string>(maxLength: 160, nullable: true),
                     SelectionDiscount = table.Column<int>(nullable: false),
-                    TotalAmount = table.Column<int>(nullable: false),
+                    SelectionDiscountMethod = table.Column<int>(nullable: false),
+                    TotalPrice = table.Column<int>(nullable: false),
+                    TotalToPay = table.Column<int>(nullable: false),
                     UploadedFileName = table.Column<string>(nullable: true),
                     UploadedFilePath = table.Column<string>(nullable: true),
                     UserEmail = table.Column<string>(nullable: false),
@@ -190,6 +175,24 @@ namespace WebApplication1.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Savings", x => x.SavingId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Portfolios",
+                columns: table => new
+                {
+                    PortfolioId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    FundManager = table.Column<string>(nullable: true),
+                    FundName = table.Column<string>(nullable: true),
+                    Geography = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    Strategy = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Portfolios", x => x.PortfolioId);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,9 +257,6 @@ namespace WebApplication1.Data.Migrations
                 name: "BillingAddresses");
 
             migrationBuilder.DropTable(
-                name: "Investments");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -267,6 +267,9 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Savings");
+
+            migrationBuilder.DropTable(
+                name: "Portfolios");
 
             migrationBuilder.DropTable(
                 name: "Modules");

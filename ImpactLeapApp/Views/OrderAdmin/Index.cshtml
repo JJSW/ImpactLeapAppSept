@@ -48,7 +48,7 @@
                                             @Html.DisplayNameFor(model => model.ModuleIds)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.TotalAmount)
+                                            @Html.DisplayNameFor(model => model.TotalToPay)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.OrderStatus)
@@ -63,7 +63,7 @@
                                 <tbody>
                                     @foreach (var item in Model)
             {
-                var totalAmount = item.TotalAmount / 100;
+                var totalAmount = item.TotalToPay / 100;
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.OrderId)

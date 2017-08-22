@@ -65,7 +65,7 @@ namespace ImpactLeapApp.Controllers
                                     NoteFromAdmin = o.NoteFromAdmin,
                                     UploadedFileName = o.UploadedFileName,
                                     UploadedFilePath = o.UploadedFilePath,
-                                    TotalAmount = o.TotalAmount,
+                                    TotalToPay = o.TotalToPay,
                                 }).ToList();
 
             var currentOrderDetails = orderDetails.Where(x => x.UserId == userId)
@@ -86,7 +86,7 @@ namespace ImpactLeapApp.Controllers
                     NoteFromAdmin = orderDetail.NoteFromAdmin,
                     UploadedFileName = orderDetail.UploadedFileName,
                     UploadedFilePath = orderDetail.UploadedFilePath,
-                    TotalAmount = orderDetail.TotalAmount,
+                    TotalToPay = orderDetail.TotalToPay,
                 });
             };
 

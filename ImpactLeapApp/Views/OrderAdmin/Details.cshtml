@@ -5,7 +5,7 @@
 
 @{
     string strSpacer = "&nbsp;&nbsp;";
-    var totalAmount = Model.FirstOrDefault().TotalAmount / 100;
+    var totalAmount = Model.FirstOrDefault().TotalToPay / 100;
     var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
     var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
@@ -34,7 +34,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.TotalAmount)</label>
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.TotalToPay)</label>
                 <div class="col-md-10 admin-align-middle">
                     $@totalAmount
                 </div>

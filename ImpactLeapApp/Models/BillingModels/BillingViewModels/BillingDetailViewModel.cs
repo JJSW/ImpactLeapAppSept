@@ -33,8 +33,8 @@ namespace ImpactLeapApp.Models.BillingModels
         [Display(Name = "Module Price")]
         public int UnitPrice { get; set; }
 
-        [Display(Name = "Total Amount")]
-        public int TotalAmount { get; set; }
+        [Display(Name = "Total To Pay")]
+        public int TotalToPay { get; set; }
 
         [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
@@ -44,6 +44,9 @@ namespace ImpactLeapApp.Models.BillingModels
 
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
+
+        [Display(Name = "Portfolio ID")]
+        public Int32 PortfolioId { get; set; }
 
         [Display(Name = "Billing Address Number")]
         public Int32 BillingAddressId { get; set; }

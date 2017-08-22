@@ -29,8 +29,8 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
 
-        [Display(Name = "Total Amount")]
-        public int TotalAmount { get; set; }
+        [Display(Name = "Total To Pay")]
+        public int TotalToPay { get; set; }
 
 
 
@@ -73,6 +73,10 @@ namespace ImpactLeapApp.Models.OrderModels
 
         [Display(Name = "Module Price")]
         public int UnitPrice { get; set; }
+
+
+        // Portfolio
+        public Int32 PortfolioId { get; set; }
 
 
 

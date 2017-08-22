@@ -1,22 +1,39 @@
-@model IEnumerable<ImpactLeapApp.Models.Fund>
+@model IEnumerable<ImpactLeapApp.Models.Portfolio>
 @inject SignInManager<ApplicationUser> SignInManager
+@using ImpactLeapApp.Models.OrderModels
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    int dollarCent = 100;
+    double SavingDiscountRate = 0.0;
+
+    if(ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+    {
+        double tempTotalPrice = ViewBag.TotalPrice;
+        double tempDiscountRate = ViewBag.SelectionDiscount;
+        SavingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
+    }
+    else
+    {
+        SavingDiscountRate = ViewBag.SelectionDiscount;
+    }
 }
 
 <div class="page-heading">
     <h3>
-        Select Fund
+        Select Portfolio
     </h3>
     <ul class="breadcrumb">
         <li>
-            Fund
+            Portfolio
         </li>
-        <li class="active">Select Fund</li>
+
+        OrderID = @ViewData["OrderId"]
+
+        <li class="active">Select Portfolio</li>
     </ul>
     <div class="state-info">
         <section class="panel">
@@ -34,7 +51,7 @@
 
 </div>
 
-<form action="/Fund/NewFund" method="post">
+<form action="/Portfolio/NewPortfolio" method="post">
 
     <div class="wrapper">
         <div class="row">
@@ -53,7 +70,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width:5%">
-                                            @Html.DisplayNameFor(model => model.FundId)
+                                            @Html.DisplayNameFor(model => model.PortfolioId)
                                         </th>
                                         <th style="width:20%; max-width:30%">
                                             @Html.DisplayNameFor(model => model.FundName)
@@ -79,8 +96,12 @@
                                     @for (int i = 0; i < Model.Count(); i++)
                                     {
                                         <tr>
-                                            <td>@Model.ElementAt(@i).FundId</td>
-                                            <td>@Model.ElementAt(@i).FundName</td>
+                                            <td>
+                                                @Model.ElementAt(@i).PortfolioId
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).FundName
+                                            </td>
                                             <td>
                                                 @Model.ElementAt(@i).FundManager
                                             </td>
@@ -96,7 +117,8 @@
                                             <td>
                                                 <div class="flat-green single-row">
                                                     <div class="radio _margin-top-0 _margin-bottom-0">
-                                                        <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                        <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
+                                                        <input type="radio" name="portfolioId" value='@Model.ElementAt(@i).PortfolioId' />
                                                     </div>
                                                 </div>
                                             </td>
@@ -110,8 +132,6 @@
                 </section>
             </div>
         </div>
-
-
 
         <div class="row">
             <div class="col-md-6">
@@ -128,21 +148,25 @@
                                 <tr>
                                     <td>Total price</td>
                                     <td>
-                                        <span name="totalPrice"></span>
+                                        <span name="totalPrice">
+                                            @ViewBag.TotalPrice.ToString("C0", formatProvider)
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Multiple module saving</td>
                                     <td>
-                                        <input type="hidden" name="selectionDiscount" value="0" style="width:50px; border:none;" />
-                                        <span class="text-danger" name="selectionDiscountDisplay"></span>
+                                        <span class="text-danger">
+                                            -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Total to pay</td>
                                     <td>
-                                        <input type="hidden" name="totalToPay" value="0" style="width:60px; border:none;" />
-                                        <span name="totalToPayDisplay"></span>
+                                        <span name="totalToPayDisplay">
+                                            @ViewBag.TotalToPay.ToString("C0", formatProvider)
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>

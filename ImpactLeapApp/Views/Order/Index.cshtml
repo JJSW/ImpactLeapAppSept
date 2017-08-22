@@ -28,15 +28,15 @@
         <section class="panel">
             <div class="panel-body">
                 <button class="btn btn-info text-center" style="padding: 10px;"
-                        data-toggle="modal" href="#myModal" type="button">
+                        data-toggle="modal" href="#infoModal" type="button">
                     Request information
                 </button>
                 <a class="btn btn-info text-center" 
                    style="padding: 10px;"
                    role="button"
-                   asp-controller="Fund"
+                   asp-controller="Portfolio"
                    asp-action="Index">
-                    Fund
+                    Portfolio
                 </a>
             </div>
         </section>
@@ -146,20 +146,22 @@
                                 <tr>
                                     <td>Total price</td>
                                     <td>
-                                        <span name="totalPrice"></span>
+                                        <input type="hidden" name="totalPrice" />
+                                        <span name="totalPriceDisplay"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Multiple module saving</td>
                                     <td>
-                                        <input type="hidden" name="selectionDiscount" value="0" style="width:50px; border:none;" />
+                                        <input type="hidden" name="selectionDiscountMethod"/>
+                                        <input type="hidden" name="selectionDiscount" style="width:50px; border:none;" />
                                         <span class="text-danger" name="selectionDiscountDisplay"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Total to pay</td>
                                     <td>
-                                        <input type="hidden" name="totalToPay" value="0" style="width:60px; border:none;" />
+                                        <input type="hidden" name="totalToPay" style="width:60px; border:none;" />
                                         <span name="totalToPayDisplay"></span>
                                     </td>
                                 </tr>
@@ -182,6 +184,7 @@
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
 
+
                         <button type="submit" class="btn btn-primary btn-new-order">
                             Next step&nbsp;
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -198,7 +201,7 @@
 <div id="AddUserForm"></div>
 
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+<div aria-hidden="true" aria-labelledby="infoModalLabel" role="dialog" tabindex="-1" id="infoModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -257,6 +260,7 @@
 
             var tempTotalPrice = 0;
             var tempSelectionDiscount = 0;
+            var tempSelectionDiscountMethod;
             var tempTotalToPay = 0;
 
             var isFixedSaving = false;
@@ -283,12 +287,15 @@
                         isFixedSaving = false;
                     }
                     tempSelectionDiscount = value.savingRate;
+                    tempSelectionDiscountMethod = value.discountMethod;
                 }
             });
 
-            $("span[name=totalPrice]").text("$" + tempTotalPrice);
+            $("span[name=totalPriceDisplay]").text("$" + tempTotalPrice);
+            $("input[name=totalPrice]").val(tempTotalPrice);
 
             // Multiple saving
+            $("input[name=selectionDiscountMethod]").val(tempSelectionDiscountMethod);
             $("input[name=selectionDiscount]").val(tempSelectionDiscount);
 
             if (tempSelectionDiscount != null || tempSelectionDiscount != 0) {
@@ -307,7 +314,7 @@
 
 
             // Total to pay
-            tempTotalToPay = (tempTotalPrice - tempSelectionDiscount);
+            tempTotalToPay = Math.floor(tempTotalPrice - tempSelectionDiscount);
 
             $("input[name=totalToPay]").val(tempTotalToPay);
 
@@ -317,6 +324,7 @@
 
             totalPrice = tempTotalPrice;
             selectionDiscount = tempSelectionDiscount;
+            tempSelectionDiscountMethod = tempSelectionDiscountMethod;
             totalToPay = tempTotalToPay;
         }
 

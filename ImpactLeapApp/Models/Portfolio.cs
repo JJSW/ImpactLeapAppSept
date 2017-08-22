@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ImpactLeapApp.Models
 {
-    public class Fund : BaseEntity
+    public class Portfolio : BaseEntity
     {
         [Key]
-        [Display(Name = "Fund ID")]
-        public Int32 FundId { get; set; }
+        [Display(Name = "Portfolio ID")]
+        public Int32 PortfolioId { get; set; }
 
         [Display(Name = "Fund Name")]
         public string FundName { get; set; }

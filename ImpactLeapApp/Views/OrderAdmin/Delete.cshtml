@@ -5,7 +5,7 @@
 }
 
 @{ string strSpacer = "&nbsp;&nbsp;";
-    var totalAmount = Model.TotalAmount / 100;
+    var totalAmount = Model.TotalToPay / 100;
     var uploadedFileName = Model.UploadedFileName;
     var filePath = Model.UploadedFilePath;
     string fileLink = filePath + uploadedFileName;
@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalAmount)</label>
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalToPay)</label>
                 <div class="col-md-10 admin-align-middle">
                     $@totalAmount
                 </div>

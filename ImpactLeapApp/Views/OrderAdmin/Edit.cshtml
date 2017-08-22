@@ -6,7 +6,7 @@
 }
 
 @{ string strSpacer = "&nbsp;&nbsp;";
-    var totalAmount = Model.TotalAmount / 100;
+    var totalAmount = Model.TotalToPay / 100;
     var uploadedFileName = Model.UploadedFileName;
     var filePath = Model.UploadedFilePath;
     string fileLink = filePath + uploadedFileName;
@@ -26,7 +26,7 @@
         <input type="hidden" asp-for="NoteFromUser" />
         <input type="hidden" asp-for="ModuleIds" />
         <input type="hidden" asp-for="SelectionDiscount" />
-        <input type="hidden" asp-for="TotalAmount" />
+        <input type="hidden" asp-for="TotalToPay" />
         <input type="hidden" asp-for="PromotionId" />
         <input type="hidden" asp-for="IsPromotionCodeApplied" />
         <input type="hidden" asp-for="UploadedFileName" />
@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalAmount)</label>
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalToPay)</label>
                 <div class="col-md-10 admin-align-middle">
                     $@totalAmount
                 </div>

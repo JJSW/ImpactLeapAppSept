@@ -10,8 +10,8 @@ using ImpactLeapApp.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170820223750_Fund")]
-    partial class Fund
+    [Migration("20170822003913_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,28 +118,6 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("BillingAddresses");
                 });
 
-            modelBuilder.Entity("ImpactLeapApp.Models.Fund", b =>
-                {
-                    b.Property<int>("FundId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("FundManager");
-
-                    b.Property<string>("FundName");
-
-                    b.Property<string>("Geography");
-
-                    b.Property<DateTime>("ModifiedDate");
-
-                    b.Property<string>("Strategy");
-
-                    b.HasKey("FundId");
-
-                    b.ToTable("Funds");
-                });
-
             modelBuilder.Entity("ImpactLeapApp.Models.OrderModels.Module", b =>
                 {
                     b.Property<int>("ModuleId")
@@ -167,8 +145,6 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTime?>("DeliveredDate");
 
-                    b.Property<int>("InvestmentId");
-
                     b.Property<bool>("IsPromotionCodeApplied");
 
                     b.Property<DateTime>("ModifiedDate");
@@ -185,6 +161,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTime>("OrderedDate");
 
+                    b.Property<int>("PortfolioId");
+
                     b.Property<int>("PromotionId");
 
                     b.Property<string>("SalesRep")
@@ -192,7 +170,11 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int>("SelectionDiscount");
 
-                    b.Property<int>("TotalAmount");
+                    b.Property<int>("SelectionDiscountMethod");
+
+                    b.Property<int>("TotalPrice");
+
+                    b.Property<int>("TotalToPay");
 
                     b.Property<string>("UploadedFileName");
 
@@ -215,8 +197,6 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("OrderDetailId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("FundId1");
-
                     b.Property<DateTime>("ModifiedDate");
 
                     b.Property<int>("ModuleId");
@@ -226,8 +206,6 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("OrderId");
 
                     b.HasKey("OrderDetailId");
-
-                    b.HasIndex("FundId1");
 
                     b.HasIndex("ModuleId");
 
@@ -289,6 +267,28 @@ namespace WebApplication1.Data.Migrations
                     b.HasKey("SavingId");
 
                     b.ToTable("Savings");
+                });
+
+            modelBuilder.Entity("ImpactLeapApp.Models.Portfolio", b =>
+                {
+                    b.Property<int>("PortfolioId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FundManager");
+
+                    b.Property<string>("FundName");
+
+                    b.Property<string>("Geography");
+
+                    b.Property<DateTime>("ModifiedDate");
+
+                    b.Property<string>("Strategy");
+
+                    b.HasKey("PortfolioId");
+
+                    b.ToTable("Portfolios");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -414,10 +414,6 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactLeapApp.Models.OrderModels.OrderDetail", b =>
                 {
-                    b.HasOne("ImpactLeapApp.Models.Fund", "FundId")
-                        .WithMany()
-                        .HasForeignKey("FundId1");
-
                     b.HasOne("ImpactLeapApp.Models.OrderModels.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")

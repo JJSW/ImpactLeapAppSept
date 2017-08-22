@@ -33,6 +33,6 @@ namespace ImpactLeapApp.Data
         public DbSet<Saving> Savings { get; set; }
 
         public DbSet<Module> Modules { get; set; }
-        public DbSet<Fund> Funds { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
     }
 }

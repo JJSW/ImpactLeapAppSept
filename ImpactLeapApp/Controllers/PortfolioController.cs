@@ -10,18 +10,21 @@ using ImpactLeapApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace ImpactLeapApp.Controllers
 {
-    public class FundController : Controller
+    public class PortfolioController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
         private static string _emailAddress;
+        private static Int32 _orderId;
+        private readonly int _dollarCent = 100; // $10.00 = 1000
 
-        public FundController(ApplicationDbContext context,
+        public PortfolioController(ApplicationDbContext context,
                               UserManager<ApplicationUser> UserManager,
                               SignInManager<ApplicationUser> SignInManager,
                               ILoggerFactory loggerFactory)
@@ -32,11 +35,10 @@ namespace ImpactLeapApp.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
-        // GET: Fund
-        public async Task<IActionResult> Index(string message)
+        // GET: Portfolio
+        public async Task<IActionResult> Index(Int32 id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            ViewData["Error"] = message;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -44,21 +46,30 @@ namespace ImpactLeapApp.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            return View(await _context.Funds.ToListAsync());
+            _orderId = id;
+            ViewData["OrderId"] = _orderId;
+            ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
+            ViewBag.SelectionDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscount;
+            ViewBag.SelectionDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscountMethod;
+
+            var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
+            ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
+
+            return View(await _context.Portfolios.ToListAsync());
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult NewFund()
+        [HttpPost]
+        public IActionResult NewPortfolio(int portfolioId, int orderId)
         {
-            ViewData["Email"] = _emailAddress;
-            return View();
-        }
+            _context.Orders.SingleOrDefault(o => o.OrderId == orderId).PortfolioId = portfolioId;
+            _context.SaveChanges();
 
+            return RedirectToAction("NewOrder", "Order");
+        }
 
         private bool FundExists(int id)
         {
-            return _context.Funds.Any(e => e.FundId == id);
+            return _context.Portfolios.Any(e => e.PortfolioId == id);
         }
     }
 }

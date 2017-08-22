@@ -32,14 +32,15 @@ namespace ImpactLeapApp.Controllers
         private static string _emailAddress;
         private static string _selectionDiscount;
         private static string _totalToPay;
-        private static string _totalDay;
         private static string _promotionDiscountRate;
-        private static PromotionStatusList _promotionStatus;
-        private static int _promotionId;
-        private static Int32 _orderId;
         private static string _orderNumber;
         private readonly string _externalCookieScheme;
-        private int _dollarCent = 100; // $10.00 = 1000
+        private static PromotionStatusList _promotionStatus;
+        private static Int32 _promotionId;
+        private static Int32 _orderId;
+        private static int _totalPrice;
+
+        private readonly int _dollarCent = 100; // $10.00 = 1000
 
         public OrderController(ApplicationDbContext context,
                                UserManager<ApplicationUser> UserManager,
@@ -63,12 +64,14 @@ namespace ImpactLeapApp.Controllers
             ViewData["Error"] = message;
             _promotionDiscountRate = "0";
 
+            // Check email if a user signed in
             if (_signInManager.IsSignedIn(User))
             {
                 _emailAddress = await _userManager.GetEmailAsync(user);
                 ViewData["Email"] = _emailAddress;
             }
 
+            // Set saving for multiple selection
             var savingData = _context.Savings.Where(s => s.IsActive == true);
 
             List<Saving> saving = new List<Saving>(savingData);
@@ -89,15 +92,14 @@ namespace ImpactLeapApp.Controllers
         [AllowAnonymous]
         public IActionResult NewOrder()
         {
-            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
-            ViewData["TotalDay"] = _totalDay;
-
+            ViewBag.TotalPrice = _totalPrice;
             ViewBag.SelectionDiscount = _selectionDiscount;
-            ViewBag.PromotionStatus = _promotionStatus;
             ViewBag.TotalToPay = _totalToPay;
+            ViewBag.PromotionStatus = _promotionStatus;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
 
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
+            ViewData["PortfolioId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).PortfolioId;
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
             ViewData["Email"] = _emailAddress;
@@ -109,27 +111,30 @@ namespace ImpactLeapApp.Controllers
         [HttpPost]
         public async Task<IActionResult> NewOrder(IFormCollection collection,
                                                   string email,
+                                                  int selectionDiscountMethod,
+                                                  int totalPrice,
                                                   string selectionDiscount,
-                                                  string totalToPay,
-                                                  string totalDay)
+                                                  string totalToPay)
         {
             int parsedSelectionDiscount = 0;
             int parsedTotalToPay = 0;
+            object parsedSelectionDiscountMethod = null; 
             _promotionDiscountRate = "0";
+            _totalPrice = totalPrice;
+            _selectionDiscount = selectionDiscount;
+            _totalToPay = totalToPay;
+            
 
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
 
-            _selectionDiscount = selectionDiscount;
-            _totalToPay = totalToPay;
-            _totalDay = totalDay;
-
-            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
-            ViewData["TotalDay"] = _totalDay;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+            ViewBag.TotalPrice = _totalPrice;
             ViewBag.SelectionDiscount = _selectionDiscount;
+            ViewBag.TotalToPay = _totalToPay;
             ViewBag.PromotionStatus = PromotionStatusList.Ready;
 
+            // Save temporary data
             if (_signInManager.IsSignedIn(User))
             {
                 TempUser = user;
@@ -168,11 +173,13 @@ namespace ImpactLeapApp.Controllers
 
             ViewData["Email"] = _emailAddress;
 
-            parsedTotalToPay = ParseStringToInt(_totalToPay);
+            parsedSelectionDiscountMethod = ParseValueToDiscountMethod(selectionDiscountMethod);
             parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
+            parsedTotalToPay = ParseStringToInt(_totalToPay);
 
             ViewBag.TotalToPay = _totalToPay;
 
+            // Set order number
             var ordersFromCurrentUser = _context.Orders.Where(o => o.UserEmail == _emailAddress);
 
             if (ordersFromCurrentUser == null || !ordersFromCurrentUser.Any())
@@ -188,13 +195,16 @@ namespace ImpactLeapApp.Controllers
                 _orderNumber = orderPattern + nextOrderSequece.ToString("D3");
             }
 
+            // Create a order
             _context.Orders.Add(new Order()
             {
                 UserEmail = _emailAddress,
                 OrderedDate = DateTime.Now,
                 UserId = TempUser.Id,
-                TotalAmount = parsedTotalToPay * _dollarCent,
+                TotalPrice = _totalPrice,
                 SelectionDiscount = parsedSelectionDiscount,
+                SelectionDiscountMethod = (SavingDiscountMethodList)parsedSelectionDiscountMethod,
+                TotalToPay = parsedTotalToPay * _dollarCent,
                 PromotionId = -1,
                 OrderNum = _orderNumber,
                 ModifiedDate = DateTime.Now,
@@ -204,24 +214,58 @@ namespace ImpactLeapApp.Controllers
 
             _orderId = _context.Orders.LastOrDefault(o => o.UserId == TempUser.Id).OrderId;
 
+            // Create order detail
             CreateOrderDetail(collection);
+
             CreateModuleIds();
 
-            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(od => od.Module);
+            var orderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(od => od.Module);
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
-            return View(OrderDetails.ToList());
+
+            // Check portfolio
+            var portfolioId = _context.Orders.SingleOrDefault(od => od.OrderId == _orderId).PortfolioId;
+
+            if (portfolioId != 0)
+            {
+                return View(orderDetails.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Portfolio", new
+                {
+                    id = _orderId
+                });
+            }
+        }
+
+        #region New Order Helpers
+
+        private SavingDiscountMethodList ParseValueToDiscountMethod(int value)
+        {
+            var result = SavingDiscountMethodList.Fixed;
+
+            if (value == 0)
+            {
+                result = SavingDiscountMethodList.Fixed;
+            }
+            else if (value == 1)
+            {
+                result = SavingDiscountMethodList.Percentage;
+            }
+
+            return result;
         }
 
         private int ParseStringToInt(string str)
         {
-            int parsedInt = 0;
+            double tempValue = 0.0;
             int parsedResult = 0;
 
-            if (int.TryParse(str, out parsedInt))
+            if (double.TryParse(str, out tempValue))
             {
-                parsedResult = parsedInt;
+                parsedResult = (int)tempValue;
             }
             else
             {
@@ -270,6 +314,8 @@ namespace ImpactLeapApp.Controllers
             _context.SaveChanges();
         }
 
+        #endregion
+
         // GET: Orders
         public async Task<IActionResult> Orders()
         {
@@ -308,7 +354,7 @@ namespace ImpactLeapApp.Controllers
                         if (isPromotionCodeAppliedToOrder == false
                             && isPromotionCodeAppliedToUser == false)
                         {
-                            var tempTotalAmount = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalAmount;
+                            var tempTotalAmount = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalToPay;
 
                             if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Fixed)
                             {
@@ -330,7 +376,7 @@ namespace ImpactLeapApp.Controllers
                                 TempData["PromotionDiscountRate"] = _promotionDiscountRate;
                             }
 
-                            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalAmount = tempTotalAmount;
+                            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalToPay = tempTotalAmount;
                             _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).PromotionId = verfiedPromotionId;
                             _promotionId = verfiedPromotionId;
 
@@ -552,6 +598,7 @@ namespace ImpactLeapApp.Controllers
 
             return View(model);
         }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
