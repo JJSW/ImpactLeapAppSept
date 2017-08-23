@@ -10,7 +10,7 @@
     int dollarCent = 100;
     double SavingDiscountRate = 0.0;
 
-    if(ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+    if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
     {
         double tempTotalPrice = ViewBag.TotalPrice;
         double tempDiscountRate = ViewBag.SelectionDiscount;
@@ -156,9 +156,20 @@
                                 <tr>
                                     <td>Multiple module saving</td>
                                     <td>
-                                        <span class="text-danger">
-                                            -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
-                                        </span>
+
+                                        @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+                                        {
+                                            <span class="text-danger">
+                                                -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">
+                                                -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
+                                            </span>
+                                        }
+
                                     </td>
                                 </tr>
                                 <tr>
