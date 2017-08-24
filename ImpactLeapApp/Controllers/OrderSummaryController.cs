@@ -33,8 +33,6 @@ namespace ImpactLeapApp.Controllers
 
         public async Task<IActionResult> OrderDetails(int id)
         {
-            ViewData["OrderId"] = id;
-
             if (_context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum != null)
             {
                 ViewData["OrderNum"] = _context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum;
@@ -66,6 +64,7 @@ namespace ImpactLeapApp.Controllers
                                     UploadedFileName = o.UploadedFileName,
                                     UploadedFilePath = o.UploadedFilePath,
                                     TotalToPay = o.TotalToPay,
+                                    PortfolioId = o.PortfolioId,
                                 }).ToList();
 
             var currentOrderDetails = orderDetails.Where(x => x.UserId == userId)
@@ -87,6 +86,7 @@ namespace ImpactLeapApp.Controllers
                     UploadedFileName = orderDetail.UploadedFileName,
                     UploadedFilePath = orderDetail.UploadedFilePath,
                     TotalToPay = orderDetail.TotalToPay,
+                    PortfolioId = orderDetail.PortfolioId,
                 });
             };
 
@@ -94,6 +94,10 @@ namespace ImpactLeapApp.Controllers
             {
                 return NotFound();
             }
+
+            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
+            ViewData["OrderId"] = id;
+            ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
 
             return View(orderDetailVMs);
         }

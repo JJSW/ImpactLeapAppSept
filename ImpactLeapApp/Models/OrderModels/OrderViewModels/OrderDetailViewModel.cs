@@ -78,6 +78,7 @@ namespace ImpactLeapApp.Models.OrderModels
         // Portfolio
         public Int32 PortfolioId { get; set; }
 
+        public Portfolio Portfolio { get; set; }
 
 
         [Display(Name = "Billing Address Number")]

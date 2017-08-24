@@ -10,7 +10,6 @@
     var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
     var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
-    var portfolioId = Model.FirstOrDefault().PortfolioId;
 }
 
 <div class="col-md-10">
@@ -62,11 +61,48 @@
                 </section>
             </div>
 
-
-                <p>
-                    portfolio ID =  @portfolioId
-                </p>
-
+            <div class="col-md-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr class="active">
+                                <th>
+                                    Portfolio ID
+                                </th>
+                                <th>
+                                    Fund Name
+                                </th>
+                                <th>
+                                    Fund Manager
+                                </th>
+                                <th>
+                                    Strategy
+                                </th>
+                                <th>
+                                    Geography
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @ViewBag.Portfolio.PortfolioId
+                                </td>
+                                <td>
+                                    @ViewBag.Portfolio.FundName
+                                </td>
+                                <td>
+                                    @ViewBag.Portfolio.FundManager
+                                </td>
+                                <td>
+                                    @ViewBag.Portfolio.Strategy
+                                </td>
+                                <td>
+                                    @ViewBag.Portfolio.Geography
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </div>
 
 
             @if (uploadedFileName != null)

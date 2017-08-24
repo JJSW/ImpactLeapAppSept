@@ -118,7 +118,7 @@
                                                 <div class="flat-green single-row">
                                                     <div class="radio _margin-top-0 _margin-bottom-0">
                                                         <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
-                                                        <input type="radio" name="portfolioId" value='@Model.ElementAt(@i).PortfolioId' />
+                                                        <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId"/>
                                                     </div>
                                                 </div>
                                             </td>
@@ -199,7 +199,9 @@
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
 
-                        <button type="submit" class="btn btn-primary btn-new-order">
+                        <button type="submit" 
+                                id="proceedButton"
+                                class="btn btn-primary btn-new-order">
                             Next step&nbsp;
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
@@ -211,9 +213,17 @@
     </div>
 </form>
 
+<div id="checkProceedForm">
+    <div class="alert alert-info text-center" style="margin-top:25px;">
+        Please click the upload button to proceed
+    </div>
+</div>
+
 @section scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+<link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
 
     <!--icheck-->
     <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
@@ -225,5 +235,56 @@
     <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
 
     <!--dynamic table initialization -->
-    <script type="text/javascript" src="~/js/dynamic_table_init_modules.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#proceedButton").on("click", function (e) {
+                if (!$("input[name=portfolioId]").is(":checked")) {
+                    openWarningDialog();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+        function openWarningDialog() {
+            $("#checkProceedForm").dialog({
+                type: "GET",
+                autoOpen: true,
+                resizable: true,
+                modal: true,
+                draggable: false,
+                title: "Did you forget to upload comment or file?",
+                position: { my: "top", at: "top+50", of: window },
+                show: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                hide: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                width: 600,
+                height: 250,
+
+                buttons: {
+                    "Back": {
+                        text: "Back",
+                        class: "btn btn-default btn-modal",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                },
+
+                create: function () {
+                    $(this).closest(".ui-dialog")
+                        .find(".ui-button")
+                        .removeClass("ui-corner-all");
+                }
+
+            });
+        }
+    </script>
+
 }

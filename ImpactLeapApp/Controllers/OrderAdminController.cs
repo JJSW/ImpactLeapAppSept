@@ -34,13 +34,11 @@ namespace ImpactLeapApp.Controllers
         // GET: OrderAdmin/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            ViewData["OrderId"] = id;
+            var tempOrder = await _context.Orders.SingleOrDefaultAsync(o => o.OrderId == id);
 
-            var orderNum = await _context.Orders.SingleOrDefaultAsync(o => o.OrderId == id);
-
-            if (orderNum.OrderNum != null)
+            if (tempOrder.OrderNum != null)
             {
-                ViewData["OrderNum"] = orderNum.OrderNum;
+                ViewData["OrderNum"] = tempOrder.OrderNum;
             }
 
             if (id == 0)
@@ -50,7 +48,7 @@ namespace ImpactLeapApp.Controllers
 
             List<OrderDetailViewModel> orderDetailVMs = new List<OrderDetailViewModel>();
 
-            var orderDetails = (from u in _context.Users
+            var tempOrderDetails = (from u in _context.Users
                                 join o in _context.Orders on u.Id equals o.UserId
                                 join od in _context.OrderDetails on o.OrderId equals od.OrderId
                                 join m in _context.Modules on od.ModuleId equals m.ModuleId
@@ -77,8 +75,8 @@ namespace ImpactLeapApp.Controllers
                                     PortfolioId = o.PortfolioId,
                                 }).ToList();
 
-            var currentOrderDetails = orderDetails.Where(y => y.OrderId == id)
-                                                  .ToList();
+            var currentOrderDetails = tempOrderDetails.Where(y => y.OrderId == id)
+                                                      .ToList();
 
             foreach (var orderDetail in currentOrderDetails)
             {
@@ -110,7 +108,11 @@ namespace ImpactLeapApp.Controllers
             {
                 return NotFound();
             }
-        
+
+            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
+            ViewData["OrderId"] = id;
+            ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
+
             return View(orderDetailVMs);
         }
 

@@ -3,7 +3,10 @@
     ViewData["Title"] = "Admin/Orders";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
+@{ 
+    string strSpacer = "&nbsp;&nbsp;";
+    int dollarCent = 100;
+}
 
 <div class="admin-margin">
     <div class="page-heading">
@@ -63,7 +66,7 @@
                                 <tbody>
                                     @foreach (var item in Model)
             {
-                var totalAmount = item.TotalToPay / 100;
+                var totalAmount = item.TotalToPay / @dollarCent;
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.OrderId)
