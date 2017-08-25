@@ -359,7 +359,9 @@ table.dataTable th:active {
     margin-bottom: 0;
 }
 
-
+.dialog-content {
+    margin-top: 25px !important;
+}
 
 /*-------------------------------
        Responsive design

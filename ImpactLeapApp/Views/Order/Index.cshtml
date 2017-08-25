@@ -21,6 +21,7 @@
     <ul class="breadcrumb">
         <li>
             Analysis
+            PortfolioId = @ViewData["PortfolioId"]
         </li>
         <li class="active">Select modules</li>
     </ul>
@@ -31,7 +32,7 @@
                         data-toggle="modal" href="#infoModal" type="button">
                     Request information
                 </button>
-                <a class="btn btn-info text-center" 
+                <a class="btn btn-info text-center"
                    style="padding: 10px;"
                    role="button"
                    asp-controller="Portfolio"
@@ -153,7 +154,7 @@
                                 <tr>
                                     <td>Multiple module saving</td>
                                     <td>
-                                        <input type="hidden" name="selectionDiscountMethod"/>
+                                        <input type="hidden" name="selectionDiscountMethod" />
                                         <input type="hidden" name="selectionDiscount" style="width:50px; border:none;" />
                                         <span class="text-danger" name="selectionDiscountDisplay"></span>
                                     </td>
@@ -177,18 +178,34 @@
                         Where shall we send your analysis?<br /><br />
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                            if (ViewData["PortfolioId"] != null)
+                            {
+                                <b><input class="form-control" readonly="readonly" type="email" required="required" name="email" value="@ViewData["Email"]" /></b>
+                            }
+                            else
+                            {
+                                <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                            }
                         }
                         else
                         {
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
 
-
-                        <button type="submit" class="btn btn-primary btn-new-order">
-                            Next step&nbsp;
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </button>
+                        @if (ViewData["PortfolioId"] != null)
+                        {
+                            <button type="submit" class="btn btn-primary btn-new-order">
+                                Next step&nbsp;
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary btn-new-order">
+                                Next step&nbsp;
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        }
 
                     </div>
                 </section>

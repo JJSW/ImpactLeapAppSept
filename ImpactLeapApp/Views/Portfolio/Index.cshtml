@@ -10,15 +10,18 @@
     int dollarCent = 100;
     double SavingDiscountRate = 0.0;
 
-    if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+    if (ViewBag.SelectionDiscountMethod != null)
     {
-        double tempTotalPrice = ViewBag.TotalPrice;
-        double tempDiscountRate = ViewBag.SelectionDiscount;
-        SavingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
-    }
-    else
-    {
-        SavingDiscountRate = ViewBag.SelectionDiscount;
+        if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+        {
+            double tempTotalPrice = ViewBag.TotalPrice;
+            double tempDiscountRate = ViewBag.SelectionDiscount;
+            SavingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
+        }
+        else
+        {
+            SavingDiscountRate = ViewBag.SelectionDiscount;
+        }
     }
 }
 
@@ -28,7 +31,7 @@
     </h3>
     <ul class="breadcrumb">
         <li>
-            Portfolio
+
         </li>
 
         OrderID = @ViewData["OrderId"]
@@ -118,7 +121,7 @@
                                                 <div class="flat-green single-row">
                                                     <div class="radio _margin-top-0 _margin-bottom-0">
                                                         <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
-                                                        <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId"/>
+                                                        <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -133,58 +136,61 @@
             </div>
         </div>
 
+
         <div class="row">
-            <div class="col-md-6">
-                <section class="panel">
-                    <div class="panel-body">
-                        <table class="table table-hover general-table">
-                            <thead>
-                                <tr>
-                                    <th class="inv-col col-md-4"><span>Order total</span></th>
-                                    <th class="inv-col col-md-2"><span>Total</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Total price</td>
-                                    <td>
-                                        <span name="totalPrice">
-                                            @ViewBag.TotalPrice.ToString("C0", formatProvider)
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Multiple module saving</td>
-                                    <td>
-
-                                        @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
-                                        {
-                                            <span class="text-danger">
-                                                -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+            @if (ViewBag.TotalPrice != null)
+            {
+                <div class="col-md-6">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <table class="table table-hover general-table">
+                                <thead>
+                                    <tr>
+                                        <th class="inv-col col-md-4"><span>Order total</span></th>
+                                        <th class="inv-col col-md-2"><span>Total</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Total price</td>
+                                        <td>
+                                            <span name="totalPrice">
+                                                @ViewBag.TotalPrice.ToString("C0", formatProvider)
                                             </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger">
-                                                -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
-                                            </span>
-                                        }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Multiple module saving</td>
+                                        <td>
+                                            @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+                                            {
+                                                <span class="text-danger">
+                                                    -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">
+                                                    -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
+                                                </span>
+                                            }
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Total to pay</td>
-                                    <td>
-                                        <span name="totalToPayDisplay">
-                                            @ViewBag.TotalToPay.ToString("C0", formatProvider)
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total to pay</td>
+                                        <td>
+                                            <span name="totalToPayDisplay">
+                                                @ViewBag.TotalToPay.ToString("C0", formatProvider)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            }
 
             <div class="col-md-6">
                 <section class="panel">
@@ -199,7 +205,7 @@
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
 
-                        <button type="submit" 
+                        <button type="submit"
                                 id="proceedButton"
                                 class="btn btn-primary btn-new-order">
                             Next step&nbsp;
@@ -213,19 +219,20 @@
     </div>
 </form>
 
-<div id="checkProceedForm">
-    <div class="alert alert-info text-center" style="margin-top:25px;">
-        Please click the upload button to proceed
-    </div>
-</div>
+<div id="checkProceedForm"></div>
 
 @section scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-<link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <!--jquery UI-->
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
-    <!--icheck-->
+    <link rel="stylesheet" href="~/css/bootstrap-reset.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <!--iCheck-->
     <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
     <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
@@ -235,7 +242,7 @@
     <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
 
     <!--dynamic table initialization -->
-
+    <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
 
     <script type="text/javascript">
 
@@ -256,7 +263,7 @@
                 resizable: true,
                 modal: true,
                 draggable: false,
-                title: "Did you forget to upload comment or file?",
+                title: "No portfolio is selected",
                 position: { my: "top", at: "top+50", of: window },
                 show: {
                     effect: "drop", direction: "up", duration: 300
@@ -266,6 +273,11 @@
                 },
                 width: 600,
                 height: 250,
+
+                open: function () {
+                    var content = "Please select a portfolio to proceed";
+                    $(this).html("<div class=\"alert alert-info text-center dialog-content\">" + content + "</div>");
+                },
 
                 buttons: {
                     "Back": {

@@ -57,12 +57,19 @@ namespace ImpactLeapApp.Controllers
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
         }
 
-        public async Task<IActionResult> Index(string message)
+        public async Task<IActionResult> Index(string message, int id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
             ViewData["Error"] = message;
             _promotionDiscountRate = "0";
+
+            // Set portfolio ID
+            if (id != 0)
+            {
+                ViewData["PortfolioId"] = id;
+                TempData["IsPortfolioSet"] = true;
+            }
 
             // Check email if a user signed in
             if (_signInManager.IsSignedIn(User))

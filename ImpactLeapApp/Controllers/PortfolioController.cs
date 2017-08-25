@@ -46,25 +46,42 @@ namespace ImpactLeapApp.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            _orderId = id;
-            ViewData["OrderId"] = _orderId;
-            ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
-            ViewBag.SelectionDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscount;
-            ViewBag.SelectionDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscountMethod;
+            if (id != 0)
+            {
+                _orderId = id;
+                ViewData["OrderId"] = _orderId;
+                ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
+                ViewBag.SelectionDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscount;
+                ViewBag.SelectionDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscountMethod;
 
-            var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
-            ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
+                var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
+                ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
+            }
 
             return View(await _context.Portfolios.ToListAsync());
         }
 
         [HttpPost]
-        public IActionResult NewPortfolio(int portfolioId, int orderId)
+        public IActionResult NewPortfolio(int portfolioId, int orderId, bool IsPortfolioSet)
         {
-            _context.Orders.SingleOrDefault(o => o.OrderId == orderId).PortfolioId = portfolioId;
-            _context.SaveChanges();
+            // Starting module to portfolio
+            if (orderId != 0)
+            {
+                if (portfolioId != 0) {
+                    _context.Orders.SingleOrDefault(o => o.OrderId == orderId).PortfolioId = portfolioId;
+                    _context.SaveChanges();
 
-            return RedirectToAction("NewOrder", "Order");
+                    return RedirectToAction("NewOrder", "Order");
+                } else
+                {
+                    return RedirectToAction("Index", "Order");
+                }
+            }
+            // Starting portfolio
+            else
+            {
+                return RedirectToAction("Index", "Order", new { id = portfolioId});
+            }
         }
 
         private bool FundExists(int id)

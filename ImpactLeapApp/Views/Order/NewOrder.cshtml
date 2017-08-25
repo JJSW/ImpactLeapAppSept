@@ -113,12 +113,11 @@
                             </td>
                         </tr>
 
-
                         <tr style="border-bottom:double; border-bottom-color:gainsboro">
                             <td class="text-left text-danger">
                                 Multiple module saving
                             </td>
-                            @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
+                            @if (ViewBag.SelectionDiscount != "0" || !object.Equals(ViewBag.SelectionDiscount, "0"))
                             {
                                 <td class="text-danger">
                                     -$@ViewBag.SelectionDiscount
@@ -127,10 +126,11 @@
                             else
                             {
                                 <td class="text-danger">
-                                    0
+                                    $0
                                 </td>
                             }
                         </tr>
+
                         <tr>
                             <td class="text-left text-danger">
                                 Promotion Discount
@@ -145,7 +145,7 @@
                             else
                             {
                                 <td class="text-danger">
-                                    0
+                                    $0
                                 </td>
                             }
                         </tr>
@@ -164,7 +164,7 @@
                             }
                             else
                             {
-                                <td><b style="font-size: large;">0</b></td>
+                                <td><b style="font-size: large;">$0</b></td>
                             }
                         </tr>
                     </table>
@@ -236,11 +236,7 @@
 </div>
 
 <div id="promotionCodeForm"></div>
-<div id="checkProceedForm">
-    <div class="alert alert-info text-center" style="margin-top:25px;">
-        Please click the upload button to proceed
-    </div>
-</div>
+<div id="checkProceedForm"></div>
 
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
     <div class="modal-dialog">
@@ -274,6 +270,7 @@
     <link rel="stylesheet" href="~/lib/dropzone/dist/basic.css" />
     <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>
 
+    <!--jquery UI-->
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
@@ -328,10 +325,15 @@
                 width: 600,
                 height: 250,
 
+                open: function () {
+                    var content = "Please click the upload button to proceed";
+                    $(this).html("<div class=\"alert alert-info text-center dialog-content\">" + content + "</div>");
+                },
+
                 buttons: {
                     "Back": {
                         text: "Back",
-                        class: "btn btn-default btn-modal",                        
+                        class: "btn btn-default btn-modal",
                         click: function () {
                             $(this).dialog("close");
                         }
