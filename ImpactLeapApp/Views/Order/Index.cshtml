@@ -180,20 +180,39 @@
                         {
                             if (ViewData["PortfolioId"] != null)
                             {
-                                <b><input class="form-control" readonly="readonly" type="email" required="required" name="email" value="@ViewData["Email"]" /></b>
+                                <b>
+                                    <input class="form-control"
+                                           disabled="disabled"
+                                           type="email"
+                                           required="required"
+                                           name="email"
+                                           value="@ViewData["Email"]" />
+                                </b>
                             }
                             else
                             {
-                                <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                                <b>
+                                    <input class="form-control"
+                                           type="email"
+                                           required="required"
+                                           name="email"
+                                           value="@ViewData["Email"]"
+                                           placeholder="Enter your email" />
+                                </b>
                             }
                         }
                         else
                         {
-                            <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
+                            <input class="form-control" 
+                                   type="email" 
+                                   required="required" 
+                                   name="email" 
+                                   placeholder="Enter your email" />
                         }
 
                         @if (ViewData["PortfolioId"] != null)
                         {
+                            <input type="hidden" name="portfolioIdFromModule" value="@ViewData["PortfolioId"]"/>
                             <button type="submit" class="btn btn-primary btn-new-order">
                                 Next step&nbsp;
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>

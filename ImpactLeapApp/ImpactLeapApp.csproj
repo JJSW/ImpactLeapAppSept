@@ -55,9 +55,9 @@
     <Content Include="wwwroot\images\sort_desc.png" />
     <Content Include="wwwroot\images\sort_desc_disabled.png" />
     <Content Include="wwwroot\js\bootstrap.min.js" />
-    <Content Include="wwwroot\js\dynamic_table_init.js" />
     <Content Include="wwwroot\js\dynamic_table_init_default.js" />
     <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_portfolio.js" />
     <Content Include="wwwroot\js\html5shiv.js" />
     <Content Include="wwwroot\js\icheck-init.js" />
     <Content Include="wwwroot\js\modernizr.min.js" />

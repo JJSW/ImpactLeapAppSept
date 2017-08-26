@@ -14,10 +14,10 @@ $(document).ready(function() {
 
     $('#dynamic-table').dataTable( {
         "aaSorting": [[0, "asc"]],
-        "lengthMenu": [[20, -1], [20, "All"]],
-        "oLanguage": {
-            "sLengthMenu": "_MENU_ records per page"
-        },
+        "lengthMenu": [[10, -1], [10, "All"]],
+        "bFilter": true,
+        "bLengthChange": true,
+        "ordering": true,
     } );
 
     /*

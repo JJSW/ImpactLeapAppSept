@@ -72,7 +72,8 @@ namespace ImpactLeapApp.Controllers
                     _context.SaveChanges();
 
                     return RedirectToAction("NewOrder", "Order");
-                } else
+                }
+                else
                 {
                     return RedirectToAction("Index", "Order");
                 }
@@ -80,7 +81,7 @@ namespace ImpactLeapApp.Controllers
             // Starting portfolio
             else
             {
-                return RedirectToAction("Index", "Order", new { id = portfolioId});
+                return RedirectToAction("Index", "Order", new { id = portfolioId} );
             }
         }
 

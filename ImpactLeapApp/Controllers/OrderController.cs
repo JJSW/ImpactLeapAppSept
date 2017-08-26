@@ -121,7 +121,8 @@ namespace ImpactLeapApp.Controllers
                                                   int selectionDiscountMethod,
                                                   int totalPrice,
                                                   string selectionDiscount,
-                                                  string totalToPay)
+                                                  string totalToPay,
+                                                  int portfolioIdFromModule)
         {
             int parsedSelectionDiscount = 0;
             int parsedTotalToPay = 0;
@@ -232,18 +233,27 @@ namespace ImpactLeapApp.Controllers
             ViewData["OrderNumber"] = _orderNumber;
 
             // Check portfolio
-            var portfolioId = _context.Orders.SingleOrDefault(od => od.OrderId == _orderId).PortfolioId;
+            var portfolioIdByOrder = _context.Orders.SingleOrDefault(od => od.OrderId == _orderId).PortfolioId;
 
-            if (portfolioId != 0)
+            if (portfolioIdByOrder != 0)
             {
                 return View(orderDetails.ToList());
             }
             else
             {
-                return RedirectToAction("Index", "Portfolio", new
+                // Case of portfolio to module
+                if (portfolioIdFromModule != 0)
                 {
-                    id = _orderId
-                });
+                    _context.Orders.SingleOrDefault(od => od.OrderId == _orderId).PortfolioId = portfolioIdFromModule;
+                    _context.SaveChanges();
+
+                    return View(orderDetails.ToList());
+                }
+                // Case of module to portfolio
+                else
+                {
+                    return RedirectToAction("Index", "Portfolio", new { id = _orderId });
+                }
             }
         }
 

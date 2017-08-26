@@ -69,7 +69,7 @@
 
                     <div class="panel-body">
                         <div class="adv-table">
-                            <table class="display table table-hover general-table">
+                            <table id="dynamic-table" class="display table table-hover general-table">
                                 <thead>
                                     <tr>
                                         <th style="width:5%">
@@ -242,11 +242,12 @@
     <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
 
     <!--dynamic table initialization -->
-    <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+    <script type="text/javascript" src="~/js/dynamic_table_init_portfolio.js"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function () {
+
             $("#proceedButton").on("click", function (e) {
                 if (!$("input[name=portfolioId]").is(":checked")) {
                     openWarningDialog();

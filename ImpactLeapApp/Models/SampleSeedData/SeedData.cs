@@ -87,8 +87,8 @@ namespace ImpactLeapApp.Models.SampleSeedData
             {
                 db.Portfolios.Add(new Portfolio()
                 {
-                    FundName = "Jupiter Absolute Return",
-                    FundManager = "Jupiter",
+                    FundName = "A Absolute Return",
+                    FundManager = "A",
                     Strategy = "High Yield",
                     Geography = "Global",
                     Description = "Global",
@@ -97,8 +97,98 @@ namespace ImpactLeapApp.Models.SampleSeedData
 
                 db.Portfolios.Add(new Portfolio()
                 {
-                    FundName = "Saturn Absolute Return",
-                    FundManager = "Saturn",
+                    FundName = "B Absolute Return",
+                    FundManager = "B",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "C Absolute Return",
+                    FundManager = "C",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "D Absolute Return",
+                    FundManager = "D",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "E Absolute Return",
+                    FundManager = "E",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "F Absolute Return",
+                    FundManager = "F",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "G Absolute Return",
+                    FundManager = "G",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "H Absolute Return",
+                    FundManager = "H",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "I Absolute Return",
+                    FundManager = "I",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "J Absolute Return",
+                    FundManager = "J",
+                    Strategy = "High Yield",
+                    Geography = "Global",
+                    Description = "Global",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Portfolios.Add(new Portfolio()
+                {
+                    FundName = "K Absolute Return",
+                    FundManager = "K",
                     Strategy = "High Yield",
                     Geography = "Global",
                     Description = "Global",
