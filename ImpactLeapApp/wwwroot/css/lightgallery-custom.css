@@ -1,0 +1,31 @@
+.lightgallery-images {
+  display: none;
+}
+
+.lg-backdrop {
+  z-index: 1040000;
+}
+
+.lg-outer {
+  z-index: 1050000;
+}
+
+.lg-actions .lg-prev::after {
+  font-family: 'FontAwesome';
+  content: "\f104";
+}
+
+.lg-actions .lg-next::before {
+  font-family: 'FontAwesome';
+  content: "\f105";
+}
+
+.lg-actions .lg-next,
+.lg-actions .lg-prev {
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  border: 1px rgba(255, 255, 255, 0.5) solid;
+  outline: none;
+  width: 50px;
+  height: 50px;
+}

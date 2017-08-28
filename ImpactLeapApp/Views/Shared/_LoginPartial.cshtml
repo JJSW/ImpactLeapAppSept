@@ -5,48 +5,57 @@
 
 @{ string strSpacer = "&nbsp;"; }
 
+<!-- BEGIN USER LOGIN DROPDOWN -->
+<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right main-nav-right">
-            <li class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuButton"
-                   aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
-                <ul class="dropdown-menu dropdown-menu dropdown-menu-usermenu pull-right" aria-labelledby="dropdownMenuButton">
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown dropdown-user">
+
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" data-hover="dropdown" data-close-others="true" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+                    <img alt="" class="img-circle" src="~/images/avatar.png" />
+                    <span class="username username-hide-on-mobile">
+                        @UserManager.GetUserName(User)
+                    </span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-default" aria-labelledby="dropdownMenuButton">
                     <li>
                         <a asp-area="" asp-controller="OrderAdmin" asp-action="Index">
-                            <i class="fa fa-list-ul" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order
+                            <i class="fa fa-object-ungroup" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Order dashboard
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="ApplicationUser" asp-action="Index">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)User dashboard
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Module" asp-action="Index">
-                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Module
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Modules
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="PortfolioAdmin" asp-action="Index">
-
-                            @Html.Raw(strSpacer)Portfolio
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Portfolios
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Saving" asp-action="Index">
                             <i class="fa fa-usd" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Saving
+                            @Html.Raw(strSpacer)Module savings
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Promotion" asp-action="Index">
-                            <i class="fa fa-percent" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Promotion
+                            <i class="fa fa-trophy" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Promotions
                         </a>
                     </li>
                     <li>
@@ -60,34 +69,37 @@
         </ul>
     </form>
 }
-
 else if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right main-nav-right">
-            <li class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuButton"
-                   aria-haspopup="true" aria-expanded="false">
-                    @UserManager.GetUserName(User)
-                    <span class="caret"></span>
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown dropdown-user">
+
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" data-hover="dropdown" data-close-others="true" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+                    <img alt="" class="img-circle" src="~/images/avatar.png" />
+                    <span class="username username-hide-on-mobile">
+                        @UserManager.GetUserName(User)
+                    </span>
+                    <i class="fa fa-angle-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-usermenu pull-right" aria-labelledby="dropdownMenuButton">
+
+                <ul class="dropdown-menu dropdown-menu-default" aria-labelledby="dropdownMenuButton">
                     <li>
                         <a asp-controller="Order" asp-action="Index">
-                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Start New Order
+                            <i class="fa fa-line-chart" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Start new analysis
                         </a>
                     </li>
                     <li>
                         <a asp-controller="OrderSummary" asp-action="Index">
-                            <i class="fa fa-list-ul" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order Summary
+                            <i class="fa fa-object-ungroup" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Order dashboard
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Manage" asp-action="Index">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User Profile
+                            @Html.Raw(strSpacer)User settings
                         </a>
                     </li>
                     <li>
@@ -103,8 +115,16 @@ else if (SignInManager.IsSignedIn(User))
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right main-nav-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+    <ul class="nav navbar-nav pull-right">
+        <li class="dropdown dropdown-user">
+            <a asp-area="" asp-controller="Account" asp-action="Register" class="dropdown-toggle">
+                <i class="fa fa-life-ring"></i>@Html.Raw(strSpacer)Register
+            </a>
+        </li>
+        <li class="dropdown dropdown-user">
+            <a asp-area="" asp-controller="Account" asp-action="Login" class="dropdown-toggle">
+                <i class="fa fa-bar-chart"></i>@Html.Raw(strSpacer)Log in
+            </a>
+        </li>
     </ul>
 }

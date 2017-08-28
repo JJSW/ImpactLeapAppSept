@@ -3,8 +3,7 @@
 @using ImpactLeapApp.Models.OrderModels
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Portfolio";
 
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     int dollarCent = 100;
@@ -25,199 +24,243 @@
     }
 }
 
-<div class="page-heading">
-    <h3>
-        Select Portfolio
-    </h3>
-    <ul class="breadcrumb">
+<h1 class="page-title">
+    Step 2. Portfolio Selection
+    <!-- <small>|  Select the areas of impact that you want analysis on</small> -->
+</h1>
+
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
         <li>
-
+            <a href="index.html">Start Analysis</a>
+            <i class="fa fa-angle-right"></i>
         </li>
-
-        OrderID = @ViewData["OrderId"]
-
-        <li class="active">Select Portfolio</li>
+        <li>
+            <span>Impact Categories</span>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Portfolio Selection</span>
+        </li>
     </ul>
-    <div class="state-info">
-        <section class="panel">
-            <div class="panel-body">
-                <a class="btn btn-info text-center"
-                   style="padding: 10px;"
-                   role="button"
-                   asp-controller="Order"
-                   asp-action="Index">
-                    Order
-                </a>
-            </div>
-        </section>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height green dropdown-toggle" data-toggle="dropdown">
+                Start with Portfolio Selection
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#"> Start with Impact Categories</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
 </div>
+<!-- END PAGE BAR -->
 
 <form action="/Portfolio/NewPortfolio" method="post">
+    <!-- BEGIN Portlet PORTLET-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
 
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Summary of funds
-                        <span class="tools pull-right">
-                            <a href="javascript:;" class="fa fa-chevron-down"></a>
-                        </span>
-                    </header>
-
-                    <div class="panel-body">
-                        <div class="adv-table">
-                            <table id="dynamic-table" class="display table table-hover general-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%">
-                                            @Html.DisplayNameFor(model => model.PortfolioId)
-                                        </th>
-                                        <th style="width:20%; max-width:30%">
-                                            @Html.DisplayNameFor(model => model.FundName)
-                                        </th>
-                                        <th style="width:15%">
-                                            @Html.DisplayNameFor(model => model.FundManager)
-                                        </th>
-                                        <th style="width:15%">
-                                            @Html.DisplayNameFor(model => model.Strategy)
-                                        </th>
-                                        <th style="width:15%">
-                                            @Html.DisplayNameFor(model => model.Geography)
-                                        </th>
-                                        <th style="width:20%">
-                                            @Html.DisplayNameFor(model => model.Description)
-                                        </th>
-                                        <th style="width:10%">
-                                            Select
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < Model.Count(); i++)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Model.ElementAt(@i).PortfolioId
-                                            </td>
-                                            <td>
-                                                @Model.ElementAt(@i).FundName
-                                            </td>
-                                            <td>
-                                                @Model.ElementAt(@i).FundManager
-                                            </td>
-                                            <td>
-                                                @Model.ElementAt(@i).Strategy
-                                            </td>
-                                            <td>
-                                                @Model.ElementAt(@i).Geography
-                                            </td>
-                                            <td>
-                                                @Model.ElementAt(@i).Description
-                                            </td>
-                                            <td>
-                                                <div class="flat-green single-row">
-                                                    <div class="radio _margin-top-0 _margin-bottom-0">
-                                                        <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
-                                                        <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="caption ">
+                        <span class="caption-subject bold font-yellow-casablanca"> Select your Portfolios </span>
+                        <span class="caption-helper">| Select up to five funds for analysis or upload your own portfolio</span>
                     </div>
-                </section>
-            </div>
-        </div>
 
-
-        <div class="row">
-            @if (ViewBag.TotalPrice != null)
-            {
-                <div class="col-md-6">
-                    <section class="panel">
-                        <div class="panel-body">
-                            <table class="table table-hover general-table">
-                                <thead>
-                                    <tr>
-                                        <th class="inv-col col-md-4"><span>Order total</span></th>
-                                        <th class="inv-col col-md-2"><span>Total</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Total price</td>
-                                        <td>
-                                            <span name="totalPrice">
-                                                @ViewBag.TotalPrice.ToString("C0", formatProvider)
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Multiple module saving</td>
-                                        <td>
-                                            @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
-                                            {
-                                                <span class="text-danger">
-                                                    -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">
-                                                    -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
-                                                </span>
-                                            }
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total to pay</td>
-                                        <td>
-                                            <span name="totalToPayDisplay">
-                                                @ViewBag.TotalToPay.ToString("C0", formatProvider)
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <!-- Upload portfolio -->
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided" data-toggle="buttons">
+                            <label class="btn btn-transparent red btn-outline btn-circle btn-sm">
+                                <input type="radio" name="options" class="toggle" id="option2">
+                                Manually upload portfolio
+                            </label>
                         </div>
-                    </section>
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                    </div>
                 </div>
-            }
 
-            <div class="col-md-6">
-                <section class="panel">
-                    <div class="panel-body" style="display:table">
-                        Where shall we send your analysis?<br /><br />
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
-                        }
-                        else
-                        {
-                            <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
-                        }
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
 
-                        <button type="submit"
-                                id="proceedButton"
-                                class="btn btn-primary btn-new-order">
-                            Next step&nbsp;
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </button>
-
+                        </div>
                     </div>
-                </section>
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">
+                                    #
+                                </th>
+                                <th style="width:20%; max-width:30%">
+                                    @Html.DisplayNameFor(model => model.FundName)
+                                </th>
+                                <th style="width:15%">
+                                    @Html.DisplayNameFor(model => model.FundManager)
+                                </th>
+                                <th style="width:15%">
+                                    @Html.DisplayNameFor(model => model.Strategy)
+                                </th>
+                                <th style="width:15%">
+                                    @Html.DisplayNameFor(model => model.Geography)
+                                </th>
+                                <th style="width:10%">
+                                    Select
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>
+                                        @Model.ElementAt(@i).PortfolioId
+                                    </td>
+                                    <td>
+                                        @Model.ElementAt(@i).FundName
+                                    </td>
+                                    <td>
+                                        @Model.ElementAt(@i).FundManager
+                                    </td>
+                                    <td>
+                                        @Model.ElementAt(@i).Strategy
+                                    </td>
+                                    <td>
+                                        @Model.ElementAt(@i).Geography
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
+                                            <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId" class="icheck" data-radio="iradio_flat-blue"/>
+                                        </label>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <!-- END Portlet PORTLET-->
+    <!-- BEGIN ROW -->
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN Sub-portlet PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold">  Your information </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-7 name"> Where shall we send your analysis? </div>
+                    </div>
+
+                    <!-- Email form -->
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
+                                }
+                                else
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next button-->
+                    <button type="submit"
+                            id="proceedButton"
+                            class="btn btn-default blue-chambray">
+                        Next step&nbsp;
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- END Portlet PORTLET-->
+        <!-- BEGIN Portlet PORTLET-->
+        <div class="col-md-6">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <span class="caption-subject bold"> Total order value </span>
+                    </div>
+                </div>
+                @if (ViewBag.TotalPrice != null)
+                {
+                    <div class="portlet-body">
+                        <div class="well">
+
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name"> Sub Total: </div>
+                                <div class="col-md-3 value">
+                                    <span name="totalPrice">
+                                        @ViewBag.TotalPrice.ToString("C0", formatProvider)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name"> Multiple Module Savings: </div>
+                                <div class="col-md-3 value">
+                                    @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+                                    {
+                                        <span class="text-danger">
+                                            -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">
+                                            -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row static-info align-reverse">
+                                <div class="col-md-8 name"> Grand Total: </div>
+                                <div class="col-md-3 value">
+                                    <span name="totalToPayDisplay">
+                                        @ViewBag.TotalToPay.ToString("C0", formatProvider)
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
 </form>
+
+
 
 <div id="checkProceedForm"></div>
 
@@ -225,24 +268,22 @@
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
     <!--jquery UI-->
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
-    <link rel="stylesheet" href="~/css/bootstrap-reset.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-
     <!--iCheck-->
-    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
-    <script type="text/javascript" src="~/js/icheck-init.js"></script>
+    <link rel="stylesheet" href="~/lib/iCheck/skins/all.css">
     <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+    <script type="text/javascript" src="~/js/icheck-init.js"></script>
 
     <!--dynamic table-->
-    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
-
-    <!--dynamic table initialization -->
-    <script type="text/javascript" src="~/js/dynamic_table_init_portfolio.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/js/datatables.bootstrap.js"></script>
+    <!--dynamic table initialization-->
+    <script type="text/javascript" src="~/js/table-datatables-managed.js"></script>
 
     <script type="text/javascript">
 

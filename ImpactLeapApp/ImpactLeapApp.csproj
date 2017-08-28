@@ -13,9 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\ion.rangeSlider\**" />
     <Compile Remove="wwwroot\uploads\**" />
+    <Content Remove="wwwroot\lib\ion.rangeSlider\**" />
     <Content Remove="wwwroot\uploads\**" />
+    <EmbeddedResource Remove="wwwroot\lib\ion.rangeSlider\**" />
     <EmbeddedResource Remove="wwwroot\uploads\**" />
+    <None Remove="wwwroot\lib\ion.rangeSlider\**" />
     <None Remove="wwwroot\uploads\**" />
   </ItemGroup>
 
@@ -24,7 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\bootstrap-reset.css" />
+    <Content Include="wwwroot\css\bootstrap.min.css" />
+    <Content Include="wwwroot\css\components.css" />
+    <Content Include="wwwroot\css\components.min.css" />
+    <Content Include="wwwroot\css\darkblue.css" />
+    <Content Include="wwwroot\css\darkblue.min.css" />
+    <Content Include="wwwroot\css\layout.css" />
+    <Content Include="wwwroot\css\layout.min.css" />
+    <Content Include="wwwroot\css\lightgallery-custom.css" />
+    <Content Include="wwwroot\css\plugins.css" />
+    <Content Include="wwwroot\css\plugins.min.css" />
     <Content Include="wwwroot\css\site.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -33,6 +46,7 @@
     <Content Include="wwwroot\images\404-error.png" />
     <Content Include="wwwroot\images\500-error.png" />
     <Content Include="wwwroot\images\alert.png" />
+    <Content Include="wwwroot\images\avatar.png" />
     <Content Include="wwwroot\images\back_disabled.png" />
     <Content Include="wwwroot\images\back_enabled.png" />
     <Content Include="wwwroot\images\back_enabled_hover.png" />
@@ -42,27 +56,38 @@
     <Content Include="wwwroot\images\forward_disabled.png" />
     <Content Include="wwwroot\images\forward_enabled.png" />
     <Content Include="wwwroot\images\forward_enabled_hover.png" />
+    <Content Include="wwwroot\images\ImpactLeap-logo-black.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
     <Content Include="wwwroot\images\favicon.png" />
     <Content Include="wwwroot\images\input-spinner.gif" />
     <Content Include="wwwroot\images\minus.png" />
     <Content Include="wwwroot\images\plus-white.png" />
     <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\images\remove-icon-small.png" />
     <Content Include="wwwroot\images\sort_asc.png" />
     <Content Include="wwwroot\images\sort_asc_disabled.png" />
     <Content Include="wwwroot\images\sort_both.png" />
     <Content Include="wwwroot\images\sort_desc copy.png" />
     <Content Include="wwwroot\images\sort_desc.png" />
     <Content Include="wwwroot\images\sort_desc_disabled.png" />
+    <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\app.min.js" />
     <Content Include="wwwroot\js\bootstrap.min.js" />
-    <Content Include="wwwroot\js\dynamic_table_init_default.js" />
+    <Content Include="wwwroot\js\datatables.bootstrap.js" />
+    <Content Include="wwwroot\js\demo.js" />
+    <Content Include="wwwroot\js\demo.min.js" />
     <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
     <Content Include="wwwroot\js\dynamic_table_init_portfolio.js" />
     <Content Include="wwwroot\js\html5shiv.js" />
     <Content Include="wwwroot\js\icheck-init.js" />
+    <Content Include="wwwroot\js\layout.js" />
+    <Content Include="wwwroot\js\layout.min.js" />
+    <Content Include="wwwroot\js\lightgallery-init.js" />
     <Content Include="wwwroot\js\modernizr.min.js" />
     <Content Include="wwwroot\js\respond.min.js" />
     <Content Include="wwwroot\js\scripts.js" />
+    <Content Include="wwwroot\js\table-datatables-managed.js" />
+    <Content Include="wwwroot\js\table-datatables-managed.min.js" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
@@ -77,11 +102,6 @@
     <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.css" />
     <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.js" />
     <Content Include="wwwroot\lib\dropzone\dist\readme.md" />
-    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-flat-red.png" />
-    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-flat.png" />
-    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-nice.png" />
-    <Content Include="wwwroot\lib\ion.rangeSlider\img\sprite-skin-simple.png" />
-    <Content Include="wwwroot\lib\ion.rangeSlider\PSD\sprite-skin.psd" />
     <Content Include="wwwroot\lib\jquery-ui\.bower.json" />
     <Content Include="wwwroot\lib\jquery-ui\.gitignore" />
     <Content Include="wwwroot\lib\jquery-ui\bower.json" />
@@ -138,6 +158,37 @@
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\sortable.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\spinner.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\tooltip.js" />
+    <Content Include="wwwroot\lib\lightgallery\css\lg-fb-comment-box.css" />
+    <Content Include="wwwroot\lib\lightgallery\css\lg-fb-comment-box.min.css" />
+    <Content Include="wwwroot\lib\lightgallery\css\lg-transitions.css" />
+    <Content Include="wwwroot\lib\lightgallery\css\lg-transitions.min.css" />
+    <Content Include="wwwroot\lib\lightgallery\css\lightgallery.css" />
+    <Content Include="wwwroot\lib\lightgallery\css\lightgallery.min.css" />
+    <Content Include="wwwroot\lib\lightgallery\fonts\lg.eot" />
+    <Content Include="wwwroot\lib\lightgallery\fonts\lg.svg" />
+    <Content Include="wwwroot\lib\lightgallery\fonts\lg.ttf" />
+    <Content Include="wwwroot\lib\lightgallery\fonts\lg.woff" />
+    <Content Include="wwwroot\lib\lightgallery\img\loading.gif" />
+    <Content Include="wwwroot\lib\lightgallery\img\video-play.png" />
+    <Content Include="wwwroot\lib\lightgallery\img\vimeo-play.png" />
+    <Content Include="wwwroot\lib\lightgallery\img\youtube-play.png" />
+    <Content Include="wwwroot\lib\lightgallery\js\lightgallery-all.js" />
+    <Content Include="wwwroot\lib\lightgallery\js\lightgallery-all.min.js" />
+    <Content Include="wwwroot\lib\lightgallery\js\lightgallery.js" />
+    <Content Include="wwwroot\lib\lightgallery\js\lightgallery.min.js" />
+    <Content Include="wwwroot\lib\lightgallery\lib\jquery.mousewheel.min.js" />
+    <Content Include="wwwroot\lib\lightgallery\lib\lg.png" />
+    <Content Include="wwwroot\lib\lightgallery\lib\picturefill.min.js" />
+    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
+    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.eot" />
+    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.svg" />
+    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.woff" />
+    <Content Include="wwwroot\lib\simple-line-icons\icons-lte-ie7.js" />
+    <Content Include="wwwroot\lib\simple-line-icons\License.txt" />
+    <Content Include="wwwroot\lib\simple-line-icons\Readme.txt" />
+    <Content Include="wwwroot\lib\simple-line-icons\simple-line-icons.css" />
+    <Content Include="wwwroot\lib\simple-line-icons\simple-line-icons.min.css" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
