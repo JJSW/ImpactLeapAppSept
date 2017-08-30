@@ -20,5 +20,8 @@ namespace ImpactLeapApp.Models.OrderModels
 
         [Display(Name = "Unit Price")]
         public int UnitPrice { get; set; }
+
+        [Display(Name = "View Sample")]
+        public string ModuleSample { get; set; }
     }
 }

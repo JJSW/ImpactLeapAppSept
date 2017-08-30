@@ -15,80 +15,82 @@
     }
 }
 
-
 @if (Model != null)
 {
-    <div class="panel">
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table table-bordered table-invoice table-invoice-detail">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
-                            <th class="text-center">Unit Price</th>
-                        </tr>
-                    </thead>
+    <div class="portlet light">
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>#</th>
+                                <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
+                                <th class="text-center">Unit Price</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @for (int i = 0; i < Model.Count(); i++)
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
                 {
                     var moduleNum = @i + 1;
-                            <tr>
-                                <td>@Model.ElementAt(@i).ModuleId</td>
-                                <td>@Model.ElementAt(@i).ModuleName</td>
-                                <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                <tr>
+                                    <td>@Model.ElementAt(@i).ModuleId</td>
+                                    <td>@Model.ElementAt(@i).ModuleName</td>
+                                    <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (uploadedFileName != null)
+                {
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UploadedFileName)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                @if (noteFromUser != null)
+                {
+                    <div class="col-md-6">
+                        <table class="table table-bordered displayFullNote">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoteFromUser)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
-
-            @if (uploadedFileName != null)
-                {
-                <div class="col-md-6">
-                    <table class="table table-bordered table-invoice table-invoice-detail">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UploadedFileName)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            }
-
-            @if (noteFromUser != null)
-                {
-                <div class="col-md-6">
-                    <table class="table table-bordered table-invoice table-invoice-detail displayFullNote">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NoteFromUser)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            }
         </div>
     </div>
+
 }
 
 else

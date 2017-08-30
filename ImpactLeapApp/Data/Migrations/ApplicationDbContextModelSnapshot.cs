@@ -128,6 +128,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ModuleName");
 
+                    b.Property<string>("ModuleSample");
+
                     b.Property<int>("UnitPrice");
 
                     b.HasKey("ModuleId");

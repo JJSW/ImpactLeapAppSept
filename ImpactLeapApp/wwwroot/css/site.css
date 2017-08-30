@@ -23,116 +23,23 @@ select {
     white-space: nowrap;
 }
 
-.orderDetailTable {
-    table-layout: fixed;
-}
-
 .displayFullNote {
     table-layout: fixed;
     word-wrap: break-word;
 }
 
-.userProfileTable {
-    max-width: 400px;
-}
-
-.table-invoice-detail {
-    border: thin !important;
-    margin: 0 !important;
-}
-
-.center-column {
-    float: none;
-    margin: auto;
-}
-
-.inv-title {
-    color: #6bc5a4;
-    font-size: 30px;
-    text-transform: uppercase;
-    margin-top:30px;
-}
-
-.inv-title-vertical-center {
-    display:inline-block;
-    vertical-align:central;
-}
 
 /*-------------------------------
            Tool tip - bootstrap override
 -------------------------------*/
 
-.tooltip-inner {
-    min-width: 450px;
-    padding: 15px;
-    text-align: left;
-
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-}
-
-
 /*-------------------------------
            Sign in - style.css override
 -------------------------------*/
-.form-signin {
-    margin: 70px auto !important;
-}
-
-.form-signin-heading {
-    padding: 5px !important;
-}
-
-.form-signin p {
-    text-align: center !important;
-    margin-bottom: 15px;
-}
-
-.form-signin input[type="text"], .form-signin input[type="password"] {
-    max-width: 330px;
-}
-
-.form-signin .form-signin-heading .sign-title,
-.form-signin .checkbox,
-.form-signin .forgot-password {
-    color: #7a7676 !important;
-}
 
 /*-------------------------------
            Button
 -------------------------------*/
-.btn-new-order {
-    margin-top: 20px;
-}
-
-.btn-anchor {
-    color:white !important;
-}
-
-.btn-promo-code {
-    margin-top: -20px;
-}
-
-.checkbox-remember-me {
-    padding: 0 !important;
-}
-
-.btn-margin-15 {
-    margin: 15px;
-}
-
-.btn-center {
-    text-align: center;
-    margin: auto;
-}
-
-.btn-modal {
-    padding: 8px 18px;
-    margin-bottom: 15px !important;
-    margin-right: 15px !important;
-    border-radius: 5px !important;
-}
 
 /*-------------------------------
             Jquery UI - jquery-ui.css override
@@ -214,190 +121,32 @@ ul.p-info .desk {
 /*-------------------------------
             Data table - dataTable.bootstrap.css override
 -------------------------------*/
-div.dataTables_paginate {
-    float: right;
-    margin-right: 20px;
-}
-
-div.dataTables_length label {
-    float: left;
-    text-align: left;
-    padding-bottom: 10px;
-    line-height: 30px;
-}
-
-div.dataTables_length select {
-    width: 75px;
-    display: inline-block;
-}
-
-div.dataTables_info {
-    margin: 10px;
-}
-
-div.dataTables_filter label {
-    float: left;
-}
-
-div.dataTables_filter input {
-    min-width: 300px;
-    margin-right: 50px;
-}
-
-table.table thead .sorting,
-table.table thead .sorting_asc,
-table.table thead .sorting_desc,
-table.table thead .sorting_asc_disabled,
-table.table thead .sorting_desc_disabled {
-    cursor: pointer;
-    *cursor: hand;
-}
-
-table.table thead .sorting {
-    background: url('../images/sort_both.png') no-repeat center right;
-}
-
-table.table thead .sorting_asc {
-    background: url('../images/sort_asc.png') no-repeat center right;
-}
-
-table.table thead .sorting_desc {
-    background: url('../images/sort_desc.png') no-repeat center right;
-}
-
-table.table thead .sorting_asc_disabled {
-    background: url('../images/sort_asc_disabled.png') no-repeat center right;
-}
-
-table.table thead .sorting_desc_disabled {
-    background: url('../images/sort_desc_disabled.png') no-repeat center right;
-}
-
-table.dataTable th:active {
-    outline: none;
-}
 
 /*-------------------------------
             Dropzone - dropzone.css override
 -------------------------------*/
 
-.dropzone-preview {
+.dropzone-file-area {
     height: 100px !important
 }
-
-/*-------------------------------
-            Ion Range Slider - ion.rangeSlider.css override
--------------------------------*/
-
-.slider-width {
-    max-width: 280px;
-}
-
-.area {
-    position: absolute;
-    top: 0;
-    height: 10px;
-    background: #65CEA7;
-}
-
-.range-slider-position {
-    position: relative;
-    height: 80px;
-}
-
 
 /*-------------------------------
              Misc
 -------------------------------*/
 
-.input-icon {
-    font-family: 'FontAwesome', 'Open Sans', sans-serif;
-}
-
-.customHorizontalRule {
-    border: solid 1px Gainsboro !important;
-}
-
-.alert-custom {
-    margin-left:15px; 
-    padding-top:5px; 
-    padding-bottom: 7px; 
-}
-
-.form-no-max-width input{
-    max-width: 100% !important;
-    margin-bottom: -20px;    
-}
-
-/* Styling for main navigation bar */
-.main-nav-right {
-    margin-right: 50px;
-}
-
-.main-nav-left {
-    margin-left: 50px !important;
-}
-
-.admin-margin {
-    margin: 15px;
-}
-
-.admin-margin-detail {
-    margin-top: 15px;
-    margin-left: -50px;
-}
-
-.admin-margin-buttons {
-    margin-left: 50px;
-    margin-bottom: 20px;
-}
-
 .admin-align-middle {
-    display:inline-block;
+    display: inline-block;
     padding-left: 10px;
     padding-top: 7px;
     margin-bottom: 0;
 }
 
-.dialog-content {
-    margin-top: 25px !important;
-}
 
 /*-------------------------------
        Responsive design
 -------------------------------*/
-/* For responsive design */
-@media all and (max-width:1150px) {
-    nav {
-        padding: 5px 15px
-    }
-}
 
-/* For responsive design for main navigation */
-@media all and (max-width:1050px) {
-    .main-nav li {
-        display: block;
-        text-align: center;
-        padding: 0
-    }
+/*-------------------------------
+            Ion Range Slider - ion.rangeSlider.css override
+-------------------------------*/
 
-        .main-nav li a {
-            display: block;
-            font-size: 16px;
-            padding: 10px 0
-        }
-
-            .main-nav li a:hover {
-                background-color: #f3f3f3
-            }
-
-        .main-nav li:first-child {
-            margin: 10px 0 0
-        }
-}
-
-@media all and (min-width:1051px) {
-    .main-nav {
-        display: block !important
-    }
-}

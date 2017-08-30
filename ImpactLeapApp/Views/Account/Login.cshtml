@@ -8,86 +8,93 @@
     ViewData["Title"] = "Log in";
 }
 
-<div class="container">
-    <form class="form-signin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-        <div class="form-signin-heading">
-            <h1 class="sign-title">Log In</h1>
-        </div>
+<div class="login">
+    <div class="logo">
+        <a href="index.html">
+            <img src="~/images/ImpactLeap-logo-black.png" style="height: 75px;" alt="logo" />
+        </a>
+    </div>
 
-        <div class="login-wrap">
-            <p>Enter your personal details</p>
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form class="form-signin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <div class="form-title">
+                <span class="form-title">Welcome.</span>
+                <span class="form-subtitle">Please login.</span>
+            </div>
+            <div class="alert alert-danger display-hide">
+                <button class="close" data-close="alert"></button>
+                <span> Enter any username and password. </span>
+            </div>
             <div class="form-group">
-                <input type="text" asp-for="Email" class="form-control" placeholder="Email" autofocus>
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Username</label>
+                <input class="form-control form-control-solid placeholder-no-fix" asp-for="Email" type="text" autocomplete="off" placeholder="Email" name="email" autofocus />
+                <span asp-validation-for="Email" class="text-warning"></span>
             </div>
-
             <div class="form-group">
-                <input type="password" asp-for="Password" class="form-control" placeholder="Password">
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                <input class="form-control form-control-solid placeholder-no-fix" asp-for="Password" type="password" autocomplete="off" placeholder="Password" name="password" />
+                <span asp-validation-for="Password" class="text-warning"></span>
             </div>
-
-            <button class="btn btn-lg btn-login btn-block" type="submit">
-                <i class="fa fa-check"></i>
-            </button>
-            <div class="registration">
-                Not yet registered?
-                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">
-                    Signup
-                </a>
+            <div class="form-actions">
+                <button type="submit" class="btn red btn-block uppercase">Login</button>
             </div>
-
-
-            <div class="flat-green checkbox-remember-me">
-                <div class="form-group">
-                    <div class="checkbox">
+            <div class="form-actions">
+                <div class="pull-left">
+                    <label class="rememberme mt-checkbox mt-checkbox-outline">
                         <input asp-for="RememberMe" />
                         @Html.DisplayNameFor(m => m.RememberMe)
-
-                        <span class="pull-right">
-                            <a class="forgot-password" data-toggle="modal" href="#myModal"> Forgot Password?</a>
-                        </span>
-                    </div>
+                        <span></span>
+                    </label>
+                </div>
+                <div class="pull-right forget-password-block">
+                    <a class="forgot-password" data-toggle="modal" href="#myModal"> Forgot Password?</a>
                 </div>
             </div>
-        </div>
-    </form>
+            <div class="create-account">
+                <p>
+                    <a asp-action="Register" class="btn-primary btn" id="register-btn" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                        Create an account
+                    </a>
+                </p>
+            </div>
+        </form>
+        <!-- END LOGIN FORM -->
+    </div>
 </div>
 
-
 <!-- Modal -->
-
-<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Forgot Password ?</h4>
             </div>
-
-            <form asp-controller="Account" asp-action="ForgotPassword" method="post">
-
-                <br />
-                <div class="modal-body">
-                    <div class="alert alert-info text-center">
-                        Please email <a href="mailto:info@impactleap.com">info@impactleap.com</a> to get your password reset
-                    </div>
+            <div class="modal-body">
+                <div class="alert alert-info text-center">
+                    Please email <a href="mailto:info@impactleap.com">info@impactleap.com</a> to get your password reset
                 </div>
-                <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
-                </div>
-            </form>
-
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" data-toggle="modal" class="btn dark btn-outline" type="button">Close</button>
+            </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-    <!--icheck-->
-    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
-    <script type="text/javascript" src="~/js/icheck-init.js"></script>
-    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+    <link rel="stylesheet" href="~/css/select2.css" />
+    <link rel="stylesheet" href="~/css/select2-bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login-2.css" />
 
+    <script type="text/javascript" src="~/js/select2.full.js"></script>
+    
+    <script type="text/javascript" src="~/js/login.js"></script>
+    <script type="text/javascript" src="~/js/ui-modals.js"></script>
 }

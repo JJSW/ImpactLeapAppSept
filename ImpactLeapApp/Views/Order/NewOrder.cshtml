@@ -1,15 +1,11 @@
 @model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetail>
 @using ImpactLeapApp.Models.OrderModels
-
-@{
-    ViewData["Title"] = "New Order - Upload Portfolio";
-    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
-}
-
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 @{
+    ViewData["Title"] = "New Order - Upload Portfolio";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     string strSpacer = "&nbsp;&nbsp;";
 }
 
@@ -118,14 +114,14 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
-                                        <b>
-                                            <input class="form-control"
-                                                   disabled="disabled"
-                                                   type="email"
-                                                   required="required"
-                                                   name="email"
-                                                   value="@ViewData["Email"]" />
-                                        </b>
+                                    <b>
+                                        <input class="form-control"
+                                               disabled="disabled"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]" />
+                                    </b>
                                 }
                             </div>
                         </div>
@@ -219,25 +215,27 @@
 
 </div>
 
-<div id="promotionCodeForm"></div>
 <div id="checkProceedForm"></div>
 
 @section scripts{
 
-    <!--dropzone
+    <!--dropzone-->
     <link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
     <link rel="stylesheet" href="~/lib/dropzone/dist/basic.css" />
+    <link rel="stylesheet" href="~/css/plugins.css" />
     <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>-->
-    <!--jquery UI
+
+
+    <!--jquery UI-->
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>-->
 
-
+    <!--
     <link href="~/assets/plugins/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/plugins/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
     <script src="~/assets/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
     <script src="~/assets/scripts/form-dropzone.min.js" type="text/javascript"></script>
-    <link href="~/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/plugins.css" rel="stylesheet" type="text/css" />-->
 
     <script type="text/javascript">
 
@@ -349,8 +347,8 @@
             //Prevent Dropzone from uploading dropped files immediately
             autoProcessQueue: false,
             paramName: "file",
-            dictDefaultMessage: "<h3 class=\"sbold\">Drop files here or click to upload</h3>"
-            + "<p> Include holding names, ISINs, positions(number of shares or debt held) and other relevant information. </p>",
+            dictDefaultMessage: "<div class=\"text-center\"><h3 class=\"sbold\">Drop files here or click to upload</h3>"
+            + "<h5> Include holding names, ISINs, positions(number of shares or debt held) and other relevant information. </h5></div>",
 
             init: function () {
                 var submitButton = document.querySelector("#submitFileComment");
@@ -399,33 +397,6 @@
                 });
             }
         }
-    </script>
-
-    <script type="text/javascript">
-        $("#promoCode").on("click", function () {
-            $("#promotionCodeForm").dialog({
-                type: "GET",
-                autoOpen: true,
-                resizable: true,
-                modal: true,
-                draggable: false,
-                title: "Enter your promotion code",
-                position: { my: "top", at: "top+50", of: window },
-                show: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                hide: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                width: 600,
-                height: 200,
-
-                open: function () {
-                    $(this).load('@Url.Action("SubmitPromoCode", "Order")');
-                },
-            });
-        return false;
-        });
     </script>
 
 }

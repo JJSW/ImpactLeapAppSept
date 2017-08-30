@@ -27,6 +27,13 @@ namespace ImpactLeapApp.Controllers
         private readonly ApplicationDbContext _context;
         private static int _amountInt;
         private static string _emailAddress;
+        private static string _promotionDiscountRate;
+        private static string _totalToPay;
+        private static Int32 _promotionId;
+        private static Int32 _orderId;
+        private static PromotionStatusList _promotionStatus;
+
+
         // To be able to sent total amount to Stripe API, makes cent digits to 100
         private int _dollarCent = 100;
 
@@ -42,12 +49,15 @@ namespace ImpactLeapApp.Controllers
         /// Return billing page with a data that contains information with order and module.
         /// Only displays the specific order of the logged in user.
         /// Billing address will be displayed in any circumstances.
+        [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<BillingDetailViewModel> billingVMs = new List<BillingDetailViewModel>();
-            var totalAmount = 0;
+            var totalToPay = 0;
             var moduleCount = 0;
+
+            _promotionDiscountRate = "0";
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -55,7 +65,7 @@ namespace ImpactLeapApp.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            if (id != null)
+            if (id != null && id != 0)
             {
                 var billingDetails = (from u in _context.Users
                                       join o in _context.Orders on u.Id equals o.UserId
@@ -101,23 +111,32 @@ namespace ImpactLeapApp.Controllers
                 foreach (var billing in billingVMs)
                 {
                     moduleCount += 1;
-                    totalAmount = billing.TotalToPay;
+                    totalToPay = billing.TotalToPay;
                 }
 
                 ViewBag.BillingDetails = billingVMs;
+                ViewBag.SelectionDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscount;
+                ViewBag.SelectionDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscountMethod;
+                ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
+                var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
+                ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
 
-                ViewData["Amount"] = totalAmount;
-                ViewData["AmountDisplay"] = totalAmount / _dollarCent;
+                ViewData["TotalToPay"] = totalToPay;
+                ViewData["TotalToPayDisplay"] = totalToPay / _dollarCent;
                 ViewData["ModuleCount"] = moduleCount;
                 ViewData["OrderId"] = id;
+                _orderId = (int)id;
             }
 
             var userId = await _userManager.GetUserIdAsync(user);
             var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.UserId == userId);
+            _amountInt = totalToPay;
+          
+            ViewBag.PromotionStatus = PromotionStatusList.Ready;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
 
             ViewData["BillingAddressId"] = (billingAddress != null) ? (int)billingAddress.BillingAddressId : -1;
             ViewBag.BillingAddress = billingAddress;
-            _amountInt = totalAmount;
 
             return View(billingVMs);
         }
@@ -193,6 +212,88 @@ namespace ImpactLeapApp.Controllers
 
             return View(orders);
         }
+
+
+        [HttpGet]
+        public IActionResult SubmitPromoCode()
+        {
+            Promotion promotion = new Promotion();
+            return PartialView(promotion);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitPromoCode(Promotion promotion)
+        {
+            if (ModelState.IsValid)
+            {
+                var verfiedPromotion = _context.Promotions.FirstOrDefault(p => p.PromotionCode.Equals(promotion.PromotionCode));
+
+                if (verfiedPromotion != null)
+                {
+                    var verfiedPromotionId = verfiedPromotion.PromotionId;
+                    bool isPromotionCodeAppliedToOrder = _context.Orders.SingleOrDefault(s => s.OrderId == _orderId).IsPromotionCodeApplied;
+
+                    var userId = _userManager.GetUserId(HttpContext.User);
+                    var allOrdersFromCurrentUser = _context.Orders.Where(o => o.UserId == userId);
+                    bool isPromotionCodeAppliedToUser = allOrdersFromCurrentUser.Select(a => a.PromotionId).Any(a => a.Equals(verfiedPromotionId));
+
+                    if (verfiedPromotion.DateFrom <= DateTime.Now
+                        && verfiedPromotion.DateTo >= DateTime.Now
+                        && verfiedPromotion.IsActive)
+                    {
+                        // Check if there is already a promotion code is applied
+                        if (isPromotionCodeAppliedToOrder == false
+                            && isPromotionCodeAppliedToUser == false)
+                        {
+                            var tempTotalAmount = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalToPay;
+
+                            if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                            {
+                                var promotionDiscountRate = verfiedPromotion.DiscountRate;
+                                tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
+                                _promotionDiscountRate = "-$" + promotionDiscountRate;
+                                TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                            }
+                            else if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Percentage)
+                            {
+                                var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
+                                var promotionDiscountRate = verfiedPromotion.DiscountRate;
+                                var promotionDicountRatePercent = promotionDiscountRate * 0.01;
+                                var discountRateFixed = tempTotalAmountWithCent * promotionDicountRatePercent;
+
+                                tempTotalAmount = (int)((tempTotalAmountWithCent - discountRateFixed) * _dollarCent);
+                                _promotionDiscountRate = "-$" + discountRateFixed + " (" + promotionDiscountRate + "%" + ")";
+
+                                TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                            }
+
+                            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalToPay = tempTotalAmount;
+                            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).PromotionId = verfiedPromotionId;
+                            _promotionId = verfiedPromotionId;
+
+                            await _context.SaveChangesAsync();
+
+                            _totalToPay = (tempTotalAmount / _dollarCent).ToString();
+
+                            ViewBag.PromotionStatus = PromotionStatusList.Applied;
+                            _promotionStatus = PromotionStatusList.Applied;
+                        }
+                        else
+                        {
+                            ViewBag.PromotionStatus = PromotionStatusList.Used;
+                            _promotionStatus = PromotionStatusList.Used;
+                        }
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false });
+                }
+            }
+
+            return View(promotion);
+        }
+
 
         public IActionResult Error()
         {

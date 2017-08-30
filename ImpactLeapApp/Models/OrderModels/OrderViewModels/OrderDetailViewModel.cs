@@ -33,7 +33,7 @@ namespace ImpactLeapApp.Models.OrderModels
         public int TotalToPay { get; set; }
 
 
-
+        // Upload 
         [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
 
@@ -50,10 +50,7 @@ namespace ImpactLeapApp.Models.OrderModels
         public string SalesRep { get; set; }
 
 
-
         // Module
-        public Module Module { get; set; }
-
         [Display(Name = "Module ID")]
         public Int32 ModuleId { get; set; }
 
@@ -63,6 +60,7 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
 
+        public Module Module { get; set; }
 
 
         // User
@@ -78,13 +76,7 @@ namespace ImpactLeapApp.Models.OrderModels
         // Portfolio
         public Int32 PortfolioId { get; set; }
 
-        public Portfolio Portfolio { get; set; }
-
-
         [Display(Name = "Billing Address Number")]
         public Int32 BillingAddressId { get; set; }
-
-        [Display(Name = "Promotion")]
-        public Promotion Promotion { get; set; }
     }
 }

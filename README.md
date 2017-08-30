@@ -24,6 +24,7 @@ Website: app.impactleap.com
 - Datatable 1.10.13
 - DropzoneJS 5.1.1
 - iCheck 1.0.2
+- Lightgallery 1.6.0
 
 ### Extra
 

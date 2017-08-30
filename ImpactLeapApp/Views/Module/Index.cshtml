@@ -1,11 +1,10 @@
 @model IEnumerable<ImpactLeapApp.Models.OrderModels.Module>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Module Admin";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    string strSpacer = "&nbsp;&nbsp;";
 }
-
-@{ string strSpacer = "&nbsp;&nbsp;"; }
 
 <div class="admin-margin">
     <div class="page-heading">
@@ -44,16 +43,19 @@
                                         <th style="width:3%">
                                             ID
                                         </th>
-                                        <th style="width:20%; max-width:30%;">
+                                        <th style="width:17%;">
                                             @Html.DisplayNameFor(model => model.ModuleName)
                                         </th>
-                                        <th style="width:45%; word-wrap: break-word;">
+                                        <th style="width:42%; word-wrap: break-word;">
                                             @Html.DisplayNameFor(model => model.Description)
                                         </th>
-                                        <th style="width:7%;">
+                                        <th style="width:9%;">
+                                            @Html.DisplayNameFor(model => model.ModuleSample)
+                                        </th>
+                                        <th style="width:9%;">
                                             @Html.DisplayNameFor(model => model.UnitPrice)
                                         </th>
-                                        <th style="width:25%;"></th>
+                                        <th style="width:20%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,6 +70,19 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                <div class="lightgallery">
+                                                    <a class="btn btn-circle dark btn-outline lightgallery-trigger">
+                                                        <i class="fa fa-search"></i>
+                                                        @Html.Raw(strSpacer)View
+                                                    </a>
+                                                    <ul class="lightgallery-images">
+                                                        <li data-src="@Html.Raw(item.ModuleSample)" data-sub-html="Sample report for: Overview and Financials">
+                                                            <img src="@Html.Raw(item.ModuleSample)" alt="Image" />
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                             <td>
                                                 @item.UnitPrice.ToString("C0", formatProvider)
@@ -89,6 +104,7 @@
                                                     <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
                                                 </a>
                                             </td>
+                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>
@@ -109,4 +125,12 @@
 
     <!--dynamic table initialization -->
     <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+
+    <!--LightGallery -->
+    <link rel="stylesheet" href="~/lib/lightgallery/css/lightgallery.css" />
+    <link rel="stylesheet" href="~/css/lightgallery-custom.css" />
+    <script type="text/javascript" src="~/lib/lightgallery/lib/picturefill.min.js"></script>
+    <script type="text/javascript" src="~/lib/lightgallery/lib/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="~/lib/lightgallery/js/lightgallery-all.js"></script>
+    <script type="text/javascript" src="~/js/lightgallery-init.js"></script>
 }

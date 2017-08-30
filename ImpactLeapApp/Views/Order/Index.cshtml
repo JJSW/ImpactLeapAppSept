@@ -94,21 +94,9 @@
                                                     @Html.Raw(strSpacer)View
                                                 </a>
                                                 <ul class="lightgallery-images">
-                                                    <li data-src="../assets/img/modules/m_one/example-page-one.png" data-sub-html="Sample report for: Overview and Financials">
-                                                        <img src="../assets/img/modules/m_one/example-page-one.png" alt="Image" />
-                                                    </li>
-                                                    <li data-src="../assets/img/modules/m_one/example-page-two.png" data-sub-html="Sample report for: Overview and Financials">
-                                                        <img src="../assets/img/modules/m_one/example-page-two.png" alt="Image" />
-                                                    </li>
-                                                    <li data-src="../assets/img/modules/m_one/example-page-three.png" data-sub-html="Sample report for: Overview and Financials">
-                                                        <img src="../assets/img/modules/m_one/example-page-three.png" alt="Image" />
-                                                    </li>
-                                                    <li data-src="../assets/img/modules/m_one/example-page-four.png" data-sub-html="Sample report for: Overview and Financials">
-                                                        <img src="../assets/img/modules/m_one/example-page-four.png" alt="Image" />
-                                                    </li>
-                                                    <li data-src="../assets/img/modules/m_one/example-page-five.png" data-sub-html="Sample report for: Overview and Financials">
-                                                        <img src="../assets/img/modules/m_one/example-page-five.png" alt="Image" />
-                                                    </li>
+                                                    <li data-src="@Model.ElementAt(@i).Modules.ModuleSample" data-sub-html="Sample report for: Overview and Financials">
+                                                        <img src="@Model.ElementAt(@i).Modules.ModuleSample" alt="Image" />
+                                                    </li>       
                                                 </ul>
                                             </div>
                                         </td>
@@ -283,11 +271,8 @@
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     
-    <!--Jquery UI -->
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
-
     <!--iCheck -->
-    <link rel="stylesheet" href="~/lib/iCheck/skins/all.css">
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/_all.css">
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
     <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>-->
 

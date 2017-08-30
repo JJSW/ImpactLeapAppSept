@@ -14,13 +14,9 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\lib\ion.rangeSlider\**" />
-    <Compile Remove="wwwroot\uploads\**" />
     <Content Remove="wwwroot\lib\ion.rangeSlider\**" />
-    <Content Remove="wwwroot\uploads\**" />
     <EmbeddedResource Remove="wwwroot\lib\ion.rangeSlider\**" />
-    <EmbeddedResource Remove="wwwroot\uploads\**" />
     <None Remove="wwwroot\lib\ion.rangeSlider\**" />
-    <None Remove="wwwroot\uploads\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\bootstrap.min.css" />
     <Content Include="wwwroot\css\components.css" />
     <Content Include="wwwroot\css\components.min.css" />
     <Content Include="wwwroot\css\darkblue.css" />
@@ -36,46 +31,32 @@
     <Content Include="wwwroot\css\layout.css" />
     <Content Include="wwwroot\css\layout.min.css" />
     <Content Include="wwwroot\css\lightgallery-custom.css" />
+    <Content Include="wwwroot\css\login-2.css" />
+    <Content Include="wwwroot\css\login-2.min.css" />
     <Content Include="wwwroot\css\plugins.css" />
     <Content Include="wwwroot\css\plugins.min.css" />
-    <Content Include="wwwroot\css\site.css">
+    <Content Include="wwwroot\css\select2-bootstrap.min.css" />
+    <Content Include="wwwroot\css\select2.css" />
+    <Content Include="wwwroot\css\select2.min.css" />
+    <Content Include="wwwroot\css\site-pre.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\css\style-responsive.css" />
-    <Content Include="wwwroot\css\style.css" />
-    <Content Include="wwwroot\images\404-error.png" />
-    <Content Include="wwwroot\images\500-error.png" />
-    <Content Include="wwwroot\images\alert.png" />
+    <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\images\avatar.png" />
-    <Content Include="wwwroot\images\back_disabled.png" />
-    <Content Include="wwwroot\images\back_enabled.png" />
-    <Content Include="wwwroot\images\back_enabled_hover.png" />
-    <Content Include="wwwroot\images\details_close.png" />
-    <Content Include="wwwroot\images\details_open.png" />
-    <Content Include="wwwroot\images\error.png" />
-    <Content Include="wwwroot\images\forward_disabled.png" />
-    <Content Include="wwwroot\images\forward_enabled.png" />
-    <Content Include="wwwroot\images\forward_enabled_hover.png" />
+    <Content Include="wwwroot\images\favicon.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-black.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
-    <Content Include="wwwroot\images\favicon.png" />
     <Content Include="wwwroot\images\input-spinner.gif" />
-    <Content Include="wwwroot\images\minus.png" />
-    <Content Include="wwwroot\images\plus-white.png" />
-    <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\images\moduleSamples\1-example-page.png" />
+    <Content Include="wwwroot\images\moduleSamples\2-example-page.png" />
+    <Content Include="wwwroot\images\moduleSamples\3-example-page.png" />
+    <Content Include="wwwroot\images\moduleSamples\4-example-page.png" />
+    <Content Include="wwwroot\images\moduleSamples\5-example-page.png" />
+    <Content Include="wwwroot\images\moduleSamples\Untitled2.png" />
     <Content Include="wwwroot\images\remove-icon-small.png" />
-    <Content Include="wwwroot\images\sort_asc.png" />
-    <Content Include="wwwroot\images\sort_asc_disabled.png" />
-    <Content Include="wwwroot\images\sort_both.png" />
-    <Content Include="wwwroot\images\sort_desc copy.png" />
-    <Content Include="wwwroot\images\sort_desc.png" />
-    <Content Include="wwwroot\images\sort_desc_disabled.png" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\app.min.js" />
-    <Content Include="wwwroot\js\bootstrap.min.js" />
     <Content Include="wwwroot\js\datatables.bootstrap.js" />
-    <Content Include="wwwroot\js\demo.js" />
-    <Content Include="wwwroot\js\demo.min.js" />
     <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
     <Content Include="wwwroot\js\dynamic_table_init_portfolio.js" />
     <Content Include="wwwroot\js\html5shiv.js" />
@@ -83,11 +64,36 @@
     <Content Include="wwwroot\js\layout.js" />
     <Content Include="wwwroot\js\layout.min.js" />
     <Content Include="wwwroot\js\lightgallery-init.js" />
-    <Content Include="wwwroot\js\modernizr.min.js" />
+    <Content Include="wwwroot\js\login.js" />
+    <Content Include="wwwroot\js\login.min.js" />
     <Content Include="wwwroot\js\respond.min.js" />
     <Content Include="wwwroot\js\scripts.js" />
+    <Content Include="wwwroot\js\select2.full.js" />
+    <Content Include="wwwroot\js\select2.full.min.js" />
     <Content Include="wwwroot\js\table-datatables-managed.js" />
     <Content Include="wwwroot\js\table-datatables-managed.min.js" />
+    <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.css" />
+    <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.min.css" />
+    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="wwwroot\js\test\bootstrap\js\bootstrap.js" />
+    <Content Include="wwwroot\js\test\bootstrap\js\bootstrap.min.js" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_444444_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_555555_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_777620_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_777777_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="wwwroot\js\test\jquery-ui\jquery-ui.min.css" />
+    <Content Include="wwwroot\js\test\jquery-ui\jquery-ui.min.js" />
+    <Content Include="wwwroot\js\test\jquery-ui\LICENSE.txt" />
+    <Content Include="wwwroot\js\test\jquery.min.js" />
+    <Content Include="wwwroot\js\test\jquery.min.map" />
+    <Content Include="wwwroot\js\ui-modals.js" />
+    <Content Include="wwwroot\js\ui-modals.min.js" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
@@ -179,16 +185,6 @@
     <Content Include="wwwroot\lib\lightgallery\lib\jquery.mousewheel.min.js" />
     <Content Include="wwwroot\lib\lightgallery\lib\lg.png" />
     <Content Include="wwwroot\lib\lightgallery\lib\picturefill.min.js" />
-    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
-    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.eot" />
-    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.svg" />
-    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
-    <Content Include="wwwroot\lib\simple-line-icons\fonts\Simple-Line-Icons.woff" />
-    <Content Include="wwwroot\lib\simple-line-icons\icons-lte-ie7.js" />
-    <Content Include="wwwroot\lib\simple-line-icons\License.txt" />
-    <Content Include="wwwroot\lib\simple-line-icons\Readme.txt" />
-    <Content Include="wwwroot\lib\simple-line-icons\simple-line-icons.css" />
-    <Content Include="wwwroot\lib\simple-line-icons\simple-line-icons.min.css" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

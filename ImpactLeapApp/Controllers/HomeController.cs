@@ -23,7 +23,7 @@ namespace ImpactLeapApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Order");
         }
 
         public IActionResult About()
