@@ -135,7 +135,7 @@
                                     <td>
                                         <label>
                                             <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
-                                            <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId" class="icheck" data-radio="iradio_flat-blue"/>
+                                            <input type="radio" name="portfolioId" id="portfolioId" value="@Model.ElementAt(@i).PortfolioId" class="icheck" data-radio="iradio_flat-blue" />
                                         </label>
                                     </td>
                                 </tr>
@@ -280,10 +280,13 @@
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
 
     <!--dynamic table-->
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" />
     <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/js/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
     <!--dynamic table initialization-->
-    <script type="text/javascript" src="~/js/table-datatables-managed.js"></script>
+    <script type="text/javascript" src="~/js/datatables.bootstrap-init.js"></script>
+    <script type="text/javascript" src="~/js/datatables-custom.js"></script>
 
     <script type="text/javascript">
 

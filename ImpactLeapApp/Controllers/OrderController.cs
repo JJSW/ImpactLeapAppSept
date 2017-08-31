@@ -393,13 +393,6 @@ namespace ImpactLeapApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModuleDescription(string id)
-        {
-            var module = _context.Modules.FirstOrDefault(m => m.ModuleId == Convert.ToInt32(id));
-            return PartialView("_ModuleDescription", module);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> CheckTempUser(int id)
         {
             ViewData["OrderId"] = _orderId;

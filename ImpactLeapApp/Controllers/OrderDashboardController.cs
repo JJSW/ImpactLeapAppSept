@@ -11,12 +11,12 @@ using ImpactLeapApp.Models.OrderModels;
 
 namespace ImpactLeapApp.Controllers
 {
-    public class OrderSummaryController : Controller
+    public class OrderDashboardController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderSummaryController(ApplicationDbContext context,
+        public OrderDashboardController(ApplicationDbContext context,
                                       UserManager<ApplicationUser> UserManager)
         {
             _context = context;

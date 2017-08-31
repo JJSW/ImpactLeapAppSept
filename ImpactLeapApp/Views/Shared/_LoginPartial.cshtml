@@ -25,13 +25,13 @@
                     <li>
                         <a asp-area="" asp-controller="OrderAdmin" asp-action="Index">
                             <i class="fa fa-object-ungroup" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order dashboard
+                            @Html.Raw(strSpacer)Order Dashboard
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="ApplicationUser" asp-action="Index">
                             <i class="fa fa-users" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User dashboard
+                            @Html.Raw(strSpacer)User Dashboard
                         </a>
                     </li>
                     <li>
@@ -49,7 +49,7 @@
                     <li>
                         <a asp-area="" asp-controller="Saving" asp-action="Index">
                             <i class="fa fa-usd" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Module savings
+                            @Html.Raw(strSpacer)Module Savings
                         </a>
                     </li>
                     <li>
@@ -87,19 +87,19 @@ else if (SignInManager.IsSignedIn(User))
                     <li>
                         <a asp-controller="Order" asp-action="Index">
                             <i class="fa fa-line-chart" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Start new analysis
+                            @Html.Raw(strSpacer)Start New Analysis
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="OrderSummary" asp-action="Index">
+                        <a asp-controller="OrderDashboard" asp-action="Index">
                             <i class="fa fa-object-ungroup" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order dashboard
+                            @Html.Raw(strSpacer)Order Dashboard
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Manage" asp-action="Index">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User settings
+                            @Html.Raw(strSpacer)User Settings
                         </a>
                     </li>
                     <li>
@@ -118,12 +118,12 @@ else
     <ul class="nav navbar-nav pull-right">
         <li class="dropdown dropdown-user">
             <a asp-area="" asp-controller="Account" asp-action="Register" class="dropdown-toggle">
-                <i class="fa fa-life-ring"></i>@Html.Raw(strSpacer)Register
+                <i class="fa fa-user-plus" aria-hidden="true"></i>@Html.Raw(strSpacer)Register
             </a>
         </li>
         <li class="dropdown dropdown-user">
             <a asp-area="" asp-controller="Account" asp-action="Login" class="dropdown-toggle">
-                <i class="fa fa-bar-chart"></i>@Html.Raw(strSpacer)Log in
+                <i class="fa fa-sign-in" aria-hidden="true"></i>@Html.Raw(strSpacer)Log in
             </a>
         </li>
     </ul>

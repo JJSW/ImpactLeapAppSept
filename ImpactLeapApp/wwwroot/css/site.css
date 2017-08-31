@@ -10,10 +10,11 @@
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
-input,
+/*input,
 select {
     max-width: 280px;
 }
+    */
 
 /*-------------------------------
             Table
@@ -139,6 +140,10 @@ ul.p-info .desk {
     padding-left: 10px;
     padding-top: 7px;
     margin-bottom: 0;
+}
+
+.account-btn-margin {
+    margin-top: -10px !important;
 }
 
 

@@ -7,46 +7,109 @@
 
 @if (ViewData["CheckUser"].Equals("NeedRegister"))
 {
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-success text-center">
+    <h1 class="page-title">
+        Registration required
+    </h1>
 
-            <div class="panel-heading">
-                <h3 class="panel-title">Registration required</h3>
+    <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html">Start Analysis</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Impact Categories</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Portfolio</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Order Summary</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <!-- START PORTLET -->
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="fa fa-bar-chart font-blue-madison"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Registration required</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <h4>This email is not registered.</h4>
+                    <p>Please register to proceed with your order.</p>
+                    <a id="Register" asp-controller="Order" asp-action="PartialRegister" class="btn btn-default blue-chambray">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Register
+                    </a>
+                </div>
             </div>
-
-            <div class="panel-body">
-                <h4>Please register to proceed the order</h4> 
-
-                <br />
-                <br/>
-                <a id="Register" asp-controller="Order" asp-action="PartialRegister" class="btn btn-primary btn-lg">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Register
-                </a>
-            </div>
+            <!-- END PORTLET -->
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         </div>
     </div>
 }
 else if (ViewData["CheckUser"].Equals("NeedLogin"))
 {
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-success text-center">
+    <h1 class="page-title">
+        Login required
+    </h1>
 
-            <div class="panel-heading">
-                <h3 class="panel-title">Login required</h3>
+    <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html">Start Analysis</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Impact Categories</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Portfolio</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Order Summary</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <!-- START PORTLET -->
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="fa fa-bar-chart font-blue-madison"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Login required</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <h4>This email is already registered.</h4>
+                    <p>Please login to proceed with your order.</p>
+                    <a id="Register" asp-controller="Order" asp-action="PartialLogin" class="btn btn-default blue-chambray">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Login
+                    </a>
+                </div>
             </div>
-
-            <div class="panel-body">
-                <h4>This email is already registered</h4>
-                <h4>Please login to proceed with your order</h4>
-
-                <br />
-                <br />
-                <a id="Register" asp-controller="Order" asp-action="PartialLogin" class="btn btn-primary btn-lg">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Login
-                </a>
-            </div>
+            <!-- END PORTLET -->
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         </div>
     </div>
 }

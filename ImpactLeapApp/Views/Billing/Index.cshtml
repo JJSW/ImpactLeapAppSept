@@ -225,7 +225,7 @@
                                         foreach (var a in Model) { orderId = a.OrderId; }
 
                                         <div class="btn-center">
-                                            <a class="btn btn-primary btn-lg"
+                                            <a class="btn btn-default blue-chambray"
                                                href="@Url.Action("ChargeDefault", "Billing", new { id = @orderId})">
                                                 Complete Order
                                             </a>
@@ -235,7 +235,7 @@
                                                    asp-action="Cancel"
                                                    asp-route-id="@ViewData["OrderId"]"
                                                    role="button"
-                                                   class="btn btn-default btn-lg"
+                                                   class="btn btn-default"
                                                    style="margin-left:15px;">
                                                     Cancel
                                                 </a>
@@ -245,11 +245,9 @@
                                     else
                                     {
                                         <div style="margin:30px; display:table;">
-                                            <div class="alert alert-danger">No payment to make</div>
+                                            <div class="alert alert-warning">No payment to make</div>
                                         </div>
                                     }
-
-
 
                                 </div>
                             </div>

@@ -8,56 +8,66 @@
                 + " - Non-alphanumeric characters (!, $, #, etc.).";
 }
 
-<div class="container">
-    <form asp-controller="Order" asp-action="PartialRegister" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-signin">
-        <div class="form-signin-heading">
-            <h1 class="sign-title">Registration</h1>
-        </div>
+<!-- BEGIN REGISTRATION FORM -->
+<div class="login">
+    <div class="content">
+        <form class="register-form" asp-controller="Order" asp-action="PartialRegister" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-signin">
+            <h3 class="font-green">Sign Up</h3>
+            <p class="hint"> Enter your personal details below: </p>
 
-        <div class="login-wrap">
-            <p>Enter your personal details</p>
             <div class="form-group">
-                <input asp-for="Email" type="text" autofocus="" placeholder="Email" class="form-control" value="@ViewData["Email"]">
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="CompanyName" type="text" autofocus="" placeholder="Company Name" class="form-control">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Company Name</label>
+                <input asp-for="CompanyName" type="text" autofocus="" placeholder="Company Name" class="form-control placeholder-no-fix">
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
-            <p>Enter password</p>
+
             <div class="form-group">
-                <input asp-for="Password" type="password" placeholder="Password" class="form-control"
+                <label class="control-label visible-ie8 visible-ie9">Email</label>
+                <input asp-for="Email" type="email" autofocus="" placeholder="Email" value="@ViewData["Email"]" class="form-control placeholder-no-fix">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <p class="hint"> Enter password: </p>
+
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                <input asp-for="Password" type="password" placeholder="Password" class="form-control placeholder-no-fix"
                        data-toggle="tooltip"
                        data-placement="right"
                        data-html="true"
                        title=@passwordRules>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
                 <input asp-for="ConfirmPassword" type="password" placeholder="Re-type Password" class="form-control">
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-group">
 
-                <button type="submit" class="btn btn-lg btn-login btn-block">
-                    <i class="fa fa-check"></i>
-                </button>
-                <div class="registration">
-                    Already Registered.
-                    <a asp-controller="Account" asp-action="Login">
-                        Login
-                    </a>
-                </div>
+            <div class="form-actions account-btn-margin">
+                <a asp-controller="Account" asp-action="Login" class="btn green btn-outline">Login</a>
+                <button type="submit" class="btn green uppercase pull-right">Submit</button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     @section Scripts {
+
         @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+        <link rel="stylesheet" href="~/css/login.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
         <script type="text/javascript">
             $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip()
+                $('[data-toggle="tooltip"]').tooltip({
+                    position: {
+                        at: "right top-15"                        
+                    },
+                });                              
             });
         </script>
     }

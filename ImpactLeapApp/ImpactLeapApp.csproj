@@ -33,10 +33,12 @@
     <Content Include="wwwroot\css\lightgallery-custom.css" />
     <Content Include="wwwroot\css\login-2.css" />
     <Content Include="wwwroot\css\login-2.min.css" />
+    <Content Include="wwwroot\css\login.css" />
+    <Content Include="wwwroot\css\login.min.css" />
     <Content Include="wwwroot\css\plugins.css" />
     <Content Include="wwwroot\css\plugins.min.css" />
     <Content Include="wwwroot\css\select2-bootstrap.min.css" />
-    <Content Include="wwwroot\css\select2.css" />
+    <Content Include="wwwroot\css\select2.full.js" />
     <Content Include="wwwroot\css\select2.min.css" />
     <Content Include="wwwroot\css\site-pre.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -56,6 +58,8 @@
     <Content Include="wwwroot\images\remove-icon-small.png" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\app.min.js" />
+    <Content Include="wwwroot\js\datatables-custom.min.js" />
+    <Content Include="wwwroot\js\datatables.bootstrap-init.js" />
     <Content Include="wwwroot\js\datatables.bootstrap.js" />
     <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
     <Content Include="wwwroot\js\dynamic_table_init_portfolio.js" />
@@ -69,9 +73,7 @@
     <Content Include="wwwroot\js\respond.min.js" />
     <Content Include="wwwroot\js\scripts.js" />
     <Content Include="wwwroot\js\select2.full.js" />
-    <Content Include="wwwroot\js\select2.full.min.js" />
-    <Content Include="wwwroot\js\table-datatables-managed.js" />
-    <Content Include="wwwroot\js\table-datatables-managed.min.js" />
+    <Content Include="wwwroot\js\datatables-custom.js" />
     <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.css" />
     <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.min.css" />
     <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.eot" />
@@ -94,6 +96,8 @@
     <Content Include="wwwroot\js\test\jquery.min.map" />
     <Content Include="wwwroot\js\ui-modals.js" />
     <Content Include="wwwroot\js\ui-modals.min.js" />
+    <Content Include="wwwroot\lib\datatables\bootstrap\datatables.bootstrap.css" />
+    <Content Include="wwwroot\lib\datatables\bootstrap\datatables.bootstrap.js" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
