@@ -2,7 +2,7 @@
 @model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
 
 @{
-    ViewData["Title"] = "BillingDetails";
+    ViewData["Title"] = "Billing Details";
 }
 
 @{
@@ -17,13 +17,18 @@
 
 @if (Model != null)
 {
-    <div class="portlet light">
-        <div class="portlet-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <table class="table table-bordered">
+    <div class="row">
+        <div class="col-md-6">
+
+            <!-- START PORTLET FOR MODULE -->
+            <div class="portlet blue-madison box">
+                <div class="portlet-title">
+                    <div class="caption"> Modules </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table order-summary-buttom-margin">
                         <thead class="thead-default">
-                            <tr>
+                            <tr class="active">
                                 <th>#</th>
                                 <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
                                 <th class="text-center">Unit Price</th>
@@ -32,8 +37,8 @@
 
                         <tbody>
                             @for (int i = 0; i < Model.Count(); i++)
-                {
-                    var moduleNum = @i + 1;
+                            {
+                                var moduleNum = @i + 1;
                                 <tr>
                                     <td>@Model.ElementAt(@i).ModuleId</td>
                                     <td>@Model.ElementAt(@i).ModuleName</td>
@@ -43,13 +48,26 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <!-- END PORTLET FOR MODULE -->
+        </div>
+
+        <!-- START PORTLET FOR PORTFOLIO -->
+        @if (uploadedFileName != null || noteFromUser != null)
+        {                        
+            <div class="col-md-6">
+            <div class="portlet blue-madison box">
+                <div class="portlet-title">
+                    <div class="caption"> Portfolio </div>
+                </div>
 
                 @if (uploadedFileName != null)
-                {
-                    <div class="col-md-6">
-                        <table class="table table-bordered">
+                    {
+                    <div class="portlet-body">
+
+                        <table class="table order-summary-buttom-margin">
                             <thead>
-                                <tr>
+                                <tr class="active">
                                     <th>
                                         @Html.DisplayNameFor(model => model.UploadedFileName)
                                     </th>
@@ -67,11 +85,12 @@
                 }
 
                 @if (noteFromUser != null)
-                {
-                    <div class="col-md-6">
-                        <table class="table table-bordered displayFullNote">
+                    {
+                    <div class="portlet-body">
+
+                        <table class="table displayFullNote order-summary-buttom-margin">
                             <thead>
-                                <tr>
+                                <tr class="active">
                                     <th>
                                         @Html.DisplayNameFor(model => model.NoteFromUser)
                                     </th>
@@ -89,10 +108,10 @@
                 }
             </div>
         </div>
+        }
+        <!-- END PORTLET FOR PORTFOLIO -->
     </div>
-
 }
-
 else
 {
     <div class="alert alert-warning" style="margin: 30px; display:table;">
@@ -103,3 +122,5 @@ else
         </a>
     </div>
 }
+
+

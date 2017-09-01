@@ -58,7 +58,11 @@ namespace ImpactLeapApp.Controllers
                 ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
             }
 
+            /* Removed by request
             return View(await _context.Portfolios.ToListAsync());
+            */
+
+            return View();
         }
 
         [HttpPost]

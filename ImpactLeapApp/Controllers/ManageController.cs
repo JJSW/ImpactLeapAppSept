@@ -65,16 +65,6 @@ namespace ImpactLeapApp.Controllers
                 return View("Error");
             }
 
-            /*
-            var model = new IndexViewModel
-            {
-                HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
-                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
-                Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
-            };*/
-
             var model = new ApplicationUser
             {
                 FirstName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).FirstName,
@@ -110,8 +100,8 @@ namespace ImpactLeapApp.Controllers
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
 
-        // GET: Manage/EditUserInfo/5
-        public async Task<IActionResult> EditUserInfo()
+        // GET: Manage/EditUserProfile/5
+        public async Task<IActionResult> EditUserProfile()
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
 
@@ -120,10 +110,10 @@ namespace ImpactLeapApp.Controllers
             return View(applicationUser);
         }
 
-        // POST: Manage/EditUserInfo/5
+        // POST: Manage/EditUserProfile/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserInfo([Bind("FirstName,LastName,CompanyName,NewsletterRequired,UserName,NormalizedUserName,Email,EmailConfirmed,NormalizedEmail,LockoutEnabled,PhoneNumber,PhoneNumberConfirmed")] ApplicationUser applicationUser)
+        public async Task<IActionResult> EditUserProfile([Bind("FirstName,LastName,CompanyName,NewsletterRequired,UserName,NormalizedUserName,Email,EmailConfirmed,NormalizedEmail,LockoutEnabled,PhoneNumber,PhoneNumberConfirmed")] ApplicationUser applicationUser)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             var currentUserEmail = user.Email;

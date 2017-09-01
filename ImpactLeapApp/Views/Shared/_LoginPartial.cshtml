@@ -22,6 +22,9 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-default" aria-labelledby="dropdownMenuButton">
+
+                    <li class="divider"> </li>
+
                     <li>
                         <a asp-area="" asp-controller="OrderAdmin" asp-action="Index">
                             <i class="fa fa-object-ungroup" aria-hidden="true"></i>
@@ -41,12 +44,6 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="PortfolioAdmin" asp-action="Index">
-                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Portfolios
-                        </a>
-                    </li>
-                    <li>
                         <a asp-area="" asp-controller="Saving" asp-action="Index">
                             <i class="fa fa-usd" aria-hidden="true"></i>
                             @Html.Raw(strSpacer)Module Savings
@@ -58,6 +55,9 @@
                             @Html.Raw(strSpacer)Promotions
                         </a>
                     </li>
+
+                    <li class="divider"> </li>
+
                     <li>
                         <a href="javascript:{}" onclick="document.getElementById('logoutForm').submit(); return false;">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -84,6 +84,9 @@ else if (SignInManager.IsSignedIn(User))
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-default" aria-labelledby="dropdownMenuButton">
+                    
+                    <li class="divider"> </li>
+
                     <li>
                         <a asp-controller="Order" asp-action="Index">
                             <i class="fa fa-line-chart" aria-hidden="true"></i>
@@ -102,6 +105,9 @@ else if (SignInManager.IsSignedIn(User))
                             @Html.Raw(strSpacer)User Settings
                         </a>
                     </li>
+
+                    <li class="divider"> </li>
+
                     <li>
                         <a href="javascript:{}" onclick="document.getElementById('logoutForm').submit(); return false;">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>

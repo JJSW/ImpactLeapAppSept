@@ -6,12 +6,11 @@
 @{
     ViewData["Title"] = "New Order - Upload Portfolio";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
-    string strSpacer = "&nbsp;&nbsp;";
 }
 
 <!-- BEGIN PAGE TITLE-->
 <h1 class="page-title">
-    Step 2. Upload Portfolio (Manual)
+    Step 2. Upload Portfolio
 </h1>
 <!-- END PAGE TITLE-->
 <!-- BEGIN PAGE BAR -->
@@ -19,6 +18,10 @@
     <ul class="page-breadcrumb">
         <li>
             <a href="index.html">Start Analysis</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Impact Categories</span>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
@@ -37,13 +40,6 @@
                 <div class="caption">
                     <span class="caption-subject bold font-yellow-casablanca">  Manually upload your portfolio </span>
                 </div>
-                <div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a href="#" class="btn btn-transparent red btn-outline btn-circle btn-sm">
-                            Back to Portfolio Selection
-                        </a>
-                    </div>
-                </div>
             </div>
             <div class="portlet-body">
                 <div class="row static-info">
@@ -53,12 +49,11 @@
                 </div>
                 <div class="row static-info">
                     <div class="col-md-12">
-                        <form class="dropzone dropzone-file-area"
+                        <form class="dropzone dropzone-file-area dropzone-area-margin"
                               id="dropzoneForm"
                               asp-action="UploadFile"
                               asp-controller="Order"
-                              method="post"
-                              style="margin: 50px;">
+                              method="post">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
@@ -77,8 +72,7 @@
 
                         <button id="submitFileComment" type="submit" value="Submit"
                                 class="btn btn-default blue-chambray">
-                            <i class="fa fa-upload" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Upload files / comments
+                            Upload files / comments
                         </button>
 
                         <span id="submitResult"></span>
@@ -100,10 +94,7 @@
             </div>
             <div class="portlet-body">
                 <div class="row static-info">
-                    <div class="col-md-7 name">
-                        Portfolio ID = @ViewData["PortfolioId"]
-                        Order number:<span>@Html.Raw(strSpacer)@ViewData["OrderNumber"] </span>
-                    </div>
+                    <div class="col-md-7 name"> Where shall we send your analysis? </div>
                 </div>
                 <form role="form">
                     <div class="form-body">
@@ -133,8 +124,7 @@
                        class="btn btn-default blue-chambray"
                        role="button"
                        id="proceedButton">
-                        Proceed to payment&nbsp;
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        Proceed to payment
                     </a>
                 }
                 else
@@ -145,8 +135,7 @@
                        asp-route-id="@ViewData["OrderId"]"
                        class="btn btn-default blue-chambray"
                        role="button">
-                        Proceed to payment&nbsp;
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        Proceed to payment
                     </a>
                 }
             </div>

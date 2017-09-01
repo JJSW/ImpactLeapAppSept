@@ -57,6 +57,7 @@ var TableDatatablesManaged = function () {
                     "targets": [0]
                 }
             ],
+            "ordering": false,
             "order": [
                 [0, "asc"]
             ] // set first column as a default sort by asc

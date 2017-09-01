@@ -4,64 +4,74 @@
     ViewData["Title"] = "Delete";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
+@{
+    string strSpacer = "&nbsp;&nbsp;";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+}
 
-<div class="admin-margin">
-    <div class="text-danger">
-        <h3>Are you sure you want to delete this ?</h3>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="alert alert-danger alert-danger-deletion">
+                <h3>Please confirm before delete</h3>
+            </div>
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> User Details </span>
+                    <span class="caption-helper">@Html.Raw(strSpacer) | @Html.Raw(strSpacer)@Html.DisplayFor(model => model.ModuleName)</span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label asp-for="ModuleId" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.ModuleId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ModuleName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.ModuleName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.Description)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Model.UnitPrice.ToString("C0", formatProvider)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.ModuleSample)
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <form asp-action="Delete">
+                    <a asp-action="Index" class="btn blue-chambray" role="button">
+                        Order Dashboard
+                    </a>
+
+                    <input type="submit" value="Delete" class="btn red-sunglo btn-left-margin" />
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="page-heading">
-        <h3>Module Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.ModuleName)</h3>
-    </div>
-
-    <input type="hidden" asp-for="ModuleId" />
-
-    <div class="form-horizontal admin-margin-detail">
-
-        <div class="form-group">
-            <label asp-for="ModuleId" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.ModuleId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ModuleName" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.ModuleName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.Description)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                $@Html.DisplayFor(Model => Model.UnitPrice)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.ModuleSample)
-            </div>
-        </div>
-    </div>
-
-    <br />
-
-    <form asp-action="Delete">
-        <a asp-action="Index" class="btn btn-default" role="button">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            @Html.Raw(strSpacer)Back to list
-        </a>
-
-        <input type="submit" value="Delete" class="btn btn-danger" />
-    </form>
 </div>

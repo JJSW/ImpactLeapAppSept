@@ -6,67 +6,76 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<form asp-action="Edit">
-    <div class="admin-margin">
-        <div class="page-heading">
-            <h3>Module Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.ModuleName)</h3>
+<form asp-action="Edit" enctype="multipart/form-data">
+
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                <span class="caption-helper">| @Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.ModuleName)</span>
+            </div>
         </div>
 
-        <input type="hidden" asp-for="ModuleId" />
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
 
-        <div class="form-horizontal admin-margin-detail">
+                <input type="hidden" asp-for="ModuleId" />
 
-            <div class="form-group">
-                <label asp-for="ModuleId" class="col-md-2 control-label"></label>
-                <div class="col-md-10 admin-align-middle">
-                    @Html.DisplayFor(model => model.ModuleId)
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label asp-for="ModuleId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.ModuleId)
+                    </div>
                 </div>
+
+                <br />
+
+                <div class="form-group">
+                    <label asp-for="ModuleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="ModuleName" class="form-control" />
+                        <span asp-validation-for="ModuleName" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="Description" class="form-control">@Html.DisplayFor(model => model.Description)</textarea>
+                        <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UnitPrice" class="form-control input-medium" />
+                        <span asp-validation-for="UnitPrice" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="ModuleSample" class="form-control input-medium" type="file" name="files" />
+                        <span asp-validation-for="ModuleSample" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="form-group form-no-max-width">
-                <label asp-for="ModuleName" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="ModuleName" class="form-control" />
-                    <span asp-validation-for="ModuleName" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
+            <br />
 
-            <div class="form-group form-no-max-width">
-                <label asp-for="Description" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <textarea asp-for="Description" class="form-control">@Html.DisplayFor(model => model.Description)</textarea>
-                    <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="UnitPrice" class="form-control" />
-                    <span asp-validation-for="UnitPrice" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="ModuleSample" class="form-control" />
-                    <span asp-validation-for="ModuleSample" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-        </div>
-
-        <br />
-        <div>
             <a asp-action="Details" asp-route-id="@Model.ModuleId"
-               role="button" class="btn btn-default">
-                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+               role="button" class="btn blue-madison">
+                Details
             </a>
 
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Save" class="btn blue-chambray btn-left-margin" />
         </div>
-
     </div>
 </form>
 

@@ -72,7 +72,7 @@ namespace ImpactLeapApp.Controllers
                                     DeliveredDate = o.DeliveredDate,
                                     OrderStatus = o.OrderStatus,
                                     Module = od.Module,
-                                    PortfolioId = o.PortfolioId,
+                                    //PortfolioId = o.PortfolioId,
                                 }).ToList();
 
             var currentOrderDetails = tempOrderDetails.Where(y => y.OrderId == id)
@@ -100,7 +100,7 @@ namespace ImpactLeapApp.Controllers
                     DeliveredDate = orderDetail.DeliveredDate,
                     OrderStatus = orderDetail.OrderStatus,
                     Module = orderDetail.Module,
-                    PortfolioId = orderDetail.PortfolioId,
+                    //PortfolioId = orderDetail.PortfolioId,
                 });
             };
 
@@ -109,9 +109,11 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
+            /* Removed by request
             var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
             ViewData["OrderId"] = id;
             ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
+            */
 
             return View(orderDetailVMs);
         }
@@ -160,7 +162,8 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,SelectionDiscount,TotalToPay,PromotionId,IsPromotionCodeApplied,UploadedFileName,InvestmentId")] Order order)
+        public async Task<IActionResult> Edit(int id, Order order)
+            //public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,TotalPrice,SelectionDiscount,SelectionDiscountMethod,TotalToPay,PromotionId,IsPromotionCodeApplied,UploadedFilePath,UploadedFileName,PortfolioId")] Order order)
         {
             if (id != order.OrderId)
             {
@@ -172,8 +175,8 @@ namespace ImpactLeapApp.Controllers
                 _context.Update(order);
                 _context.Orders.SingleOrDefault(o => o.OrderId == id).ModifiedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
-
             }
+
             return RedirectToAction("Details", new { id = id });
         }
 

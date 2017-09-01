@@ -34,7 +34,6 @@ namespace ImpactLeapApp.Models.OrderModels
         public string UserId { get; set; }
 
         [Display(Name = "Sales Rep")]
-        [StringLength(160, MinimumLength = 2)]
         public string SalesRep { get; set; }
 
         [Display(Name = "Ordered Date")]

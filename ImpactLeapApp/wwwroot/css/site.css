@@ -3,22 +3,94 @@
              General
 -------------------------------*/
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    margin: 20px;
+/*-------------------------------
+             Custom
+-------------------------------*/
+
+.admin-align-middle {
+    display: inline-block;
+    padding-left: 10px;
+    padding-top: 7px;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-/*input,
-select {
-    max-width: 280px;
+.user-profile-edit-margin{
+    margin-bottom: -20px;
 }
-    */
+
+.account-btn-margin {
+    margin-top: -10px !important;
+}
+
+.alert-custom {
+    margin-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 7px;
+}
+
+.gray-line {
+    border-top: 1px solid #eee;
+}
+
+.order-summary-buttom-margin {
+    margin-bottom: -5px;
+}
+
+.center-column {
+    float: none;
+    margin: auto;
+}
+
+.readonly-mouse-cursor {
+    cursor: default !important;
+}
+
+.displayFullNote {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.btn-left-margin {
+    margin-left: 7px;
+}
+
+.alert-danger-deletion h3{
+    margin-top: 7px !important;
+}
+
+.edit-bottom-margin .form-group{
+    margin-bottom: -5px;
+}
+
+.edit-bottom-default-margin {
+    margin-bottom: 10px !important;
+}
+
+/* 500 page error */
+.page-500 {
+    text-align: center;
+}
+
+    .page-500 .number {
+        display: inline-block;
+        letter-spacing: -10px;
+        line-height: 128px;
+        font-size: 128px;
+        font-weight: 300;
+        color: #ec8c8c;
+        text-align: right;
+    }
+
+    .page-500 .details {
+        margin-left: 40px;
+        display: inline-block;
+        text-align: left;
+    }
+
 
 /*-------------------------------
             Table
 -------------------------------*/
+
 .noOverFlowText {
     overflow: hidden;
     white-space: nowrap;
@@ -29,17 +101,28 @@ select {
     word-wrap: break-word;
 }
 
+/*-------------------------------
+            iCheck - override
+-------------------------------*/
+
+.icheckbox_flat-blue.checked.disabled {
+    background-position: -22px 0  !important;
+}
+
+/*-------------------------------
+            Dropzone - dropzone.css override
+-------------------------------*/
+
+.dropzone-file-area {
+    min-height: 200px !important    
+}
+
+.dropzone-area-margin {
+    margin-top: 20px 40px 40px 40px !important;
+}
 
 /*-------------------------------
            Tool tip - bootstrap override
--------------------------------*/
-
-/*-------------------------------
-           Sign in - style.css override
--------------------------------*/
-
-/*-------------------------------
-           Button
 -------------------------------*/
 
 /*-------------------------------
@@ -124,34 +207,5 @@ ul.p-info .desk {
 -------------------------------*/
 
 /*-------------------------------
-            Dropzone - dropzone.css override
--------------------------------*/
-
-.dropzone-file-area {
-    height: 100px !important
-}
-
-/*-------------------------------
-             Misc
--------------------------------*/
-
-.admin-align-middle {
-    display: inline-block;
-    padding-left: 10px;
-    padding-top: 7px;
-    margin-bottom: 0;
-}
-
-.account-btn-margin {
-    margin-top: -10px !important;
-}
-
-
-/*-------------------------------
        Responsive design
 -------------------------------*/
-
-/*-------------------------------
-            Ion Range Slider - ion.rangeSlider.css override
--------------------------------*/
-

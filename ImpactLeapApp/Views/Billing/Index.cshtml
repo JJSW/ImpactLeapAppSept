@@ -32,7 +32,7 @@
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
-                <span>Portfolio</span>
+                <span>Upload Portfolio</span>
                 <i class="fa fa-angle-right"></i>
             </li>
             <li>
@@ -46,12 +46,13 @@
         <div class="col-md-12">
             <div class="portlet light">
                 <div class="portlet-title">
-                    <div class="caption ">
+                    <div class="caption">
                         <span class="caption-subject bold font-yellow-casablanca"> ORDER #@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum) </span>
                         <span class="caption-helper">| @Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate) </span>
                     </div>
                 </div>
 
+                <!-- START PORTLET BODY -->
                 <div class="portlet-body">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
@@ -80,13 +81,13 @@
                                 <div class="portlet-title">
                                     <div class="caption"> Total Due </div>
                                     <div class="actions">
-                                        <a class="btn red sbold" data-toggle="modal" href="#basic">
-                                            Enter Promotional Code
-                                        </a>
                                         @if ((int)ViewData["TotalToPayDisplay"] != 0)
                                         {
                                             @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
                                             {
+                                                <a class="btn red sbold" data-toggle="modal" href="#basic">
+                                                    Enter Promotional Code
+                                                </a>
                                                 <button id="promoCode"
                                                         asp-controller="Order"
                                                         asp-action="SubmitPromoCode"
@@ -235,8 +236,7 @@
                                                    asp-action="Cancel"
                                                    asp-route-id="@ViewData["OrderId"]"
                                                    role="button"
-                                                   class="btn btn-default"
-                                                   style="margin-left:15px;">
+                                                   class="btn btn-default btn-left-margin">
                                                     Cancel
                                                 </a>
                                             </span>
@@ -254,6 +254,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- END PORTLET BODY -->
+
+                <br/>
+                <!--Display module details as a partial view -->
+                @Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
             </div>
         </div>
     </div>
@@ -262,17 +268,6 @@
 
 }
 
-
-
-
-
-
-
-
-
-
-<!--Display module details as a partial view -->
-@Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
 
 
 <!-- /.modal-dialog -->

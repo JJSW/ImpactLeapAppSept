@@ -1,130 +1,140 @@
 @model IEnumerable<ImpactLeapApp.Models.OrderModels.Order>
+
 @{
-    ViewData["Title"] = "Admin/Orders";
+    ViewData["Title"] = "Admin / Order Dashboard";
 }
 
-@{ 
-    string strSpacer = "&nbsp;&nbsp;";
+@{     
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     int dollarCent = 100;
 }
 
-<div class="admin-margin">
-    <div class="page-heading">
-        <h3>Order Summary</h3>
+<h1 class="page-title">
+    Order Dashboard
+</h1>
 
-        <ul class="breadcrumb">
-            <li>
-                Admin
-            </li>
-            <li class="active">
-                Order Summary
-            </li>
-        </ul>
-    </div>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Order Dashboard</span>
+        </li>
+    </ul>
+</div>
 
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Summary of orders
-                        <span class="tools pull-right">
-                            <a href="javascript:;" class="fa fa-chevron-down"></a>
-                        </span>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
 
-                    </header>
-                    <div class="panel-body">
-                        <div class="adv-table">
-                            <table class="table" id="dynamic-table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.OrderId)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.OrderNum)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.OrderedDate)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.ModuleIds)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.TotalToPay)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.OrderStatus)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.UserEmail)
-                                        </th>
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Order Dashboard </span>
+                    <span class="caption-helper">| Order details</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                </div>
+            </div>
 
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderNum)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ModuleIds)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalToPay)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderStatus)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UserEmail)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
             {
                 var totalAmount = item.TotalToPay / @dollarCent;
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderId)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderNum)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderedDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ModuleIds)
-                                            </td>
-                                            <td>
-                                                $@totalAmount
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderStatus)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.UserEmail)
-                                            </td>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderNum)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModuleIds)
+                                </td>
+                                <td>
+                                    @totalAmount.ToString("C0", formatProvider)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserEmail)
+                                </td>
 
 
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@item.OrderId"
-                                                   role="button" class="btn btn-default btn-sm">
-                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
-                                                </a>
-                                                <a asp-action="Details" asp-route-id="@item.OrderId"
-                                                   role="button" class="btn btn-default btn-sm">
-                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-                                                </a>
-                                                <a asp-action="Delete" asp-route-id="@item.OrderId"
-                                                   role="button" class="btn btn-default btn-sm">
-                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.OrderId"
+                                       role="button" class="btn blue-madison btn-sm">
+                                        Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.OrderId"
+                                       role="button" class="btn green-meadow btn-sm">
+                                        Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.OrderId"
+                                       role="button" class="btn red-sunglo btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
 
 <br />
 
 @section scripts
 {
     <!--dynamic table-->
-    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" />
+    <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
 
-    <!--dynamic table initialization -->
-    <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+    <!--dynamic table initialization-->
+    <script type="text/javascript" src="~/js/datatables.bootstrap-init.js"></script>
+    <script type="text/javascript" src="~/js/datatables-custom.js"></script>
 }

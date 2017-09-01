@@ -1,0 +1,96 @@
+@model ImpactLeapApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit User Profile";
+}
+
+<!-- BEGIN PROFILE CONTENT -->
+<div class="row">
+    <div class="col-md-6 center-column">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">Edit User Profile</span>
+                </div>
+            </div>
+
+            <div class="portlet-body form">
+                <form asp-controller="Manage" asp-action="EditUserProfile" id="userProfileForm" class="form-horizontal">
+
+                    <div class="form-body edit-bottom-margin">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.Email)</label>
+                            <div class="col-md-8">
+                                <input id="emailInput" asp-for="Email" class="form-control">
+                                <span asp-validation-for="Email" class="text-danger admin-align-middle"></span>
+                                <div id="emailChange" class="text-danger"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.FirstName)</label>
+                            <div class="col-md-8">
+                                <input asp-for="FirstName" class="form-control">
+                                <span asp-validation-for="FirstName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.LastName)</label>
+                            <div class="col-md-8">
+                                <input asp-for="LastName" class="form-control">
+                                <span asp-validation-for="LastName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.CompanyName)</label>
+                            <div class="col-md-8">
+                                <input asp-for="CompanyName" class="form-control">
+                                <span asp-validation-for="CompanyName" class="text-danger admin-align-middle"></span>
+                            </div>
+                        </div>
+
+                        <button class="btn green-meadow"
+                                type="submit"
+                                id="saveButton"
+                                onclick="submitUserProfileForm">
+                            Save
+                        </button>
+
+                        <a class="btn btn-default" style="margin-left:5px;"
+                           asp-action="Index">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        function submitUserProfileForm() {
+            $("#userProfileForm").submit();
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        var savedEmail = $("#emailInput").val();
+
+        $(document).ready(function () {
+            $("#emailInput").keyup(function () {
+                if ($("#emailInput").val() != savedEmail) {
+                    $("#emailChange").html("&nbsp;Required to login again");
+                }
+            });
+        });
+    </script>
+
+}

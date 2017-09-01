@@ -224,6 +224,9 @@ namespace ImpactLeapApp.Controllers
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
 
+            return View(orderDetails.ToList());
+
+            /* Check portfolio - removed by request
             // Check portfolio
             var portfolioIdByOrder = _context.Orders.SingleOrDefault(od => od.OrderId == _orderId).PortfolioId;
 
@@ -247,6 +250,7 @@ namespace ImpactLeapApp.Controllers
                     return RedirectToAction("Index", "Portfolio", new { id = _orderId });
                 }
             }
+            */
         }
 
         #region New Order Helpers

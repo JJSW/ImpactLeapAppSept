@@ -1,92 +1,90 @@
 @model ImpactLeapApp.Models.OrderModels.Saving
-@using ImpactLeapApp.Models.OrderModels;
 
 @{
     ViewData["Title"] = "Create";
 }
 
-@{
-    string strSpacer = "&nbsp;&nbsp;";
-}
-
 <form asp-action="Create">
-    <div class="admin-margin">
-        <div class="page-heading">
-            <h3>Create Module</h3>
-        </div>
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
 
-        <div class="form-horizontal admin-margin-detail">
-
-            <div class="form-group">
-                <label asp-for="SavingName" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="SavingName" class="form-control" />
-                    <span asp-validation-for="SavingName" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <select asp-for="DiscountMethod" class="form-control">
-                        <option value="0">Fixed</option>
-                        <option value="1">Percentage</option>
-                    </select>
-                    <span asp-validation-for="DiscountMethod" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="SavingRate" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="SavingRate" class="form-control" />
-                    <span asp-validation-for="SavingRate" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="SelectFrom" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="SelectFrom" class="form-control" />
-                    <span asp-validation-for="SelectFrom" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="SelectTo" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="SelectTo" class="form-control" />
-                    <span asp-validation-for="SelectTo" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group form-no-max-width">
-                <label asp-for="Description" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="IsActive" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="IsActive" class="form-control" />
-                    <span asp-validation-for="IsActive" class="text-danger admin-align-middle"></span>
-                </div>
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Create Saving </span>
             </div>
         </div>
 
-        <br />
-        <div>
-            <a asp-action="Index" class="btn btn-default" role="button">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                @Html.Raw(strSpacer)Back to list
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
+
+                <div class="form-group">
+                    <label asp-for="SavingName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="SavingName" class="form-control input-medium" />
+                        <span asp-validation-for="SavingName" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="DiscountMethod" class="form-control input-medium">
+                            <option value="0">Fixed</option>
+                            <option value="1">Percentage</option>
+                        </select>
+                        <span asp-validation-for="DiscountMethod" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SavingRate" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="SavingRate" class="form-control input-medium" />
+                        <span asp-validation-for="SavingRate" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SelectFrom" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="SelectFrom" class="form-control input-medium" />
+                        <span asp-validation-for="SelectFrom" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SelectTo" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="SelectTo" class="form-control input-medium" />
+                        <span asp-validation-for="SelectTo" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group form-no-max-width">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsActive" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsActive" class="form-control input-small" />
+                        <span asp-validation-for="IsActive" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+            </div>
+
+            <br /><br />
+
+            <a asp-action="Index" class="btn blue-chambray" role="button">
+                Module Saving
             </a>
 
-            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="Create" class="btn green btn-left-margin" />
         </div>
-
     </div>
 </form>
 
