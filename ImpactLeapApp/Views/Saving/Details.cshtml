@@ -6,7 +6,6 @@
 }
 
 @{
-    string strSpacer = "&nbsp;&nbsp;";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
 }
 
@@ -18,7 +17,7 @@
             <div class="portlet-title">
                 <div class="caption ">
                     <span class="caption-subject bold font-yellow-casablanca"> Saving Details </span>
-                    <span class="caption-helper">@Html.Raw(strSpacer) | @Html.Raw(strSpacer)@Html.DisplayFor(model => model.SavingName)</span>
+                    <span class="caption-helper">|@Html.DisplayFor(model => model.SavingName)</span>
                 </div>
             </div>
 
@@ -86,7 +85,7 @@
                     </div>
                 </div>
 
-                <br />
+                <br /><br />
                 <a asp-action="Index" class="btn blue-chambray" role="button">
                     Order Dashboard
                 </a>

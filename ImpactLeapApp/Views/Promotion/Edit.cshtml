@@ -4,106 +4,109 @@
     ViewData["Title"] = "Edit";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
-
 <form asp-action="Edit">
-    <div class="admin-margin">
-        <div class="page-heading">
-            <h3>Module Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.PromotionName)</h3>
+
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                <span class="caption-helper">| @Html.DisplayFor(Model => Model.PromotionName)</span>
+            </div>
         </div>
 
-        <input type="hidden" asp-for="PromotionId" />
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
 
-        <div class="form-horizontal admin-margin-detail">
+                <input type="hidden" asp-for="PromotionId" />
 
-            <div class="form-group">
-                <label asp-for="PromotionId" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    @Html.DisplayFor(model => model.PromotionId)
+                <div class="form-group edit-bottom-default-margin">
+                    <label asp-for="PromotionId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.PromotionId)
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="PromotionName" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="PromotionName" class="form-control" />
-                    <span asp-validation-for="PromotionName" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="PromotionName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="PromotionName" class="form-control input-medium" />
+                        <span asp-validation-for="PromotionName" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="PromotionCode" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="PromotionCode" class="form-control" />
-                    <span asp-validation-for="PromotionCode" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="PromotionCode" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="PromotionCode" class="form-control input-medium" />
+                        <span asp-validation-for="PromotionCode" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <select asp-for="DiscountMethod" class="form-control">
-                        <option value="0">Fixed</option>
-                        <option value="1">Percentage</option>
-                    </select>
-                    <span asp-validation-for="DiscountMethod" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="DiscountMethod" class="form-control input-medium">
+                            <option value="0">Fixed</option>
+                            <option value="1">Percentage</option>
+                        </select>
+                        <span asp-validation-for="DiscountMethod" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="DiscountRate" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="DiscountRate" class="form-control" />
-                    <span asp-validation-for="DiscountRate" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="DiscountRate" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="DiscountRate" class="form-control input-medium" />
+                        <span asp-validation-for="DiscountRate" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="DateFrom" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="DateFrom" type="text" id="datepickerFrom" class="form-control" />
-                    <span asp-validation-for="DateFrom" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="DateFrom" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="DateFrom" type="text" id="datepickerFrom" class="form-control input-medium" />
+                        <span asp-validation-for="DateFrom" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="DateTo" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="DateTo" type="text" id="datepickerTo" class="form-control" />
-                    <span asp-validation-for="DateTo" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="DateTo" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="DateTo" type="text" id="datepickerTo" class="form-control input-medium" />
+                        <span asp-validation-for="DateTo" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group form-no-max-width">
-                <label asp-for="Description" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                <div class="form-group form-no-max-width">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="IsActive" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="IsActive" class="form-control" />
-                    <span asp-validation-for="IsActive" class="text-danger admin-align-middle"></span>
+                <div class="form-group">
+                    <label asp-for="IsActive" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsActive" class="form-control input-small" />
+                        <span asp-validation-for="IsActive" class="text-danger admin-align-middle"></span>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-        <br />
-        <div>
+            </div>
+            <br />
+
             <a asp-action="Details" asp-route-id="@Model.PromotionId"
-               role="button" class="btn btn-default">
-                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+               role="button" class="btn blue-madison">
+                Details
             </a>
 
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Save" class="btn blue-chambray btn-left-margin" />
         </div>
     </div>
-
 </form>
-<br /><br />
 
 @section Scripts
 {

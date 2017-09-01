@@ -5,100 +5,112 @@
     ViewData["Title"] = "Delete";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+}
 
-<div class="admin-margin">
-    <div class="text-danger">
-        <h3>Are you sure you want to delete this ?</h3>
-    </div>
-    <div class="page-heading">
-        <h3>Promotion :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.PromotionName)</h3>
-    </div>
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="alert alert-danger alert-danger-deletion">
+                <h3>Please confirm before delete</h3>
+            </div>
 
-    <input type="hidden" asp-for="PromotionId" />
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                    <span class="caption-helper">| @Html.DisplayFor(Model => Model.PromotionName)</span>
+                </div>
+            </div>
 
-    <div class="form-horizontal admin-margin-detail">
+            <div class="portlet-body">
+                <div class="form-horizontal">
 
-        <div class="form-group">
-            <label asp-for="PromotionName" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.PromotionName)
+                    <div class="form-group edit-bottom-default-margin">
+                        <label asp-for="PromotionId" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.PromotionId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PromotionName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.PromotionName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PromotionCode" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.PromotionCode)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.DiscountMethod)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DiscountRate" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @if (Model.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                            {
+                                <span>
+                                    @Model.DiscountRate.ToString("C0", formatProvider)
+                                </span>
+                            }
+                            else if (Model.DiscountMethod == PromotionDiscountMethodList.Percentage)
+                            {
+                                <span>
+                                    @Html.DisplayFor(model => model.DiscountRate)%
+                                </span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DateFrom" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.DateFrom)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DateTo" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.DateTo)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.Description)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IsActive" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.IsActive)
+                        </div>
+                    </div>
+                </div>
+
+                <br /><br />
+                <form asp-action="Delete">
+                    <a asp-action="Index" class="btn blue-chambray" role="button">
+                        Order Dashboard
+                    </a>
+
+                    <input type="submit" value="Delete" class="btn red-sunglo btn-left-margin" />
+                </form>
             </div>
         </div>
-
-        <div class="form-group">
-            <label asp-for="PromotionCode" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.PromotionCode)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.DiscountMethod)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="DiscountRate" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @if (Model.DiscountMethod == PromotionDiscountMethodList.Fixed)
-                {
-                    <span>
-                        $@Html.DisplayFor(model => model.DiscountRate)
-                    </span>
-                }
-                else if (Model.DiscountMethod == PromotionDiscountMethodList.Percentage)
-                {
-                    <span>
-                        @Html.DisplayFor(model => model.DiscountRate)%
-                    </span>
-                }
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="DateFrom" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.DateFrom)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="DateTo" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.DateTo)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.Description)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="IsActive" class="col-md-2 control-label"></label>
-            <div class="col-md-10 admin-align-middle">
-                @Html.DisplayFor(Model => Model.IsActive)
-            </div>
-        </div>
-
-    </div>
-
-    <br />
-    <div>
-        <form asp-action="Delete">
-            <a asp-action="Index" class="btn btn-default" role="button">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                @Html.Raw(strSpacer)Back to list
-            </a>
-
-            <input type="submit" value="Delete" class="btn btn-danger" />
-        </form>
     </div>
 </div>
-
-<br /><br />
