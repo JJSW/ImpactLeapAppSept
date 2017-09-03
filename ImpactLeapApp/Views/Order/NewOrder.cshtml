@@ -6,6 +6,22 @@
 @{
     ViewData["Title"] = "New Order - Upload Portfolio";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    int dollarCent = 100;
+    double savingDiscountRate = 0.0;
+
+    if (ViewBag.SelectionDiscountMethod != null || ViewBag.SelectionDiscountMethod != 0)
+    {
+        if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+        {
+            double tempTotalPrice = (double)TempData["TotalPrice"];
+            double tempDiscountRate = (double)TempData["SelectionDiscount"];
+            savingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
+        }
+        else
+        {
+            savingDiscountRate = (int)TempData["SelectionDiscount"];
+        }
+    }
 }
 
 <!-- BEGIN PAGE TITLE-->
@@ -151,32 +167,42 @@
 
             <div class="portlet-body">
                 <div class="well">
+
                     <div class="row static-info align-reverse">
                         <div class="col-md-8 name"> Sub Total: </div>
                         <div class="col-md-3 value">
-                            @{ var subTotal = 0;}
-                            @for (int i = 0; i < Model.Count(); i++)
-                            {
-                                subTotal += Model.ElementAt(@i).Module.UnitPrice;
-                            }
-                            $@subTotal
+                            <span name="totalPrice">
+                                @{ var totalPrice = (int)TempData["TotalPrice"]; }
+                                @totalPrice.ToString("C0", formatProvider)
+                            </span>
                         </div>
                     </div>
                     <div class="row static-info align-reverse">
                         <div class="col-md-8 name"> Multiple Module Savings: </div>
                         <div class="col-md-3 value">
-                            @if (ViewBag.SelectionDiscount != "0" || !object.Equals(ViewBag.SelectionDiscount, "0"))
+                            @{ int tempSelectionDiscount = (int)TempData["SelectionDiscount"]; }
+                            @if (tempSelectionDiscount != 0)
                             {
-                                <span class="text-danger">
-                                    -$@ViewBag.SelectionDiscount
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="text-danger">
-                                    $0
-                                </span>
-                            }
+                                @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+                                {
+                                    <span class="text-danger">
+                                        -@savingDiscountRate.ToString("C", formatProvider) (@tempSelectionDiscount%)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">
+
+                                        -@tempSelectionDiscount.ToString("C0", formatProvider)
+                                    </span>
+                                }
+                           }
+                           else
+                           {
+                               <span class="text-danger">
+                                   $0
+                               </span>
+                           }
                         </div>
                     </div>
                     <div class="row static-info align-reverse">

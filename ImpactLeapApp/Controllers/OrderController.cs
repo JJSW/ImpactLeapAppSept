@@ -30,12 +30,12 @@ namespace ImpactLeapApp.Controllers
         private IHostingEnvironment _environment;
         private readonly ILogger _logger;
         private static string _emailAddress;
-        private static string _selectionDiscount;
-        private static string _totalToPay;
         private static string _orderNumber;
         private readonly string _externalCookieScheme;
         private static Int32 _orderId;
         private static int _totalPrice;
+        private static int _selectionDiscount;
+        private static string _totalToPay;
 
         private readonly int _dollarCent = 100; // $10.00 = 1000
 
@@ -115,11 +115,11 @@ namespace ImpactLeapApp.Controllers
                                                   string email,
                                                   int selectionDiscountMethod,
                                                   int totalPrice,
-                                                  string selectionDiscount,
+                                                  int selectionDiscount,
                                                   string totalToPay,
                                                   int portfolioIdFromModule)
         {
-            int parsedSelectionDiscount = 0;
+            //int parsedSelectionDiscount = 0;
             int parsedTotalToPay = 0;
             object parsedSelectionDiscountMethod = null; 
 
@@ -130,9 +130,10 @@ namespace ImpactLeapApp.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
 
-            ViewBag.TotalPrice = _totalPrice;
-            ViewBag.SelectionDiscount = _selectionDiscount;
+            TempData["TotalPrice"] = _totalPrice;
+            TempData["SelectionDiscount"] = _selectionDiscount;
             ViewBag.TotalToPay = _totalToPay;
+
 
             // Save temporary data
             if (_signInManager.IsSignedIn(User))
@@ -174,7 +175,6 @@ namespace ImpactLeapApp.Controllers
             ViewData["Email"] = _emailAddress;
 
             parsedSelectionDiscountMethod = ParseValueToDiscountMethod(selectionDiscountMethod);
-            parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
             parsedTotalToPay = ParseStringToInt(_totalToPay);
 
             ViewBag.TotalToPay = _totalToPay;
@@ -202,7 +202,7 @@ namespace ImpactLeapApp.Controllers
                 OrderedDate = DateTime.Now,
                 UserId = TempUser.Id,
                 TotalPrice = _totalPrice,
-                SelectionDiscount = parsedSelectionDiscount,
+                SelectionDiscount = _selectionDiscount,
                 SelectionDiscountMethod = (SavingDiscountMethodList)parsedSelectionDiscountMethod,
                 TotalToPay = parsedTotalToPay * _dollarCent,
                 PromotionId = -1,
@@ -223,6 +223,7 @@ namespace ImpactLeapApp.Controllers
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
+            ViewBag.SelectionDiscountMethod = selectionDiscountMethod;
 
             return View(orderDetails.ToList());
 

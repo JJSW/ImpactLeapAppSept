@@ -219,7 +219,8 @@
                                 <div class="col-md-8 name"> Sub Total: </div>
                                 <div class="col-md-3 value">
                                     <span name="totalPrice">
-                                        @ViewBag.TotalPrice.ToString("C0", formatProvider)
+                                        @{ var totalPrice = (int)TempData["TotalPrice"]; }
+                                        @totalPrice.ToString("C0", formatProvider)
                                     </span>
                                 </div>
                             </div>
@@ -236,7 +237,8 @@
                                     else
                                     {
                                         <span class="text-danger">
-                                            -@ViewBag.SelectionDiscount.ToString("C0", formatProvider)
+                                            @{ int selectionDiscount = (int)TempData["SelectionDiscount"]; }
+                                            -@selectionDiscount.ToString("C0", formatProvider)
                                         </span>
                                     }
                                 </div>
