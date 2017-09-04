@@ -47,6 +47,16 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
+            List<string> moduleSampleNameList = new List<string>();
+
+            var moduleSampleNames = "";
+            if (_context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName != null)
+            {
+                moduleSampleNames = _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName;
+            }
+
+            ViewBag.ModuleSampleNameList = moduleSampleNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
             return View(orderModule);
         }
 
@@ -118,7 +128,12 @@ namespace ImpactLeapApp.Controllers
             }
 
             List<string> moduleSampleNameList = new List<string>();
-            var moduleSampleNames = _context.Modules.Single(m => m.ModuleId == id).ModuleSampleName;
+
+            var moduleSampleNames = "";
+            if (_context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName != null)
+            {
+                moduleSampleNames = _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName;
+            }
 
             ViewBag.ModuleSampleNameList = moduleSampleNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
@@ -139,11 +154,38 @@ namespace ImpactLeapApp.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Update(module);
-                _context.Modules.SingleOrDefault(o => o.ModuleId == id).ModifiedDate = DateTime.Now;
-                await _context.SaveChangesAsync();
+                var files = HttpContext.Request.Form.Files;
 
+                string uploadPath = Path.Combine(_environment.WebRootPath, "images/moduleSamples/" + id);
+                string uploadPathLink = HttpContext.Request.Scheme + "://" +
+                                        HttpContext.Request.Host + "/images/moduleSamples/" + id + "/";
+
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                foreach (IFormFile file in files)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        using (var fileStream = new FileStream(Path.Combine(uploadPath, file.FileName), FileMode.Append))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                    }
+
+                    _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName += file.FileName + ",";
+                }
+
+                _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSamplePath = uploadPathLink;
+                _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleName = module.ModuleName;
+                _context.Modules.SingleOrDefault(m => m.ModuleId == id).Description = module.Description;
+                _context.Modules.SingleOrDefault(m => m.ModuleId == id).UnitPrice = module.UnitPrice;
+                _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
             }
+
             return RedirectToAction("Details", new { id = id });
         }
 
@@ -179,6 +221,30 @@ namespace ImpactLeapApp.Controllers
         private bool OrderModuleExists(int id)
         {
             return _context.Modules.Any(e => e.ModuleId == id);
+        }
+
+        public void DeleteModuleSample(string moduleName, int id)
+        {
+            var moduleSampleName = _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName;
+            var moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var tempModuleList = moduleSampleNameList.ToList();
+            var tempModuleName = "";
+
+            foreach (var name in moduleSampleNameList)
+            {
+                if (String.Equals(name, moduleName))
+                {
+                    tempModuleList.Remove(name);
+                }
+            }
+
+            foreach (var temp in tempModuleList)
+            {
+                tempModuleName += temp + ",";
+            }
+
+            _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName = tempModuleName;
+            _context.SaveChanges();
         }
     }
 }

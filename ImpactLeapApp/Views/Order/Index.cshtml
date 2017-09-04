@@ -101,18 +101,21 @@
                                                         var moduleSamplePath = Model.ElementAt(@i).Modules.ModuleSamplePath;
                                                         var moduleSampleName = Model.ElementAt(@i).Modules.ModuleSampleName;
                                                         var moduleName = Model.ElementAt(@i).Modules.ModuleName;
-                                                        List<string> moduleSampleNameList = new List<string>();
-                                                        moduleSampleNameList = moduleSampleName.Split().ToList();
 
-                                                        foreach (var sample in moduleSampleNameList)
+                                                        if (moduleSampleName != null)
                                                         {
-                                                            var samplePath = moduleSamplePath + sample;
+                                                            List<string> moduleSampleNameList = new List<string>();
+                                                            moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                                                            <li data-src= "samplePath"
-                                                                data-sub-html="Sample report for : @moduleName">
-                                                                <img src="samplePath" alt="Image" />
-                                                            </li>
+                                                            foreach (var sample in moduleSampleNameList)
+                                                            {
+                                                                var samplePath = moduleSamplePath + sample;
 
+                                                                <li data-src="@samplePath"
+                                                                    data-sub-html="Sample report for : @moduleName">
+                                                                    <img src="@samplePath" alt="Image" />
+                                                                </li>
+                                                            }
                                                         }
                                                     }
                                                 </ul>
@@ -144,7 +147,7 @@
                                             }
                                         </td>
                                     </tr>
-                                }
+                                                        }
 
                             </tbody>
                         </table>
@@ -194,9 +197,9 @@
                                     else
                                     {
                                     -->
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-envelope"></i>
-                                        </span>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
                                         <b>
                                             <input class="form-control"
                                                    type="email"
@@ -288,7 +291,7 @@
 @section scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    
+
     <!--iCheck -->
     <link rel="stylesheet" href="~/lib/iCheck/skins/flat/_all.css">
     <script type="text/javascript" src="~/js/icheck-init.js"></script>

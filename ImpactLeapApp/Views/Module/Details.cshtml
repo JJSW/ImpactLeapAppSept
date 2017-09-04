@@ -53,8 +53,30 @@
 
                     <div class="form-group">
                         <label asp-for="ModuleSampleName" class="col-md-2 control-label"></label>
-                        <div class="col-md-10 admin-align-middle">
-                            @Html.DisplayFor(Model => Model.ModuleSampleName)
+                        <div class="col-md-10" id="fileInputForm">
+
+                            @{ var moduleSampleList = (List<string>)ViewBag.ModuleSampleNameList; }
+
+                            @if (moduleSampleList != null)
+                            {
+                                <table class="table-bordered module-sample-table-border">
+                                    <tr>
+                                        @for (var i = 0; i < moduleSampleList.Count(); i++)
+                                        {
+                                            var samplePath = Model.ModuleSamplePath + moduleSampleList[i];
+                                            <th>
+                                                <figure class="figure text-center" style="margin:10px;">
+                                                    <img src="@samplePath" class="figure-img img-fluid module-sample-size center-block" /><br />
+                                                    <div class="figure-caption" id="@moduleSampleList[i]" accesskey=@i>
+                                                        @moduleSampleList[i]
+                                                    </div>
+                                                </figure>
+                                            </th>
+                                        }
+                                    </tr>
+                                </table>
+                            }
+
                         </div>
                     </div>
                 </div>
