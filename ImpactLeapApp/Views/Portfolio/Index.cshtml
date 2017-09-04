@@ -9,17 +9,17 @@
     int dollarCent = 100;
     double SavingDiscountRate = 0.0;
 
-    if (ViewBag.SelectionDiscountMethod != null)
+    if (ViewBag.SavingDiscountMethod != null)
     {
-        if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+        if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
         {
             double tempTotalPrice = ViewBag.TotalPrice;
-            double tempDiscountRate = ViewBag.SelectionDiscount;
+            double tempDiscountRate = ViewBag.SavingDiscount;
             SavingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
         }
         else
         {
-            SavingDiscountRate = ViewBag.SelectionDiscount;
+            SavingDiscountRate = ViewBag.SavingDiscount;
         }
     }
 }
@@ -228,17 +228,17 @@
                             <div class="row static-info align-reverse">
                                 <div class="col-md-8 name"> Multiple Module Savings: </div>
                                 <div class="col-md-3 value">
-                                    @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
+                                    @if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
                                     {
                                         <span class="text-danger">
-                                            -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SelectionDiscount%)
+                                            -@SavingDiscountRate.ToString("C", formatProvider) (@ViewBag.SavingDiscount%)
                                         </span>
                                     }
                                     else
                                     {
                                         <span class="text-danger">
-                                            @{ int selectionDiscount = (int)TempData["SelectionDiscount"]; }
-                                            -@selectionDiscount.ToString("C0", formatProvider)
+                                            @{ int savingDiscount = (int)TempData["SavingDiscount"]; }
+                                            -@savingDiscount.ToString("C0", formatProvider)
                                         </span>
                                     }
                                 </div>

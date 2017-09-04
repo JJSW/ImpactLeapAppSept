@@ -128,7 +128,9 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ModuleName");
 
-                    b.Property<string>("ModuleSample");
+                    b.Property<string>("ModuleSampleName");
+
+                    b.Property<string>("ModuleSamplePath");
 
                     b.Property<int>("UnitPrice");
 
@@ -166,12 +168,11 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int>("PromotionId");
 
-                    b.Property<string>("SalesRep")
-                        .HasMaxLength(160);
+                    b.Property<string>("SalesRep");
 
-                    b.Property<int>("SelectionDiscount");
+                    b.Property<int>("SavingDiscount");
 
-                    b.Property<int>("SelectionDiscountMethod");
+                    b.Property<int>("SavingDiscountMethod");
 
                     b.Property<int>("TotalPrice");
 

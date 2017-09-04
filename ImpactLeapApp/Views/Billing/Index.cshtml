@@ -132,11 +132,11 @@
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Multiple Modules Saving: </div>
                                         <div class="col-md-7 value">
-                                            @if (ViewBag.SelectionDiscount != 0 || !object.Equals(ViewBag.SelectionDiscount, "0"))
+                                            @if (ViewBag.SavingDiscount != 0 || !object.Equals(ViewBag.SavingDiscount, "0"))
                                             {
                                                 <span class="text-danger">
-                                                    @{ var selectionDiscount = ViewBag.SelectionDiscount; }
-                                                    -@selectionDiscount.ToString("C0", formatProvider)
+                                                    @{ var savingDiscount = ViewBag.SavingDiscount; }
+                                                    -@savingDiscount.ToString("C0", formatProvider)
                                                 </span>
                                                         }
                                                         else

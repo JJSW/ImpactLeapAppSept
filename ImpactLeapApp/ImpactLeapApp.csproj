@@ -44,11 +44,6 @@
     <Content Include="wwwroot\images\ImpactLeap-logo-black.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
     <Content Include="wwwroot\images\input-spinner.gif" />
-    <Content Include="wwwroot\images\moduleSamples\1-example-page.png" />
-    <Content Include="wwwroot\images\moduleSamples\2-example-page.png" />
-    <Content Include="wwwroot\images\moduleSamples\3-example-page.png" />
-    <Content Include="wwwroot\images\moduleSamples\4-example-page.png" />
-    <Content Include="wwwroot\images\moduleSamples\5-example-page.png" />
     <Content Include="wwwroot\images\remove-icon-small.png" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\app.min.js" />

@@ -129,7 +129,7 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,SelectionDiscount,TotalToPay,PromotionId,IsPromotionCodeApplied,UploadedFileName,InvestmentId")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,SavingDiscount,TotalToPay,PromotionId,IsPromotionCodeApplied,UploadedFileName,InvestmentId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -163,7 +163,6 @@ namespace ImpactLeapApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Order order)
-            //public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,TotalPrice,SelectionDiscount,SelectionDiscountMethod,TotalToPay,PromotionId,IsPromotionCodeApplied,UploadedFilePath,UploadedFileName,PortfolioId")] Order order)
         {
             if (id != order.OrderId)
             {

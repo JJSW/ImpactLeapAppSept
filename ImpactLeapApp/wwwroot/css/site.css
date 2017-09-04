@@ -65,6 +65,16 @@
     margin-bottom: 15px !important;
 }
 
+.module-sample-size{
+    max-width:128px;
+    max-height:64px;    
+}
+
+.module-sample-table-border th img {
+    border: solid 2px gray;
+    text-align: center;    
+}
+
 /* 500 page error */
 .page-500 {
     text-align: center;
@@ -118,7 +128,7 @@
 }
 
 .dropzone-area-margin {
-    margin-top: 20px 40px 40px 40px !important;
+    margin: 20px 40px 40px 40px !important;
 }
 
 /*-------------------------------

@@ -90,6 +90,8 @@ namespace WebApplication1.Data.Migrations
                     Description = table.Column<string>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
+                    ModuleSampleName = table.Column<string>(nullable: true),
+                    ModuleSamplePath = table.Column<string>(nullable: true),
                     UnitPrice = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -115,9 +117,9 @@ namespace WebApplication1.Data.Migrations
                     OrderedDate = table.Column<DateTime>(nullable: false),
                     PortfolioId = table.Column<int>(nullable: false),
                     PromotionId = table.Column<int>(nullable: false),
-                    SalesRep = table.Column<string>(maxLength: 160, nullable: true),
-                    SelectionDiscount = table.Column<int>(nullable: false),
-                    SelectionDiscountMethod = table.Column<int>(nullable: false),
+                    SalesRep = table.Column<string>(nullable: true),
+                    SavingDiscount = table.Column<int>(nullable: false),
+                    SavingDiscountMethod = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<int>(nullable: false),
                     TotalToPay = table.Column<int>(nullable: false),
                     UploadedFileName = table.Column<string>(nullable: true),

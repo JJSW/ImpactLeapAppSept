@@ -10,7 +10,7 @@ using ImpactLeapApp.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170822003913_Init")]
+    [Migration("20170904024747_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,10 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ModuleName");
 
+                    b.Property<string>("ModuleSampleName");
+
+                    b.Property<string>("ModuleSamplePath");
+
                     b.Property<int>("UnitPrice");
 
                     b.HasKey("ModuleId");
@@ -165,12 +169,11 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int>("PromotionId");
 
-                    b.Property<string>("SalesRep")
-                        .HasMaxLength(160);
+                    b.Property<string>("SalesRep");
 
-                    b.Property<int>("SelectionDiscount");
+                    b.Property<int>("SavingDiscount");
 
-                    b.Property<int>("SelectionDiscountMethod");
+                    b.Property<int>("SavingDiscountMethod");
 
                     b.Property<int>("TotalPrice");
 

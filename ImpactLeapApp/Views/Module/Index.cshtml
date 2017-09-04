@@ -63,7 +63,7 @@
                                 @Html.DisplayNameFor(model => model.Description)
                             </th>
                             <th style="width:9%;">
-                                @Html.DisplayNameFor(model => model.ModuleSample)
+                                @Html.DisplayNameFor(model => model.ModuleSampleName)
                             </th>
                             <th style="width:9%;">
                                 @Html.DisplayNameFor(model => model.UnitPrice)
@@ -91,9 +91,27 @@
                                             @Html.Raw(strSpacer)View
                                         </a>
                                         <ul class="lightgallery-images">
-                                            <li data-src="@Html.Raw(item.ModuleSample)" data-sub-html="Sample report for: Overview and Financials">
-                                                <img src="@Html.Raw(item.ModuleSample)" alt="Image" />
-                                            </li>
+                                            @{
+                                                var moduleSamplePath = item.ModuleSamplePath;
+                                                var moduleSampleName = item.ModuleSampleName;
+                                                var moduleName = item.ModuleName;
+
+                                                if (moduleSampleName != null)
+                                                {
+                                                    List<string> moduleSampleNameList = new List<string>();
+                                                    moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                                                    foreach (var sample in moduleSampleNameList)
+                                                    {
+                                                        var samplePath = moduleSamplePath + sample;
+
+                                                        <li data-src="@samplePath"
+                                                            data-sub-html="Sample report for : @moduleName">
+                                                            <img src="@samplePath" alt="Image" />
+                                                        </li>
+                                                    }
+                                                }
+                                            }
                                         </ul>
                                     </div>
                                 </td>
@@ -118,7 +136,7 @@
                                     </a>
                                 </td>
                             </tr>
-                        }
+                                                }
                     </tbody>
                 </table>
 
@@ -128,19 +146,8 @@
     </div>
 </div>
 
-
-
 @section scripts
 {
-    <!--dynamic table-->
-    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" />
-    <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
-
-    <!--dynamic table initialization-->
-    <script type="text/javascript" src="~/js/datatables.bootstrap-init.js"></script>
-    <script type="text/javascript" src="~/js/datatables-custom-user.js"></script>
-
     <!--LightGallery -->
     <link rel="stylesheet" href="~/lib/lightgallery/css/lightgallery.css" />
     <link rel="stylesheet" href="~/css/lightgallery-custom.css" />

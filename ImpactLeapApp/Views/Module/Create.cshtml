@@ -42,9 +42,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ModuleSample" class="form-control input-medium" type="file" name="files" />
+                    <label asp-for="ModuleSampleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10" id="fileInputForm">
+
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename"> </span>
+                                </div>
+                                <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input asp-for="ModuleSampleName" type="file" name="files">
+                                </span>
+                                <a href="javascript:;" class="input-group-addon btn red-sunglo fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                <a id="addInputFileButton" role="button" class="input-group-addon btn green-meadow fileinput-exists"> Add </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -62,4 +77,39 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link rel="stylesheet" href="~/lib/file-input/dist/fileinput.css" />
+    <script type="text/javascript" src="~/lib/file-input/dist/fileinput.js"></script>
+  
+    <script type="text/javascript">
+
+        var addInputFileButton =
+            "<br/>"+
+            "<div class=\"fileinput fileinput-new\" data-provides=\"fileinput\">"+
+            "<div class=\"input-group input-large\">" +
+            "<div class=\"form-control uneditable-input input-fixed input-medium\" data-trigger=\"fileinput\">" +
+            "<i class=\"fa fa-file fileinput-exists\"></i>&nbsp;" +
+            "<span class=\"fileinput-filename\"> </span>" +
+            "</div>" +
+            "<span class=\"input-group-addon btn default btn-file\">" +
+            "<span class=\"fileinput-new\"> Select file </span>" +
+            "<span class=\"fileinput-exists\"> Change </span>" +
+            "<input asp-for=\"ModuleSampleName\" type=\"file\" name=\"files\">" +
+            "</span>" +
+            "<a href=\"javascript:;\" class=\"input-group-addon btn red-sunglo fileinput-exists\" data-dismiss=\"fileinput\"> Remove </a>" +
+            "</div></div>";
+
+        var maxAddButton = 10;
+        var buttonIndex = 1;
+
+        $(document).ready(function () {
+            $("#addInputFileButton").click(function (e) {
+                e.preventDefault();
+                if (buttonIndex < maxAddButton) {
+                    buttonIndex++;
+                    $("#fileInputForm").append(addInputFileButton);
+                }
+            });
+        });
+    </script>
 }

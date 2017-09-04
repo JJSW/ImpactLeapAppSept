@@ -61,7 +61,7 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,UnitPrice,ModuleSample")] Module orderModule)
+        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,UnitPrice,ModuleSampleName,ModuleSamplePath")] Module orderModule)
         {
             if (ModelState.IsValid)
             {
@@ -72,8 +72,14 @@ namespace ImpactLeapApp.Controllers
                 var files = HttpContext.Request.Form.Files;
                 var tempModuleId = orderModule.ModuleId;
 
-                string uploadPath = Path.Combine(_environment.WebRootPath, "images\\moduleSamples");
-                string uploadPathLink = "images/moduleSamples/";
+                string uploadPath = Path.Combine(_environment.WebRootPath, "images/moduleSamples/" + tempModuleId);
+                string uploadPathLink = HttpContext.Request.Scheme + "://" +
+                                        HttpContext.Request.Host + "/images/moduleSamples/" + tempModuleId + "/";
+
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
 
                 foreach (IFormFile file in files)
                 {
@@ -85,10 +91,10 @@ namespace ImpactLeapApp.Controllers
                         }
                     }
 
-                    uploadPathLink += file.FileName;
+                    _context.Modules.SingleOrDefault(m => m.ModuleId == tempModuleId).ModuleSampleName += file.FileName + ",";
                 }
 
-                _context.Modules.SingleOrDefault(m => m.ModuleId == tempModuleId).ModuleSample = uploadPathLink;
+                _context.Modules.SingleOrDefault(m => m.ModuleId == tempModuleId).ModuleSamplePath = uploadPathLink;
                 _context.Modules.SingleOrDefault(m => m.ModuleId == tempModuleId).ModifiedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
 
@@ -110,6 +116,12 @@ namespace ImpactLeapApp.Controllers
             {
                 return NotFound();
             }
+
+            List<string> moduleSampleNameList = new List<string>();
+            var moduleSampleNames = _context.Modules.Single(m => m.ModuleId == id).ModuleSampleName;
+
+            ViewBag.ModuleSampleNameList = moduleSampleNames.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
             return View(orderModule);
         }
 
@@ -118,7 +130,7 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,UnitPrice,ModuleSample")] Module module)
+        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,UnitPrice,ModuleSampleName,ModuleSamplePath")] Module module)
         {
             if (id != module.ModuleId)
             {

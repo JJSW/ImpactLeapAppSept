@@ -51,8 +51,8 @@ namespace ImpactLeapApp.Controllers
                 _orderId = id;
                 ViewData["OrderId"] = _orderId;
                 ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
-                ViewBag.SelectionDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscount;
-                ViewBag.SelectionDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SelectionDiscountMethod;
+                ViewBag.SavingDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscount;
+                ViewBag.SavingDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscountMethod;
 
                 var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
                 ViewBag.TotalToPay = tempTotalToPay / _dollarCent;

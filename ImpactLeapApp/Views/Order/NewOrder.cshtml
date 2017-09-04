@@ -8,20 +8,6 @@
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     int dollarCent = 100;
     double savingDiscountRate = 0.0;
-
-    if (ViewBag.SelectionDiscountMethod != null || ViewBag.SelectionDiscountMethod != 0)
-    {
-        if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
-        {
-            double tempTotalPrice = (double)TempData["TotalPrice"];
-            double tempDiscountRate = (double)TempData["SelectionDiscount"];
-            savingDiscountRate = (tempTotalPrice * tempDiscountRate) / dollarCent;
-        }
-        else
-        {
-            savingDiscountRate = (int)TempData["SelectionDiscount"];
-        }
-    }
 }
 
 <!-- BEGIN PAGE TITLE-->
@@ -180,38 +166,49 @@
                     <div class="row static-info align-reverse">
                         <div class="col-md-8 name"> Multiple Module Savings: </div>
                         <div class="col-md-3 value">
-                            @{ int tempSelectionDiscount = (int)TempData["SelectionDiscount"]; }
-                            @if (tempSelectionDiscount != 0)
-                            {
-                                @if (ViewBag.SelectionDiscountMethod == SavingDiscountMethodList.Percentage)
-                                {
-                                    <span class="text-danger">
-                                        -@savingDiscountRate.ToString("C", formatProvider) (@tempSelectionDiscount%)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="text-danger">
 
-                                        -@tempSelectionDiscount.ToString("C0", formatProvider)
-                                    </span>
+                            @{ int tempSavingDiscount = (int)TempData["SavingDiscount"]; }
+
+                            @if (tempSavingDiscount != 0)
+                            {
+                                if (ViewBag.SavingDiscountMethod != null)
+                                {
+                                    if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
+                                    {
+                                        var tempTotalPrice = TempData["TotalPrice"];
+                                        var tempDiscountRate = TempData["SavingDiscount"];
+                                        
+                                        savingDiscountRate = (Convert.ToDouble(tempTotalPrice) * Convert.ToDouble(tempDiscountRate)) / dollarCent;
+                                        <span class="text-danger">
+                                            -@savingDiscountRate.ToString("C", formatProvider) (@tempSavingDiscount%)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        savingDiscountRate = (int)TempData["SavingDiscount"];
+                                        <span class="text-danger">
+                                            -@tempSavingDiscount.ToString("C0", formatProvider)
+                                        </span>
+                                    }
                                 }
-                           }
-                           else
-                           {
-                               <span class="text-danger">
-                                   $0
-                               </span>
-                           }
+                            }
+                            else
+                            {
+                                <span class="text-danger">
+                                    $0
+                                </span>
+                            }
                         </div>
                     </div>
                     <div class="row static-info align-reverse">
                         <div class="col-md-8 name"> Grand Total: </div>
                         <div class="col-md-3 value">
-                            @if (ViewBag.TotalToPay != null)
+                            @{ var totalToPay = (int)TempData["TotalToPay"]; }
+
+                            @if (totalToPay != 0)
                             {
                                 <span>
-                                    $@ViewBag.TotalToPay
+                                    @totalToPay.ToString("C0", formatProvider)
                                 </span>
                             }
                             else
@@ -240,17 +237,10 @@
     <link rel="stylesheet" href="~/css/plugins.css" />
     <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>-->
 
-
     <!--jquery UI-->
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>-->
 
-    <!--
-    <link href="~/assets/plugins/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/assets/plugins/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/assets/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
-    <script src="~/assets/scripts/form-dropzone.min.js" type="text/javascript"></script>
-    <link href="~/assets/css/plugins.css" rel="stylesheet" type="text/css" />-->
 
     <script type="text/javascript">
 

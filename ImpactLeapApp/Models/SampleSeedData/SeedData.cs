@@ -1,5 +1,6 @@
 ﻿using ImpactLeapApp.Data;
 using ImpactLeapApp.Models.OrderModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace ImpactLeapApp.Models.SampleSeedData
         public static void Initialize(ApplicationDbContext db)
         {
             GetModules(db);
-            GetPortfolios(db);
+            // Removed by request. To apply, uncomment this.
+            // GetPortfolios(db);
             GetSavings(db);
             GetPromotions(db);
         }
@@ -25,7 +27,6 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 {
                     ModuleName = "Overview and Financials",
                     Description = "Description Overview and Financials",
-                    ModuleSample = "images/moduleSamples/1-example-page.png",
                     UnitPrice = 0,
                     ModifiedDate = DateTime.Today,
                 });
@@ -33,7 +34,6 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 {
                     ModuleName = "Operational blueprint and asset-level data",
                     Description = "Description Operational blueprint and asset-level data",
-                    ModuleSample = "images/moduleSamples/2-example-page.png",
                     UnitPrice = 25,
                     ModifiedDate = DateTime.Today,
                 });
@@ -41,7 +41,6 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 {
                     ModuleName = "Social Impact metrics",
                     Description = "Description Social Impact metrics",
-                    ModuleSample = "images/moduleSamples/3-example-page.png",
                     UnitPrice = 25,
                     ModifiedDate = DateTime.Today,
                 });
@@ -49,7 +48,6 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 {
                     ModuleName = "Environmental impact metrics",
                     Description = "Description Environmental impact metrics",
-                    ModuleSample = "images/moduleSamples/4-example-page.png",
                     UnitPrice = 25,
                     ModifiedDate = DateTime.Today,
                 });
@@ -57,7 +55,6 @@ namespace ImpactLeapApp.Models.SampleSeedData
                 {
                     ModuleName = "Governance and controversies",
                     Description = "Description Governance and controversies",
-                    ModuleSample = "images/moduleSamples/5-example-page.png",
                     UnitPrice = 25,
                     ModifiedDate = DateTime.Today,
                 });

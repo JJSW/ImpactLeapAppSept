@@ -97,9 +97,24 @@
                                                     @Html.Raw(strSpacer)View
                                                 </a>
                                                 <ul class="lightgallery-images">
-                                                    <li data-src="@Model.ElementAt(@i).Modules.ModuleSample" data-sub-html="Sample report for: @Model.ElementAt(@i).Modules.ModuleName">
-                                                        <img src="@Model.ElementAt(@i).Modules.ModuleSample" alt="Image" />
-                                                    </li>       
+                                                    @{
+                                                        var moduleSamplePath = Model.ElementAt(@i).Modules.ModuleSamplePath;
+                                                        var moduleSampleName = Model.ElementAt(@i).Modules.ModuleSampleName;
+                                                        var moduleName = Model.ElementAt(@i).Modules.ModuleName;
+                                                        List<string> moduleSampleNameList = new List<string>();
+                                                        moduleSampleNameList = moduleSampleName.Split().ToList();
+
+                                                        foreach (var sample in moduleSampleNameList)
+                                                        {
+                                                            var samplePath = moduleSamplePath + sample;
+
+                                                            <li data-src= "samplePath"
+                                                                data-sub-html="Sample report for : @moduleName">
+                                                                <img src="samplePath" alt="Image" />
+                                                            </li>
+
+                                                        }
+                                                    }
                                                 </ul>
                                             </div>
                                         </td>
@@ -248,9 +263,9 @@
                         <div class="row static-info align-reverse">
                             <div class="col-md-8 name"> Multiple Module Savings: </div>
                             <div class="col-md-3 value">
-                                <input type="hidden" name="selectionDiscountMethod" />
-                                <input type="hidden" name="selectionDiscount" style="width:50px; border:none;" />
-                                <span class="text-danger" name="selectionDiscountDisplay"></span>
+                                <input type="hidden" name="savingDiscountMethod" />
+                                <input type="hidden" name="savingDiscount" style="width:50px; border:none;" />
+                                <span class="text-danger" name="savingDiscountDisplay"></span>
                             </div>
                         </div>
                         <div class="row static-info align-reverse">
@@ -277,7 +292,7 @@
     <!--iCheck -->
     <link rel="stylesheet" href="~/lib/iCheck/skins/flat/_all.css">
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
-    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>-->
+    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
 
     <!--LightGallery -->
     <link rel="stylesheet" href="~/lib/lightgallery/css/lightgallery.css" />
@@ -290,7 +305,7 @@
     <script type="text/javascript">
 
         var totalPrice = 0;
-        var selectionDiscount = 0;
+        var savingDiscount = 0;
         var totalToPay = 0;
 
         $(document).ready(function () {
@@ -302,9 +317,10 @@
         function calculateTotal() {
 
             var tempTotalPrice = 0;
-            var tempSelectionDiscount = 0;
-            var tempSelectionDiscountMethod;
+            var tempSavingDiscount = 0;
+            var tempSavingDiscountMethod;
             var tempTotalToPay = 0;
+            var dollarCent = 100;
 
             var isFixedSaving = false;
             var isPercentageSaving = false;
@@ -329,8 +345,8 @@
                         isPercentageSaving = true;
                         isFixedSaving = false;
                     }
-                    tempSelectionDiscount = value.savingRate;
-                    tempSelectionDiscountMethod = value.discountMethod;
+                    tempSavingDiscount = value.savingRate;
+                    tempSavingDiscountMethod = value.discountMethod;
                 }
             });
 
@@ -338,25 +354,25 @@
             $("input[name=totalPrice]").val(tempTotalPrice);
 
             // Multiple saving
-            $("input[name=selectionDiscountMethod]").val(tempSelectionDiscountMethod);
-            $("input[name=selectionDiscount]").val(tempSelectionDiscount);
+            $("input[name=savingDiscountMethod]").val(tempSavingDiscountMethod);
+            $("input[name=savingDiscount]").val(tempSavingDiscount);
 
-            if (tempSelectionDiscount != null || tempSelectionDiscount != 0) {
+            if (tempSavingDiscount != null || tempSavingDiscount != 0) {
 
                 if (isFixedSaving) {
-                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                    $("span[name=savingDiscountDisplay]").text("-$" + tempSavingDiscount);
                 } else if (isPercentageSaving) {
-                    var percentageSaving = (tempTotalPrice * tempSelectionDiscount) / 100;
+                    var percentageSaving = (tempTotalPrice * tempSavingDiscount) / dollarCent;
                     console.log(percentageSaving);
-                    $("span[name=selectionDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSelectionDiscount + "%)");
-                    tempSelectionDiscount = percentageSaving;
+                    $("span[name=savingDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSavingDiscount + "%)");
+                    tempSavingDiscount = percentageSaving;
                 } else {
-                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                    $("span[name=savingDiscountDisplay]").text("-$" + tempSavingDiscount);
                 }
             }
 
             // Total to pay
-            tempTotalToPay = Math.floor(tempTotalPrice - tempSelectionDiscount);
+            tempTotalToPay = Math.floor(tempTotalPrice - tempSavingDiscount);
 
             $("input[name=totalToPay]").val(tempTotalToPay);
 
@@ -365,8 +381,8 @@
             }
 
             totalPrice = tempTotalPrice;
-            selectionDiscount = tempSelectionDiscount;
-            tempSelectionDiscountMethod = tempSelectionDiscountMethod;
+            savingDiscount = tempSavingDiscount;
+            tempSavingDiscountMethod = tempSavingDiscountMethod;
             totalToPay = tempTotalToPay;
         }
 

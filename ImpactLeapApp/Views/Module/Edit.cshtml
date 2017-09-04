@@ -56,10 +56,30 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ModuleSample" class="col-md-2 control-label"></label>
+                    <label asp-for="ModuleSampleName" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="ModuleSample" class="form-control input-medium" type="file" name="files" />
-                        <span asp-validation-for="ModuleSample" class="text-danger admin-align-middle"></span>
+                        @{ var moduleSampleList = (List<string>)ViewBag.ModuleSampleNameList; }
+                        @if (moduleSampleList != null)
+                        {
+                            <table class="table-bordered module-sample-table-border">
+                                <tr>
+                                    @for (var i = 0; i < moduleSampleList.Count(); i++)
+                                    {
+                                        var samplePath = Model.ModuleSamplePath + moduleSampleList[i];
+                                        <th>
+                                            <figure class="figure text-center" style="margin:10px;">
+                                                <img src="@samplePath" class="figure-img img-fluid module-sample-size center-block" /><br />
+                                                <figcation class="figure-caption" id="@moduleSampleList[i]">@moduleSampleList[i]</figcation>
+                                                <a id="@i" role="button" class="btn red-sunglo btn-sm"> Delete </a>
+                                            </figure>
+                                        </th>
+                                    }
+                                </tr>
+                            </table>
+                        }
+
+                        <input asp-for="ModuleSampleName" class="form-control input-medium" type="file" name="files" />
+                        <span asp-validation-for="ModuleSampleName" class="text-danger admin-align-middle"></span>
                     </div>
                 </div>
 
@@ -80,4 +100,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a[role=button]").click(function (e) {
+                alert($("figcation").attr("id"));
+            });
+        });
+    </script>
 }

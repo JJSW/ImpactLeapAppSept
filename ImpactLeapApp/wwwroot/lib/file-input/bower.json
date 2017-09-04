@@ -1,0 +1,22 @@
+{
+  "name": "file-input",
+  "version": "1.0.1",
+  "authors": [
+    "Nicolas BUI <nicolas.bui@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": [
+    "dist/fileinput.min.js",
+    "dist/fileinput.min.css"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}

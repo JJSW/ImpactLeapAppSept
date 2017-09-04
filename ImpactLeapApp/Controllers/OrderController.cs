@@ -29,13 +29,13 @@ namespace ImpactLeapApp.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private IHostingEnvironment _environment;
         private readonly ILogger _logger;
+        private readonly string _externalCookieScheme;
         private static string _emailAddress;
         private static string _orderNumber;
-        private readonly string _externalCookieScheme;
         private static Int32 _orderId;
         private static int _totalPrice;
-        private static int _selectionDiscount;
-        private static string _totalToPay;
+        private static int _savingDiscount;
+        private static int _totalToPay;
 
         private readonly int _dollarCent = 100; // $10.00 = 1000
 
@@ -65,7 +65,7 @@ namespace ImpactLeapApp.Controllers
             if (id != 0)
             {
                 ViewData["PortfolioId"] = id;
-                TempData["IsPortfolioSet"] = true;
+                ViewData["IsPortfolioSet"] = true;
             }
 
             // Check email if a user signed in
@@ -96,9 +96,9 @@ namespace ImpactLeapApp.Controllers
         [AllowAnonymous]
         public IActionResult NewOrder()
         {
-            ViewBag.TotalPrice = _totalPrice;
-            ViewBag.SelectionDiscount = _selectionDiscount;
-            ViewBag.TotalToPay = _totalToPay;
+            TempData["TotalPrice"] = _totalPrice;
+            TempData["SavingDiscount"] = _savingDiscount;
+            TempData["TotalToPay"] = _totalToPay;
 
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["PortfolioId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).PortfolioId;
@@ -113,27 +113,24 @@ namespace ImpactLeapApp.Controllers
         [HttpPost]
         public async Task<IActionResult> NewOrder(IFormCollection collection,
                                                   string email,
-                                                  int selectionDiscountMethod,
                                                   int totalPrice,
-                                                  int selectionDiscount,
-                                                  string totalToPay,
+                                                  int savingDiscountMethod,
+                                                  int savingDiscount,
+                                                  int totalToPay,
                                                   int portfolioIdFromModule)
         {
-            //int parsedSelectionDiscount = 0;
-            int parsedTotalToPay = 0;
-            object parsedSelectionDiscountMethod = null; 
-
-            _totalPrice = totalPrice;
-            _selectionDiscount = selectionDiscount;
-            _totalToPay = totalToPay;
-            
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
 
-            TempData["TotalPrice"] = _totalPrice;
-            TempData["SelectionDiscount"] = _selectionDiscount;
-            ViewBag.TotalToPay = _totalToPay;
+            object parsedSavingDiscountMethod = null; 
 
+            _totalPrice = totalPrice;
+            _savingDiscount = savingDiscount;
+            _totalToPay = totalToPay;
+
+            TempData["TotalPrice"] = _totalPrice;
+            TempData["SavingDiscount"] = _savingDiscount;
+            TempData["TotalToPay"] = _totalToPay;
 
             // Save temporary data
             if (_signInManager.IsSignedIn(User))
@@ -173,11 +170,8 @@ namespace ImpactLeapApp.Controllers
             }
 
             ViewData["Email"] = _emailAddress;
-
-            parsedSelectionDiscountMethod = ParseValueToDiscountMethod(selectionDiscountMethod);
-            parsedTotalToPay = ParseStringToInt(_totalToPay);
-
-            ViewBag.TotalToPay = _totalToPay;
+            parsedSavingDiscountMethod = ParseValueToDiscountMethod(savingDiscountMethod);
+            ViewBag.SavingDiscountMethod = (SavingDiscountMethodList)parsedSavingDiscountMethod;
 
             // Set order number
             var ordersFromCurrentUser = _context.Orders.Where(o => o.UserEmail == _emailAddress);
@@ -202,9 +196,9 @@ namespace ImpactLeapApp.Controllers
                 OrderedDate = DateTime.Now,
                 UserId = TempUser.Id,
                 TotalPrice = _totalPrice,
-                SelectionDiscount = _selectionDiscount,
-                SelectionDiscountMethod = (SavingDiscountMethodList)parsedSelectionDiscountMethod,
-                TotalToPay = parsedTotalToPay * _dollarCent,
+                SavingDiscount = _savingDiscount,
+                SavingDiscountMethod = (SavingDiscountMethodList)parsedSavingDiscountMethod,
+                TotalToPay = _totalToPay * _dollarCent,
                 PromotionId = -1,
                 OrderNum = _orderNumber,
                 ModifiedDate = DateTime.Now,
@@ -223,7 +217,7 @@ namespace ImpactLeapApp.Controllers
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
-            ViewBag.SelectionDiscountMethod = selectionDiscountMethod;
+
 
             return View(orderDetails.ToList());
 
@@ -340,7 +334,7 @@ namespace ImpactLeapApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, string noteFromUser)
         {
-            ViewBag.TotalToPay = _totalToPay;
+            ViewData["TotalToPay"] = _totalToPay;
             string uploadDate = DateTime.Now.ToString("ddMMyyyy");
             string uploadPath = Path.Combine(_environment.WebRootPath, "uploads/" + uploadDate + "/" + _emailAddress);
             string uploadPathLink = HttpContext.Request.Scheme + "://" +
@@ -368,6 +362,7 @@ namespace ImpactLeapApp.Controllers
             }
 
             _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFilePath = uploadPathLink;
+            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).ModifiedDate = DateTime.Now;
 
             ViewData["OrderId"] = _orderId;
 

@@ -33,6 +33,7 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "User ID")]
         public string UserId { get; set; }
 
+
         [Display(Name = "Sales Rep")]
         public string SalesRep { get; set; }
 
@@ -47,11 +48,13 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
 
+
         [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
 
         [Display(Name = "Note from admin")]
         public string NoteFromAdmin { get; set; }
+
 
         [Display(Name = "Modules")]
         public string ModuleIds { get; set; }
@@ -60,13 +63,21 @@ namespace ImpactLeapApp.Models.OrderModels
         public int TotalPrice { get; set; }
 
         [Display(Name = "Saving Discount")]
-        public int SelectionDiscount { get; set; }
+        public int SavingDiscount { get; set; }
 
         [Display(Name = "Saving Discount Method")]
-        public SavingDiscountMethodList SelectionDiscountMethod { get; set; }
+        public SavingDiscountMethodList SavingDiscountMethod { get; set; }
 
         [Display(Name = "Total To Pay")]
         public int TotalToPay { get; set; }
+
+
+        [Display(Name = "Uploaded File Name")]
+        public string UploadedFileName { get; set; }
+
+        [Display(Name = "Uploaded File Path")]
+        public string UploadedFilePath { get; set; }
+
 
         [Display(Name = "Promotion ID")]
         public Int32 PromotionId { get; set; }
@@ -74,11 +85,6 @@ namespace ImpactLeapApp.Models.OrderModels
         [Display(Name = "Promotion Code")]
         public bool IsPromotionCodeApplied { get; set; }
 
-        [Display(Name = "Uploaded File Path")]
-        public string UploadedFilePath { get; set; }
-
-        [Display(Name = "Uploaded File Name")]
-        public string UploadedFileName { get; set; }
 
         [Display(Name = "Portfolio ID")]
         public Int32 PortfolioId { get; set; }
