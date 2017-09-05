@@ -109,12 +109,15 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
-            /* Removed by request
-            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
-            ViewData["OrderId"] = id;
-            ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
-            */
 
+            // Pass uploaded file list
+            ViewData["OrderId"] = id;
+            var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
+            ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
+            ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
+            
             return View(orderDetailVMs);
         }
 
@@ -153,6 +156,10 @@ namespace ImpactLeapApp.Controllers
             {
                 return NotFound();
             }
+
+            // Pass uploaded file list
+            var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
+            ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             return View(order);
         }

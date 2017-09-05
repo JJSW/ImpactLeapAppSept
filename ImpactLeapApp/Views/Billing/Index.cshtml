@@ -9,10 +9,15 @@
 
 @{
     ViewData["Title"] = "Billing";
+}
+
+@{
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var orderId = 0;
     var bAddressId = (int)@ViewData["BillingAddressId"];
     string strSpacer = "&nbsp;&nbsp;";
+    int dollarCent = 100;
+    double savingDiscountRate = 0.0;
 }
 
 @if (Model != null)
@@ -85,15 +90,9 @@
                                         {
                                             @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
                                             {
-                                                <a class="btn red sbold" data-toggle="modal" href="#basic">
+                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal">
                                                     Enter Promotional Code
                                                 </a>
-                                                <button id="promoCode"
-                                                        asp-controller="Order"
-                                                        asp-action="SubmitPromoCode"
-                                                        class="btn btn-success">
-                                                    Promotion Code
-                                                </button>
                                             }
                                             else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
                                             {
@@ -104,15 +103,12 @@
                                             }
                                             else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
                                             {
-                                                <button id="promoCode"
-                                                        asp-controller="Order"
-                                                        asp-action="SubmitPromoCode"
-                                                        class="btn btn-success">
-                                                    Promotion Code
-                                                </button>
-                                                <span class="alert alert-danger alert-custom">
-                                                    The promotion code is already used
+                                                <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
+                                                    @Html.Raw(strSpacer)The promotion code is already used
                                                 </span>
+                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal" style="margin-bottom:2px;">
+                                                    Enter Promotional Code
+                                                </a>
                                             }
                                         }
                                     </div>
@@ -121,39 +117,54 @@
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Sub total: </div>
                                         <div class="col-md-7 value">
-                                            @{ var subTotal = 0;}
-                                            @for (int i = 0; i < Model.Count(); i++)
-                                            {
-                                                subTotal += Model.ElementAt(@i).UnitPrice;
-                                            }
+                                            @{ var subTotal = ViewBag.TotalPrice;}
                                             @subTotal.ToString("C0", formatProvider)
                                         </div>
                                     </div>
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Multiple Modules Saving: </div>
                                         <div class="col-md-7 value">
-                                            @if (ViewBag.SavingDiscount != 0 || !object.Equals(ViewBag.SavingDiscount, "0"))
+
+                                            @{ int tempSavingDiscount = (int)ViewData["SavingDiscount"]; }
+
+                                            @if (tempSavingDiscount != 0)
+                                            {
+                                                if (ViewBag.SavingDiscountMethod != null)
+                                                {
+                                                    if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
+                                                    {
+                                                        var tempTotalPrice = ViewData["TotalPrice"];
+                                                        var tempDiscountRate = ViewData["SavingDiscount"];
+
+                                                        savingDiscountRate = (Convert.ToDouble(tempTotalPrice) * Convert.ToDouble(tempDiscountRate)) / dollarCent;
+                                                        <span class="text-danger">
+                                                            -@savingDiscountRate.ToString("C", formatProvider) (@tempSavingDiscount%)
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        savingDiscountRate = (int)ViewData["SavingDiscount"];
+                                                        <span class="text-danger">
+                                                            -@tempSavingDiscount.ToString("C0", formatProvider)
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
                                             {
                                                 <span class="text-danger">
-                                                    @{ var savingDiscount = ViewBag.SavingDiscount; }
-                                                    -@savingDiscount.ToString("C0", formatProvider)
+                                                    $0
                                                 </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="text-danger">
-                                                                $0
-                                                            </span>
-                                                        }
+                                            }
                                         </div>
                                     </div>
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Promotional Discounts: </div>
                                         <div class="col-md-7 value">
-                                            @if (!object.Equals((string)TempData["PromotionDiscountRate"], "0"))
+                                            @if ((int)ViewData["PromotionDiscountRate"] != 0)
                                             {
                                                 <span class="text-danger">
-                                                    @TempData["PromotionDiscountRate"]
+                                                    @ViewData["PromotionDiscountRate"],
                                                 </span>
                                             }
                                             else
@@ -167,7 +178,9 @@
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Total Due: </div>
                                         @{ int totalToPayDisplay = (int)ViewData["TotalToPayDisplay"];  }
-                                        <div class="col-md-7 value">@totalToPayDisplay.ToString("C0", formatProvider)</div>
+                                        <div class="col-md-7 value">
+                                        @totalToPayDisplay.ToString("C0", formatProvider)
+                                        </div>
                                     </div>
                                     <br />
 
@@ -180,8 +193,6 @@
                                     -->
                                     @if (@ViewData["TotalToPay"] != null && (int)@ViewData["TotalToPay"] != 0)
                                     {
-
-
                                         foreach (var m in Model) { orderId = m.OrderId; }
 
                                         <!--
@@ -256,7 +267,7 @@
                 </div>
                 <!-- END PORTLET BODY -->
 
-                <br/>
+                <br />
                 <!--Display module details as a partial view -->
                 @Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
 
@@ -266,38 +277,25 @@
 
     <div id="promotionCodeForm"></div>
 
-}
-
-
-
-<!-- /.modal-dialog -->
-<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+                                            }
+<!-- promotionModal -->
+<div class="modal fade" id="promotionModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Enter Your Promotional Code</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter code">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn green">Apply code</button>
-            </div>
         </div>
     </div>
 </div>
-<!-- /.modal-dialog -->
+
 
 @section scripts
 {
-
     <!--jquery UI-->
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+    <!--jquery validation -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <!--
         Creates Stripe tokens for custom payment process.
@@ -307,7 +305,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script type="text/javascript">
-    $(document).ready(function () {
+        $(document).ready(function () {
+        // Stripe
         $('#StripePay').on('click', function (event) {
             event.preventDefault();
             var $button = $(this),
@@ -326,35 +325,18 @@
             });
             StripeCheckout.open(opts);
         });
-    });
-    </script>
 
-    <script type="text/javascript">
-        $.noConflict();
-
+        // Promotion modal
         $("#promoCode").on("click", function () {
-            $("#promotionCodeForm").dialog({
-                type: "GET",
-                autoOpen: true,
-                resizable: true,
-                modal: true,
-                draggable: false,
-                title: "Enter your promotion code",
-                position: { my: "top", at: "top+50", of: window },
-                show: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                hide: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                width: 600,
-                height: 200,
 
-                open: function () {
-                    $(this).load('@Url.Action("SubmitPromoCode", "Billing")');
-                },
-            });
-        return false;
+            $.noConflict();
+            $("#promotionModal").modal({
+                keyboard: false,
+                remote: "/Billing/SubmitPromoCode"
+            }).show();
+            return false;
         });
+
+    });
     </script>
 }

@@ -47,7 +47,7 @@ var Layout = function () {
                     height = sidebar.height() + 20;
                 }
 
-                if ((height + headerHeight + footerHeight) <= App.getViewPort().height) {
+                if (height + headerHeight + footerHeight <= App.getViewPort().height) {
                     height = App.getViewPort().height - headerHeight - footerHeight;
                 }
             }
@@ -75,7 +75,7 @@ var Layout = function () {
                     if (path) {
                         // url match condition         
                         path = path.toLowerCase();
-                        if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
+                        if (path.length > 1 && url.substr(1, path.length - 1) === path.substr(1)) {
                             el = $(this);
                             return;
                         }
@@ -84,14 +84,14 @@ var Layout = function () {
             });
         }
  
-        if (!el || el.size() == 0) {
+        if (!el || el.size() === 0) {
             return;
         }
  
-        if (el.attr('href') == 'javascript:;' ||
-            el.attr('ui-sref') == 'javascript:;' ||
-            el.attr('href') == '#' ||
-            el.attr('ui-sref') == '#'
+        if (el.attr('href') === 'javascript:;' ||
+            el.attr('ui-sref') === 'javascript:;' ||
+            el.attr('href') === '#' ||
+            el.attr('ui-sref') === '#'
             ) {
             return;
         }
@@ -309,7 +309,7 @@ var Layout = function () {
 
         // handle the search query submit on enter press
         $('.page-sidebar .sidebar-search').on('keypress', 'input.form-control', function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 $('.sidebar-search').submit();
                 return false; //<---- Add this line
             }
@@ -454,7 +454,7 @@ var Layout = function () {
 
         // handle hor menu search form on enter press
         $('.page-header').on('keypress', '.hor-menu .search-form .form-control', function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 $(this).closest('.search-form').submit();
                 return false;
             }

@@ -40,6 +40,24 @@
     </script>
 </head>
 
+@{
+    var isAccount = false;
+    var isPartialRegister = false;
+    var isPartialLogin = false;
+    if (ViewContext.RouteData.Values["controller"].ToString() == "Account")
+    {
+        isAccount = true;
+    }
+    if (ViewContext.RouteData.Values["action"].ToString() == "PartialRegister")
+    {
+        isPartialRegister = true;
+    }
+    if (ViewContext.RouteData.Values["action"].ToString() == "PartialLogin")
+    {
+        isPartialLogin = true;
+    }
+}
+
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-grey">
 
     <!-- BEGIN PAGE WRAPPER -->
@@ -72,15 +90,12 @@
         <div class="clearfix"> </div>
 
         <!-- BEGIN CONTAINER -->
-        @if (@ViewContext.RouteData.Values["controller"].ToString() == "Account" 
-            || @ViewContext.RouteData.Values["action"].ToString() == "PartialRegister"
-            || @ViewContext.RouteData.Values["action"].ToString() == "PartialLogin")
+        @if (isAccount || isPartialRegister || isPartialLogin)
         {
             <div class="page-container">
                 @RenderBody()
             </div>
         }
-
         else
         {
             <div class="page-container">
@@ -109,13 +124,9 @@
     <script src="~/js/html5shiv.js"></script>
     <script src="~/js/respond.min.js"></script>
     <![endif]-->
-
     <!-- Library -->
-    <!--<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>-->
-    <script type="text/javascript" src="~/js/test/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/test/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Custom js -->
     <script type="text/javascript" src="~/js/app.js"></script>

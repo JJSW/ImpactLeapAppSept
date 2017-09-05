@@ -8,9 +8,7 @@
 @{ 
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var totalAmount = Model.TotalToPay / 100;
-    var uploadedFileName = Model.UploadedFileName;
-    var filePath = Model.UploadedFilePath;
-    string fileLink = filePath + uploadedFileName;
+    var uploadedFileNameList = ViewBag.UploadedFileList;
 }
 
 <form asp-action="Edit">
@@ -76,9 +74,14 @@
                 <div class="form-group edit-bottom-default-margin">
                     <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UploadedFileName)</label>
                     <div class="col-md-10 admin-align-middle">
-                        <a href="@fileLink">
-                            @Html.DisplayFor(Model => Model.UploadedFileName)
-                        </a>
+                        @foreach (var fileName in uploadedFileNameList)
+                        {
+                            var filePath = Model.UploadedFilePath;
+                            string fileLink = filePath + fileName;
+                            <a href="@fileLink">
+                                @fileName
+                            </a>
+                        }
                     </div>
                 </div>
 

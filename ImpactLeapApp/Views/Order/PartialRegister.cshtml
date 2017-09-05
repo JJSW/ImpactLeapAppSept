@@ -13,14 +13,7 @@
     <div class="content">
         <form class="register-form" asp-controller="Order" asp-action="PartialRegister" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-signin">
             <h3 class="font-green">Sign Up</h3>
-            <p class="hint"> Enter your personal details below: </p>
-
-            <div class="form-group">
-                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                <label class="control-label visible-ie8 visible-ie9">Company Name</label>
-                <input asp-for="CompanyName" type="text" autofocus="" placeholder="Company Name" class="form-control placeholder-no-fix">
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
-            </div>
+            <p class="hint"> Enter Email: </p>
 
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Email</label>
@@ -46,6 +39,15 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
 
+            <p class="hint"> Enter Company Name: </p>
+
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Company Name</label>
+                <input asp-for="CompanyName" type="text" autofocus="" placeholder="Company Name" class="form-control placeholder-no-fix">
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+
             <div class="form-actions account-btn-margin">
                 <a asp-controller="Account" asp-action="Login" class="btn green btn-outline">Login</a>
                 <button type="submit" class="btn green uppercase pull-right">Submit</button>
@@ -64,6 +66,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip({
+                    content: function () {
+                        return $(this).prop('title');
+                    },
                     position: {
                         at: "right top-15"                        
                     },

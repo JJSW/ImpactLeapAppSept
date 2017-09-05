@@ -35,7 +35,11 @@ namespace ImpactLeapApp.Controllers
         private static Int32 _orderId;
         private static int _totalPrice;
         private static int _savingDiscount;
+        private static object _savingDiscountMethod;
         private static int _totalToPay;
+        private static bool _isReturnFromPartial;
+        private static string _noteFromUser;
+        private static string _uploadedFileName;
 
         private readonly int _dollarCent = 100; // $10.00 = 1000
 
@@ -98,6 +102,7 @@ namespace ImpactLeapApp.Controllers
         {
             TempData["TotalPrice"] = _totalPrice;
             TempData["SavingDiscount"] = _savingDiscount;
+            ViewBag.SavingDiscountMethod = (SavingDiscountMethodList)_savingDiscountMethod;
             TempData["TotalToPay"] = _totalToPay;
 
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
@@ -105,6 +110,10 @@ namespace ImpactLeapApp.Controllers
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
             ViewData["Email"] = _emailAddress;
+
+            ViewBag.IsReturnedFromPartial = _isReturnFromPartial;
+            ViewData["NoteFromUser"] = _noteFromUser;
+            ViewData["UploadedFileName"] = _uploadedFileName;
 
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module);
             return View(OrderDetails.ToList());
@@ -172,6 +181,7 @@ namespace ImpactLeapApp.Controllers
             ViewData["Email"] = _emailAddress;
             parsedSavingDiscountMethod = ParseValueToDiscountMethod(savingDiscountMethod);
             ViewBag.SavingDiscountMethod = (SavingDiscountMethodList)parsedSavingDiscountMethod;
+            _savingDiscountMethod = (SavingDiscountMethodList)parsedSavingDiscountMethod;
 
             // Set order number
             var ordersFromCurrentUser = _context.Orders.Where(o => o.UserEmail == _emailAddress);
@@ -353,7 +363,7 @@ namespace ImpactLeapApp.Controllers
                     await file.CopyToAsync(fileStream);
                 }
 
-                _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName += file.FileName + " ";
+                _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName += file.FileName + ",";
             }
 
             if (noteFromUser != null)
@@ -462,6 +472,10 @@ namespace ImpactLeapApp.Controllers
                         _logger.LogInformation(3, "User created a new account with password.");
                         await _userManager.AddToRoleAsync(tempUser, "Member");
 
+                        _isReturnFromPartial = true;
+                        _noteFromUser = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser;
+                        _uploadedFileName = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName;
+
                         return RedirectToAction("NewOrder");
                     }
                     AddErrors(result);
@@ -483,6 +497,7 @@ namespace ImpactLeapApp.Controllers
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View();
         }
 
@@ -504,6 +519,11 @@ namespace ImpactLeapApp.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+
+                    _isReturnFromPartial = true;
+                    _noteFromUser = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser;
+                    _uploadedFileName = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName;
+
                     return RedirectToAction("NewOrder");
                 }
                 if (result.IsLockedOut)

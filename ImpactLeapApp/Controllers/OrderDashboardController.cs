@@ -95,8 +95,15 @@ namespace ImpactLeapApp.Controllers
                 return NotFound();
             }
 
-            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
+            // Pass uploaded file list
             ViewData["OrderId"] = id;
+
+            if (_context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName != null) {
+                var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
+                ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
             ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
 
             return View(orderDetailVMs);

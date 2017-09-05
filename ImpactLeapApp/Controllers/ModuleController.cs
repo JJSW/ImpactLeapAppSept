@@ -212,6 +212,12 @@ namespace ImpactLeapApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            string uploadPath = Path.Combine(_environment.WebRootPath, "images/moduleSamples/" + id);
+            if (Directory.Exists(uploadPath))
+            {
+                DeleteDirectory(uploadPath);
+            }
+
             var orderModule = await _context.Modules.SingleOrDefaultAsync(m => m.ModuleId == id);
             _context.Modules.Remove(orderModule);
             await _context.SaveChangesAsync();
@@ -221,6 +227,23 @@ namespace ImpactLeapApp.Controllers
         private bool OrderModuleExists(int id)
         {
             return _context.Modules.Any(e => e.ModuleId == id);
+        }
+
+        private void DeleteDirectory(string path)
+        {
+            // Delete all files from the Directory
+            foreach (string filename in Directory.GetFiles(path))
+            {
+                System.IO.File.Delete(filename);
+            }
+
+            // Check all child Directories and delete files
+            foreach (string subfolder in Directory.GetDirectories(path))
+            {
+                DeleteDirectory(subfolder);
+            }
+
+            Directory.Delete(path);
         }
 
         public void DeleteModuleSample(string moduleName, int id)

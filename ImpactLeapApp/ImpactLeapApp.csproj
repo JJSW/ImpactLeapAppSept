@@ -14,9 +14,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\lib\ion.rangeSlider\**" />
+    <Compile Remove="wwwroot\lib\jquery\**" />
     <Content Remove="wwwroot\lib\ion.rangeSlider\**" />
+    <Content Remove="wwwroot\lib\jquery\**" />
     <EmbeddedResource Remove="wwwroot\lib\ion.rangeSlider\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery\**" />
     <None Remove="wwwroot\lib\ion.rangeSlider\**" />
+    <None Remove="wwwroot\lib\jquery\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,26 +65,6 @@
     <Content Include="wwwroot\js\respond.min.js" />
     <Content Include="wwwroot\js\scripts.js" />
     <Content Include="wwwroot\js\datatables-custom.js" />
-    <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.css" />
-    <Content Include="wwwroot\js\test\bootstrap\css\bootstrap.min.css" />
-    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.eot" />
-    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.svg" />
-    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
-    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff" />
-    <Content Include="wwwroot\js\test\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
-    <Content Include="wwwroot\js\test\bootstrap\js\bootstrap.js" />
-    <Content Include="wwwroot\js\test\bootstrap\js\bootstrap.min.js" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_444444_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_555555_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_777620_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_777777_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="wwwroot\js\test\jquery-ui\jquery-ui.min.css" />
-    <Content Include="wwwroot\js\test\jquery-ui\jquery-ui.min.js" />
-    <Content Include="wwwroot\js\test\jquery-ui\LICENSE.txt" />
-    <Content Include="wwwroot\js\test\jquery.min.js" />
-    <Content Include="wwwroot\js\test\jquery.min.map" />
     <Content Include="wwwroot\lib\datatables\bootstrap\datatables.bootstrap.css" />
     <Content Include="wwwroot\lib\datatables\bootstrap\datatables.bootstrap.js" />
     <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
@@ -97,6 +81,8 @@
     <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.css" />
     <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.js" />
     <Content Include="wwwroot\lib\dropzone\dist\readme.md" />
+    <Content Include="wwwroot\lib\jQuery-1.12.4\jquery-1.12.4.js" />
+    <Content Include="wwwroot\lib\jQuery-1.12.4\jquery-1.12.4.min.js" />
     <Content Include="wwwroot\lib\jquery-ui\.bower.json" />
     <Content Include="wwwroot\lib\jquery-ui\.gitignore" />
     <Content Include="wwwroot\lib\jquery-ui\bower.json" />
@@ -176,6 +162,7 @@
     <Content Include="wwwroot\lib\lightgallery\lib\picturefill.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="jquery" Version="1.12.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
@@ -205,6 +192,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="wwwroot\images\moduleSamples\" />
     <Folder Include="wwwroot\lib\jquery-ui\themes\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>

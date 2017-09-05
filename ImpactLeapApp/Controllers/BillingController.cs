@@ -27,12 +27,11 @@ namespace ImpactLeapApp.Controllers
         private readonly ApplicationDbContext _context;
         private static int _amountInt;
         private static string _emailAddress;
-        private static string _promotionDiscountRate;
-        private static string _totalToPay;
+        private static int _promotionDiscountRate;
+        private static int _totalToPay;
         private static Int32 _promotionId;
         private static Int32 _orderId;
         private static PromotionStatusList _promotionStatus;
-
 
         // To be able to sent total amount to Stripe API, makes cent digits to 100
         private int _dollarCent = 100;
@@ -52,12 +51,12 @@ namespace ImpactLeapApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
+            _promotionStatus = PromotionStatusList.Ready;
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<BillingDetailViewModel> billingVMs = new List<BillingDetailViewModel>();
             var totalToPay = 0;
             var moduleCount = 0;
-
-            _promotionDiscountRate = "0";
+            _promotionDiscountRate = 0;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -70,7 +69,7 @@ namespace ImpactLeapApp.Controllers
                 var billingDetails = (from u in _context.Users
                                       join o in _context.Orders on u.Id equals o.UserId
                                       join od in _context.OrderDetails on o.OrderId equals od.OrderId
-                                      join m in _context.Modules on od.ModuleId equals m.ModuleId
+                                      join m in _context.Modules on od.ModuleId equals m.ModuleId                                      
                                       select new
                                       {
                                           OrderId = o.OrderId,
@@ -107,7 +106,7 @@ namespace ImpactLeapApp.Controllers
                         PortfolioId = billing.PortfolidId,
                     });
                 };
-
+                
                 foreach (var billing in billingVMs)
                 {
                     moduleCount += 1;
@@ -115,12 +114,11 @@ namespace ImpactLeapApp.Controllers
                 }
 
                 ViewBag.BillingDetails = billingVMs;
-                ViewBag.SavingDiscount = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscount;
-                ViewBag.SavingDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscountMethod;
-                ViewBag.TotalPrice = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
-                var tempTotalToPay = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalToPay;
-                ViewBag.TotalToPay = tempTotalToPay / _dollarCent;
 
+                ViewData["TotalPrice"] = _context.Orders.SingleOrDefault(o => o.OrderId == id).TotalPrice;
+                ViewData["SavingDiscount"] = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscount;
+                ViewBag.SavingDiscountMethod = _context.Orders.SingleOrDefault(o => o.OrderId == id).SavingDiscountMethod;
+               
                 ViewData["TotalToPay"] = totalToPay;
                 ViewData["TotalToPayDisplay"] = totalToPay / _dollarCent;
                 ViewData["ModuleCount"] = moduleCount;
@@ -128,13 +126,12 @@ namespace ImpactLeapApp.Controllers
                 _orderId = (int)id;
             }
 
+            _amountInt = totalToPay;
+            ViewBag.PromotionStatus = _promotionStatus;
+            ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+
             var userId = await _userManager.GetUserIdAsync(user);
             var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.UserId == userId);
-            _amountInt = totalToPay;
-          
-            ViewBag.PromotionStatus = PromotionStatusList.Ready;
-            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
-
             ViewData["BillingAddressId"] = (billingAddress != null) ? (int)billingAddress.BillingAddressId : -1;
             ViewBag.BillingAddress = billingAddress;
 
@@ -251,8 +248,8 @@ namespace ImpactLeapApp.Controllers
                             {
                                 var promotionDiscountRate = verfiedPromotion.DiscountRate;
                                 tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
-                                _promotionDiscountRate = "-$" + promotionDiscountRate;
-                                TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                                _promotionDiscountRate = promotionDiscountRate;
+                                ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
                             }
                             else if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Percentage)
                             {
@@ -262,9 +259,10 @@ namespace ImpactLeapApp.Controllers
                                 var discountRateFixed = tempTotalAmountWithCent * promotionDicountRatePercent;
 
                                 tempTotalAmount = (int)((tempTotalAmountWithCent - discountRateFixed) * _dollarCent);
-                                _promotionDiscountRate = "-$" + discountRateFixed + " (" + promotionDiscountRate + "%" + ")";
+                                _promotionDiscountRate = promotionDiscountRate;
 
-                                TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                                ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+                                ViewData["PromotionDiscountRateFixed"] = discountRateFixed;
                             }
 
                             _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalToPay = tempTotalAmount;
@@ -273,10 +271,11 @@ namespace ImpactLeapApp.Controllers
 
                             await _context.SaveChangesAsync();
 
-                            _totalToPay = (tempTotalAmount / _dollarCent).ToString();
+                            _totalToPay = (tempTotalAmount / _dollarCent);
+                            ViewData["TotalToPayDisplay"] = _totalToPay;
 
                             ViewBag.PromotionStatus = PromotionStatusList.Applied;
-                            _promotionStatus = PromotionStatusList.Applied;
+                            _promotionStatus = PromotionStatusList.Applied; 
                         }
                         else
                         {
@@ -291,6 +290,7 @@ namespace ImpactLeapApp.Controllers
                 }
             }
 
+            ViewData["OrderId"] = _orderId;
             return View(promotion);
         }
 

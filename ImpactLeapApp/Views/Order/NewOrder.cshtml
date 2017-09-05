@@ -43,6 +43,7 @@
                     <span class="caption-subject bold font-yellow-casablanca">  Manually upload your portfolio </span>
                 </div>
             </div>
+
             <div class="portlet-body">
                 <div class="row static-info">
                     <div class="col-md-12 name">
@@ -51,26 +52,94 @@
                 </div>
                 <div class="row static-info">
                     <div class="col-md-12">
-                        <form class="dropzone dropzone-file-area dropzone-area-margin"
-                              id="dropzoneForm"
-                              asp-action="UploadFile"
-                              asp-controller="Order"
-                              method="post">
-                            <div class="fallback">
-                                <input name="file" type="file" multiple />
-                            </div>
-                        </form>
 
-                        <form id="noteFromUserForm" method="post" role="form">
-                            <div class="form-group">
-                                <textarea id="noteFromUser"
-                                          name="noteFromUser"
-                                          class="form-control"
-                                          placeholder="Add any additional comments"
-                                          rows="3"
-                                          style="margin-top:10px; margin-bottom:20px;"></textarea>
-                            </div>
-                        </form>
+                        @if (ViewBag.IsReturnedFromPartial != null)
+                        {
+                            @if (ViewBag.IsReturnedFromPartial)
+                            {
+                                @if (ViewData["UploadedFileName"] != null)
+                                {
+                                    <!-- BEGIN Portlet PORTLET-->
+                                    <div class="portlet box blue-madison">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                Below portfolio is already uploaded
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div style="margin-top:5px;">
+                                                @ViewData["UploadedFileName"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form class="dropzone dropzone-file-area dropzone-area-margin"
+                                          id="dropzoneForm"
+                                          asp-action="UploadFile"
+                                          asp-controller="Order"
+                                          method="post">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple />
+                                        </div>
+                                    </form>
+                                }
+
+                                @if (ViewData["NoteFromUser"] != null)
+                                {
+                                    <form id="noteFromUserForm" method="post" role="form">
+                                        <div class="form-group">
+                                            <textarea disabled
+                                                      id="noteFromUser"
+                                                      name="noteFromUser"
+                                                      class="form-control"
+                                                      placeholder="@ViewBag.NoteFromUser"
+                                                      rows="3"
+                                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                        </div>
+                                    </form>
+
+                                }
+                                else
+                                {
+                                    <form id="noteFromUserForm" method="post" role="form">
+                                        <div class="form-group">
+                                            <textarea id="noteFromUser"
+                                                      name="noteFromUser"
+                                                      class="form-control"
+                                                      placeholder="Add any additional comments"
+                                                      rows="3"
+                                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                        </div>
+                                    </form>
+                                }
+                            }
+                        }
+                        // Default
+                        else
+                        {
+                            <form class="dropzone dropzone-file-area dropzone-area-margin"
+                                  id="dropzoneForm"
+                                  asp-action="UploadFile"
+                                  asp-controller="Order"
+                                  method="post">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                </div>
+                            </form>
+
+                            <form id="noteFromUserForm" method="post" role="form">
+                                <div class="form-group">
+                                    <textarea id="noteFromUser"
+                                              name="noteFromUser"
+                                              class="form-control"
+                                              placeholder="Add any additional comments"
+                                              rows="3"
+                                              style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                </div>
+                            </form>
+                        }
 
                         <button id="submitFileComment" type="submit" value="Submit"
                                 class="btn btn-default blue-chambray">
@@ -103,6 +172,20 @@
                         <div class="form-group">
                             <div class="input-group">
                                 @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <b>
+                                        <input class="form-control"
+                                               disabled="disabled"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]" />
+                                    </b>
+                                }
+                                else
                                 {
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope"></i>
@@ -177,7 +260,7 @@
                                     {
                                         var tempTotalPrice = TempData["TotalPrice"];
                                         var tempDiscountRate = TempData["SavingDiscount"];
-                                        
+
                                         savingDiscountRate = (Convert.ToDouble(tempTotalPrice) * Convert.ToDouble(tempDiscountRate)) / dollarCent;
                                         <span class="text-danger">
                                             -@savingDiscountRate.ToString("C", formatProvider) (@tempSavingDiscount%)
@@ -229,6 +312,27 @@
 
 <div id="checkProceedForm"></div>
 
+<!-- Start modal -->
+<div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Did you forget to upload comment or file?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning text-center">
+                    Please click the upload button to proceed
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts{
 
     <!--dropzone-->
@@ -255,7 +359,7 @@
 
                 if (isFileInQueue) {
                     if (isFileSubmitted == false) {
-                        openProceedDialog();
+                        $("#warningModal").modal("show");
                         e.preventDefault();
                         return false;
                     }
@@ -263,7 +367,7 @@
 
                 if ($("#noteFromUser").val() || $.trim("#noteFromUser").val()) {
                     if (isCommentSubmitted == false) {
-                        openProceedDialog();
+                        $("#warningModal").modal("show");
                         e.preventDefault();
                         return false;
                     }
@@ -271,48 +375,6 @@
 
             });
         });
-
-        function openProceedDialog() {
-            $("#checkProceedForm").dialog({
-                type: "GET",
-                autoOpen: true,
-                resizable: true,
-                modal: true,
-                draggable: false,
-                title: "Did you forget to upload comment or file?",
-                position: { my: "top", at: "top+50", of: window },
-                show: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                hide: {
-                    effect: "drop", direction: "up", duration: 300
-                },
-                width: 600,
-                height: 250,
-
-                open: function () {
-                    var content = "Please click the upload button to proceed";
-                    $(this).html("<div class=\"alert alert-info text-center dialog-content\">" + content + "</div>");
-                },
-
-                buttons: {
-                    "Back": {
-                        text: "Back",
-                        class: "btn btn-default btn-modal",
-                        click: function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                },
-
-                create: function () {
-                    $(this).closest(".ui-dialog")
-                        .find(".ui-button")
-                        .removeClass("ui-corner-all");
-                }
-
-            });
-        }
 
         $(document).ready(function () {
             $("#submitFileComment").on("click", function () {
@@ -351,6 +413,7 @@
             maxFiles: 10,
             //Prevent Dropzone from uploading dropped files immediately
             autoProcessQueue: false,
+            parallelUploads: 10,
             paramName: "file",
             dictDefaultMessage: "<div class=\"text-center\"><h3 class=\"sbold\">Drop files here or click to upload</h3>"
             + "<h5> Include holding names, ISINs, positions(number of shares or debt held) and other relevant information. </h5></div>",
@@ -369,7 +432,7 @@
                     }
                 });
 
-                // Send additional parameter (optional)
+                // Send additional parameter (optional) - submit files and comments together
                 /*this.on("sending", function (file, xhr, formData) {
                   formData.append("noteFromUser", $("#noteFromUser").val());
                 });*/
@@ -399,6 +462,12 @@
                         // AJAX request to delete file (optional)
                     });
                     file.previewElement.appendChild(removeButton);
+                });
+
+                this.on("complete", function (file) {
+                    if (this.getUploadingFiles().length() === 0 && this.getQueuedFiles().length === 0) {
+                        $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;file saved</span>");
+                    }
                 });
             }
         }

@@ -8,7 +8,7 @@
     var totalAmount = Model.FirstOrDefault().TotalToPay / 100;
     var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
-    var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
+    var uploadedFileNameList = ViewBag.UploadedFileList;
 }
 
 <div class="row">
@@ -116,7 +116,7 @@
                 </div>
 
                 <!-- START PORTLET FOR PORTFOLIO -->
-                @if (uploadedFileName != null || noteFromUser != null)
+                @if (uploadedFileNameList != null || noteFromUser != null)
                 {
                     <div class="col-md-6">
                         <div class="portlet blue-madison box">
@@ -124,10 +124,8 @@
                                 <div class="caption"> Portfolio </div>
                             </div>
 
-                            @if (uploadedFileName != null)
+                            @if (uploadedFileNameList != null)
                             {
-                                var filePath = Model.FirstOrDefault().UploadedFilePath;
-                                string fileLink = filePath + uploadedFileName;
                                 <div class="portlet-body">
 
                                     <table class="table order-summary-buttom-margin">
@@ -141,9 +139,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="@fileLink">
-                                                        @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
-                                                    </a>
+                                                    @foreach (var fileName in uploadedFileNameList)
+                                                    {
+                                                        var filePath = Model.FirstOrDefault().UploadedFilePath;
+                                                        string fileLink = filePath + fileName;
+                                                        <a href="@fileLink">
+                                                            @fileName
+                                                        </a>
+                                                    }
                                                 </td>
                                             </tr>
                                         </tbody>

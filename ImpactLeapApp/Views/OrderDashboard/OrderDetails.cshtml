@@ -8,7 +8,6 @@
     string strSpacer = "&nbsp;&nbsp;";
     var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
-    var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
 }
 
 <div class="row">
@@ -65,7 +64,7 @@
                     </div>
 
                     <!-- START PORTLET FOR PORTFOLIO -->
-                    @if (uploadedFileName != null || noteFromUser != null)
+                    @if (ViewBag.UploadedFileList != null || noteFromUser != null)
                     {
                         <div class="col-md-6">
                             <div class="portlet blue-madison box">
@@ -73,12 +72,9 @@
                                     <div class="caption"> Portfolio </div>
                                 </div>
 
-                                @if (uploadedFileName != null)
+                                @if (ViewBag.UploadedFileList != null)
                                 {
-                                    var filePath = Model.FirstOrDefault().UploadedFilePath;
-                                    string fileLink = filePath + uploadedFileName;
                                     <div class="portlet-body">
-
                                         <table class="table order-summary-buttom-margin">
                                             <thead>
                                                 <tr class="active">
@@ -90,14 +86,19 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <a href="@fileLink">
-                                                            @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
-                                                        </a>
+                                                        @foreach (var fileName in ViewBag.UploadedFileList)
+                                                        {
+                                                            var filePath = Model.FirstOrDefault().UploadedFilePath;
+                                                            string fileLink = filePath + fileName;
+                                                            <a href="@fileLink">                             
+                                                                @fileName
+                                                            </a>
+                                                        }
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>                                
                                 }
 
                                 @if (noteFromUser != null)
@@ -133,6 +134,7 @@
                                         </a>
                                         -->
                                     </div>
+
                                 }
                             </div>
                         </div>
