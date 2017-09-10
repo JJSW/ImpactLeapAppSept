@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Promotion";
 }
-<form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Billing" method="post">
+<form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Billing" method="post" role="form">
     <div class="modal-header" style="margin-bottom: 10px;">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         <h4 class="modal-title">Enter Your Promotional Code</h4>
@@ -16,17 +16,16 @@
     </div>
     <div class="modal-footer" style="margin-top: 45px;">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <input type="submit" id="submitPromotionCode" class="btn red" value="Apply"/>
+        <input type="submit" id="submitPromotionCode" class="btn red" value="Apply" />
     </div>
 </form>
 
+<script type="text/javascript" src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script>
-    $('#submitPromotionCode').on('click', function (e) {
-        e.preventDefault();
-        console.log("submit promo code");
 
+<script type="text/javascript">
+    $('#submitPromotionCode').on('click', function (e) {
         if ($(this).valid()) {
             $.ajax({
                 url: this.action,
@@ -35,17 +34,11 @@
                 success: function (result) {
                     if (result.success == false) {
                         alert('The promotion code is not available');
-                    } else {
-                        window.location = '@ViewData["OrderId"]';  
                     }
                 },
-                error: function (result) {
-                    alert(result);
-                }
             });
         };
-
-        e.preventDefault();
-        return false;
     });
 </script>
+
+

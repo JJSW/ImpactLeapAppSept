@@ -88,20 +88,21 @@
                                     <div class="actions">
                                         @if ((int)ViewData["TotalToPayDisplay"] != 0)
                                         {
-                                            @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
+                                            @if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Ready || (PromotionStatusList)TempData["PromotionStatus"] == null)
                                             {
-                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal">
+                                                <a role="button" id="promoCode" class="btn red sbold"
+                                                   data-toggle="modal">
                                                     Enter Promotional Code
                                                 </a>
                                             }
-                                            else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Applied)
                                             {
                                                 <button class="btn btn-success disabled" pointer-events:none;">
                                                     <i class="fa fa-check" aria-hidden="true"></i>
                                                     @Html.Raw(strSpacer)Applied
                                                 </button>
                                             }
-                                            else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Used)
                                             {
                                                 <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
                                                     @Html.Raw(strSpacer)The promotion code is already used
@@ -161,11 +162,31 @@
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Promotional Discounts: </div>
                                         <div class="col-md-7 value">
-                                            @if ((int)ViewData["PromotionDiscountRate"] != 0)
+
+                                            @{ int tempPromotionDiscount = (int)ViewData["PromotionDiscountRate"]; }
+
+                                            @if (tempPromotionDiscount != 0)
                                             {
-                                                <span class="text-danger">
-                                                    @ViewData["PromotionDiscountRate"],
-                                                </span>
+                                                if (ViewBag.PromotionDiscountMethod != null)
+                                                {
+                                                    if (ViewBag.PromotionDiscountMethod == PromotionDiscountMethodList.Percentage)
+                                                    {
+                                                        var tempPromotionDiscountRate = ViewData["PromotionDiscountRate"];
+                                                        double tempPromotionDiscountRateFixed = (double)ViewData["PromotionDiscountRateFixed"];
+
+                                                        <span class="text-danger">
+                                                            -@tempPromotionDiscountRateFixed.ToString("C", formatProvider) (@tempPromotionDiscountRate%)
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        int tempPromotionDiscountRate = (int)ViewData["PromotionDiscountRate"];
+
+                                                        <span class="text-danger">
+                                                            -@tempPromotionDiscountRate.ToString("C0", formatProvider)
+                                                        </span>
+                                                    }
+                                                }
                                             }
                                             else
                                             {
@@ -179,7 +200,7 @@
                                         <div class="col-md-5 name"> Total Due: </div>
                                         @{ int totalToPayDisplay = (int)ViewData["TotalToPayDisplay"];  }
                                         <div class="col-md-7 value">
-                                        @totalToPayDisplay.ToString("C0", formatProvider)
+                                            @totalToPayDisplay.ToString("C0", formatProvider)
                                         </div>
                                     </div>
                                     <br />
@@ -289,23 +310,18 @@
 
 @section scripts
 {
-    <!--jquery UI-->
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
-    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
-
-    <!--jquery validation -->
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <!--
         Creates Stripe tokens for custom payment process.
         In this case, deals with a specific order with a specific user billing address
     -->
     <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
+
         // Stripe
         $('#StripePay').on('click', function (event) {
             event.preventDefault();
@@ -327,16 +343,12 @@
         });
 
         // Promotion modal
-        $("#promoCode").on("click", function () {
-
-            $.noConflict();
+        $("#promoCode").on("click", function (e) {
             $("#promotionModal").modal({
                 keyboard: false,
-                remote: "/Billing/SubmitPromoCode"
+                remote: "/Billing/SubmitPromoCode",
             }).show();
-            return false;
         });
-
     });
     </script>
 }

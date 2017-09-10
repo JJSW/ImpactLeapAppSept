@@ -46,6 +46,12 @@ namespace ImpactLeapApp.Models.BillingModels
         [Display(Name = "Module Price")]
         public int UnitPrice { get; set; }
 
+        // Promotion
+        [Required]
+        [StringLength(8, ErrorMessage = "Please input {1} letters", MinimumLength = 8)]
+        [Display(Name = "Promotion Code")]
+        public string PromotionCode { get; set; }
+
         // Portfolio 
         [Display(Name = "Portfolio ID")]
         public Int32 PortfolioId { get; set; }
