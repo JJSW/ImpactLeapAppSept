@@ -79,8 +79,9 @@
                             <tbody>
                                 @for (int i = 0; i < Model.Count(); i++)
                                 {
+                                    var moduleNumber = i + 1;
                                     <tr>
-                                        <td>@Model.ElementAt(@i).Modules.ModuleId</td>
+                                        <td>@moduleNumber</td>
                                         <td>
                                             <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
                                                 @Model.ElementAt(@i).Modules.ModuleName
@@ -200,14 +201,14 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
-                                        <b>
-                                            <input class="form-control"
-                                                   type="email"
-                                                   required="required"
-                                                   name="email"
-                                                   value="@ViewData["Email"]"
-                                                   placeholder="Enter your email" />
-                                        </b>
+                                    <b>
+                                        <input class="form-control"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]"
+                                               placeholder="Enter your email" />
+                                    </b>
                                     <!--}-->
                                 }
                                 else

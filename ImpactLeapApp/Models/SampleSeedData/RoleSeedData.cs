@@ -42,12 +42,12 @@ namespace ImpactLeapApp.Models
                 });
             }
 
-            if (!context.Roles.Any(r => r.Name == "Temporary"))
+            if (!context.Roles.Any(r => r.Name == "Unregistered"))
             {
                 await roleStore.CreateAsync(new IdentityRole
                 {
-                    Name = "Temporary",
-                    NormalizedName = "TEMPORARY"
+                    Name = "Unregistered",
+                    NormalizedName = "UNREGISTERED"
                 });
             }
 
@@ -82,7 +82,7 @@ namespace ImpactLeapApp.Models
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
-                UserRole = UserRoleList.Temporary
+                UserRole = UserRoleList.Unregistered
             };
 
             var test = new ApplicationUser
@@ -123,7 +123,7 @@ namespace ImpactLeapApp.Models
                 var userStore = new UserStore<ApplicationUser>(context);
                 var result = userStore.CreateAsync(temp);
 
-                await AssignRoles(isp, temp.Email, "Temporary");
+                await AssignRoles(isp, temp.Email, "Unregistered");
             }
 
             if (!context.Users.Any(u => u.UserName == test.UserName))

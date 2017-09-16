@@ -49,31 +49,31 @@ namespace ImpactLeapApp.Controllers
             List<OrderDetailViewModel> orderDetailVMs = new List<OrderDetailViewModel>();
 
             var tempOrderDetails = (from u in _context.Users
-                                join o in _context.Orders on u.Id equals o.UserId
-                                join od in _context.OrderDetails on o.OrderId equals od.OrderId
-                                join m in _context.Modules on od.ModuleId equals m.ModuleId
-                                select new
-                                {
-                                    OrderId = o.OrderId,
-                                    OrderNum = o.OrderNum,
-                                    UserId = u.Id,
-                                    UserEmail = u.Email,
-                                    OrderDetailId = od.OrderDetailId,
-                                    OrderedDate = o.OrderedDate,
-                                    ModuleId = m.ModuleId,
-                                    ModuleIds = o.ModuleIds,
-                                    ModuleName = m.ModuleName,
-                                    NoteFromUser = o.NoteFromUser,
-                                    NoteFromAdmin = o.NoteFromAdmin,
-                                    UploadedFileName = o.UploadedFileName,
-                                    UploadedFilePath = o.UploadedFilePath,
-                                    TotalToPay = o.TotalToPay,
-                                    SalesRep = o.SalesRep,
-                                    DeliveredDate = o.DeliveredDate,
-                                    OrderStatus = o.OrderStatus,
-                                    Module = od.Module,
-                                    //PortfolioId = o.PortfolioId,
-                                }).ToList();
+                                    join o in _context.Orders on u.Id equals o.UserId
+                                    join od in _context.OrderDetails on o.OrderId equals od.OrderId
+                                    join m in _context.Modules on od.ModuleId equals m.ModuleId
+                                    select new
+                                    {
+                                        OrderId = o.OrderId,
+                                        OrderNum = o.OrderNum,
+                                        UserId = u.Id,
+                                        UserEmail = u.Email,
+                                        OrderDetailId = od.OrderDetailId,
+                                        OrderedDate = o.OrderedDate,
+                                        ModuleId = m.ModuleId,
+                                        ModuleIds = o.ModuleIds,
+                                        ModuleName = m.ModuleName,
+                                        NoteFromUser = o.NoteFromUser,
+                                        NoteFromAdmin = o.NoteFromAdmin,
+                                        UploadedFileName = o.UploadedFileName,
+                                        UploadedFilePath = o.UploadedFilePath,
+                                        TotalToPay = o.TotalToPay,
+                                        SalesRep = o.SalesRep,
+                                        DeliveredDate = o.DeliveredDate,
+                                        OrderStatus = o.OrderStatus,
+                                        Module = od.Module,
+                                        //PortfolioId = o.PortfolioId,
+                                    }).ToList();
 
             var currentOrderDetails = tempOrderDetails.Where(y => y.OrderId == id)
                                                       .ToList();
@@ -113,11 +113,12 @@ namespace ImpactLeapApp.Controllers
             // Pass uploaded file list
             ViewData["OrderId"] = id;
             var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
-            ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (tempUploadedFile != null)
+                ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;
             ViewBag.Portfolio = _context.Portfolios.SingleOrDefault(p => p.PortfolioId == portfolidId);
-            
+
             return View(orderDetailVMs);
         }
 
@@ -159,7 +160,8 @@ namespace ImpactLeapApp.Controllers
 
             // Pass uploaded file list
             var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
-            ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (tempUploadedFile != null)
+                ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             return View(order);
         }

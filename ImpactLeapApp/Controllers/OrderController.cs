@@ -167,7 +167,7 @@ namespace ImpactLeapApp.Controllers
                         NormalizedEmail = email.ToUpper(),
                         UserName = email,
                         NormalizedUserName = email.ToUpper(),
-                        UserRole = UserRoleList.Temporary,
+                        UserRole = UserRoleList.Unregistered,
                         ModifiedDate = DateTime.Now,
                     };
 

@@ -248,8 +248,11 @@ namespace ImpactLeapApp.Controllers
 
         public void DeleteModuleSample(string moduleName, int id)
         {
+            string[] moduleSampleNameList = new string[] { };
             var moduleSampleName = _context.Modules.SingleOrDefault(m => m.ModuleId == id).ModuleSampleName;
-            var moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (moduleSampleName != null)
+                moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
             var tempModuleList = moduleSampleNameList.ToList();
             var tempModuleName = "";
 

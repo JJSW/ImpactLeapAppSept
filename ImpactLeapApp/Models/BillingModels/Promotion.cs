@@ -17,6 +17,7 @@ namespace ImpactLeapApp.Models.OrderModels
         Ready,
         Applied,
         Used,
+        Invalid,
     }
 
     public class Promotion : BaseEntity

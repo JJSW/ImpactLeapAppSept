@@ -299,12 +299,12 @@ namespace ImpactLeapApp.Controllers
                     }
                     else
                     {
-                        return Json(new { success = false });
+                        _promotionStatus = PromotionStatusList.Invalid;
                     }
                 }
                 else
                 {
-                    return Json(new { success = false });
+                    _promotionStatus = PromotionStatusList.Invalid;
                 }
             }
 

@@ -14,7 +14,7 @@ namespace ImpactLeapApp.Models
         Admin,
         Manager,
         Member,
-        Temporary
+        Unregistered,
     }
 
     // Add profile data for application users by adding properties to the ApplicationUser class

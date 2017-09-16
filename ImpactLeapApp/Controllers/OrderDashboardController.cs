@@ -98,9 +98,12 @@ namespace ImpactLeapApp.Controllers
             // Pass uploaded file list
             ViewData["OrderId"] = id;
 
-            if (_context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName != null) {
+            if (_context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName != null)
+            {
                 var tempUploadedFile = _context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName;
-                ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (tempUploadedFile != null)
+                    ViewBag.UploadedFileList = tempUploadedFile.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             var portfolidId = _context.Orders.SingleOrDefault(o => o.OrderId == id).PortfolioId;

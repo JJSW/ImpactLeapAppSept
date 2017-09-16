@@ -72,7 +72,15 @@
                                     </div>
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Order Date & Time: </div>
-                                        <div class="col-md-7 value">@Model.FirstOrDefault().OrderedDate.ToString("MMMM dd, yyyy h:mm tt", formatProvider)</div>
+                                        @{ var orderedDate = Model.FirstOrDefault().OrderedDate; }
+                                        @if (orderedDate != null)
+                                        {
+                                            <div class="col-md-7 value">@orderedDate.ToString("MMMM dd, yyyy h:mm tt", formatProvider)</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-7 value"></div>
+                                        }
                                     </div>
                                     <div class="row static-info">
                                         <div class="col-md-5 name"> Order Status: </div>
@@ -106,6 +114,15 @@
                                             {
                                                 <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
                                                     @Html.Raw(strSpacer)The promotion code is already used
+                                                </span>
+                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal" style="margin-bottom:2px;">
+                                                    Enter Promotional Code
+                                                </a>
+                                            }
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Invalid)
+                                            {
+                                                <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
+                                                    @Html.Raw(strSpacer)The promotion code is invaild
                                                 </span>
                                                 <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal" style="margin-bottom:2px;">
                                                     Enter Promotional Code
