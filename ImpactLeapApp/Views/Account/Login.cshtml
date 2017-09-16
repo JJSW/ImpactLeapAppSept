@@ -6,6 +6,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="login">
@@ -78,8 +79,5 @@
 
 
 @section Scripts {
-
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
-    <link rel="stylesheet" href="~/css/login.css" />  
 }
