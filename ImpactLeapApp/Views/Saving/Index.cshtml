@@ -1,0 +1,204 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.Saving>
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "Admin / Savings";
+}
+
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+<h1 class="page-title">
+    Module Savings
+</h1>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Module Savings</span>
+        </li>
+    </ul>
+</div>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+    <a asp-action="Create" role="button" class="btn sbold green">
+        Add New @Html.Raw(strSpacer)<span class="fa fa-plus"></span>
+    </a>
+}
+
+<br /><br />
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Module Saving </span>
+                    <span class="caption-helper">@Html.Raw(strSpacer)| @Html.Raw(strSpacer)Module saving details</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SavingId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SavingName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SavingRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SelectFrom)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SelectTo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SavingId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SavingName)
+                                </td>
+
+                                @if (item.DiscountMethod == SavingDiscountMethodList.Fixed)
+                                {
+                                    <td>
+                                        @item.SavingRate.ToString("C0", formatProvider)
+                                    </td>
+                                }
+                                else if (item.DiscountMethod == SavingDiscountMethodList.Percentage)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SavingRate)%
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SelectFrom)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SelectTo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.SavingId"
+                                       class="btn blue-madison btn-sm"
+                                       role="button">
+                                        Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.SavingId"
+                                       class="btn green-meadow btn-sm"
+                                       role="button">
+                                        Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.SavingId"
+                                       class="btn red-sunglo btn-sm"
+                                       role="button">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+
+@section scripts
+{
+    <!--dynamic table-->
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" />
+    <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization-->
+    <script type="text/javascript" src="~/js/datatables.bootstrap-init.js"></script>
+    <script type="text/javascript" src="~/js/datatables-custom-user.js"></script>
+
+    
+    <script type="text/javascript">
+
+        var $range = $(".range-slider");
+        var min = @ViewBag.MinimumSelectedFrom;
+        var max = @ViewBag.MaximumSelctedTo;
+
+        $(document).ready(function () {
+
+            $range.ionRangeSlider({
+                type: "double",
+                grid: true,
+                grid_margin: false,
+                grid_num: max,
+                min: 0,
+                max: max,
+                disable: true,
+                onStart: function (data) {
+                    addSpecialAreas(data.slider);
+                }
+            });
+        });
+
+        $.each(savingData.savingID, function (i){
+            $.each(savingData.savingID[i], function (key, val){
+                alert(key + val);
+            });
+        });
+
+        var selectFrom = 5;
+        var selectTo = 10;
+
+        function addSpecialAreas($slider) {
+            var area = [selectFrom, selectTo];
+            var $line = $slider.find(".irs-line");
+            var left_percent = area[0] / (max - min) * 100;
+            var right_percent = area[1] / (max - min) * 100;
+            var width_percent = right_percent - left_percent;
+
+            $line.append("<div class='area' style='left: " + left_percent +
+                "%; width: " + width_percent +
+                "%; right: " + right_percent +
+                "%;'></div>")
+        }
+    </script>
+
+
+}

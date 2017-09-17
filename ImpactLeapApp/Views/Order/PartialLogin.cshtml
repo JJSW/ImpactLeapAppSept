@@ -1,0 +1,83 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Partial Log in";
+}
+
+<div class="login">
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form class="form-signin" asp-controller="Order" asp-action="PartialLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <h3 class="form-title font-green">Log In</h3>
+            <div class="alert alert-danger display-hide">
+                <button class="close" data-close="alert"></button>
+                <span> Enter any username and password. </span>
+            </div>
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Email</label>
+                <input class="form-control form-control-solid placeholder-no-fix" asp-for="Email" type="text" autocomplete="off" placeholder="Email" name="email" autofocus value="@ViewData["Email"]" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                <input class="form-control form-control-solid placeholder-no-fix" asp-for="Password" type="password" autocomplete="off" placeholder="Password" name="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn green btn-block uppercase account-btn-margin">Login</button>
+            </div>
+            <div class="form-group" style="padding:20px 20px 25px 0px">
+                <div class="pull-left">
+                    <label class="rememberme mt-checkbox mt-checkbox-outline">
+                        <input asp-for="RememberMe" />
+                        @Html.DisplayNameFor(m => m.RememberMe)
+                        <span></span>
+                    </label>
+                </div>
+                <div class="pull-right forget-password-block">
+                    <a class="forgot-password" data-toggle="modal" href="#myModal"> Forgot Password?</a>
+                </div>
+            </div>
+            <div class="create-account">
+                <p>
+                    <a asp-action="Register" id="register-btn" class="uppercase" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                        Create an account
+                    </a>
+                </p>
+            </div>
+        </form>
+        <!-- END LOGIN FORM -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Forgot Password ?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning text-center">
+                    Please email <a href="mailto:info@impactleap.com">info@impactleap.com</a> to get your password reset
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" data-toggle="modal" class="btn dark btn-outline" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <link rel="stylesheet" href="~/css/login.css" />
+}

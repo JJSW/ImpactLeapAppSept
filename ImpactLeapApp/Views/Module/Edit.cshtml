@@ -1,0 +1,189 @@
+@model ImpactLeapApp.Models.OrderModels.Module
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@{
+    var moduleId = Model.ModuleId;
+}
+<?xml version="1.0" ?>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                <span class="caption-helper">| @Html.DisplayFor(Model => Model.ModuleName)</span>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
+
+                <input type="hidden" asp-for="ModuleId" />
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label asp-for="ModuleId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.ModuleId)
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <label asp-for="ModuleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="ModuleName" class="form-control" />
+                        <span asp-validation-for="ModuleName" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="Description" class="form-control">@Html.DisplayFor(model => model.Description)</textarea>
+                        <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UnitPrice" class="form-control input-medium" />
+                        <span asp-validation-for="UnitPrice" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ModuleSampleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10" id="fileInputForm">
+
+                        @{ var moduleSampleList = (List<string>)ViewBag.ModuleSampleNameList; }
+
+                        @if (moduleSampleList != null)
+                        {
+                            <table class="table-bordered module-sample-table-border">
+                                <tr>
+                                    @for (var i = 0; i < moduleSampleList.Count(); i++)
+                                    {
+                                        var samplePath = Model.ModuleSamplePath + moduleSampleList[i];
+                                        <th>
+                                            <figure class="figure text-center" style="margin:10px;">
+                                                <img src="@samplePath" class="figure-img img-fluid module-sample-size center-block" /><br />
+                                                <div class="figure-caption" id="@moduleSampleList[i]" accesskey=@i>
+                                                    @moduleSampleList[i]
+                                                </div>
+                                                <a id="@i" role="button" class="btn red-sunglo btn-sm"> Delete </a>
+                                            </figure>
+                                        </th>
+                                    }
+                                </tr>
+                            </table>
+                        }
+                    
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename"> </span>
+                                </div>
+                                <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input asp-for="ModuleSampleName" type="file" name="files">
+                                </span>
+                                <a href="javascript:;" class="input-group-addon btn red-sunglo fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                <a id="addInputFileButton" role="button" class="input-group-addon btn green-meadow fileinput-exists"> Add </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+
+            <a asp-action="Details" asp-route-id="@Model.ModuleId"
+               role="button" class="btn blue-madison">
+                Details
+            </a>
+
+            <input type="submit" value="Save" class="btn blue-chambray btn-left-margin" />
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link rel="stylesheet" href="~/lib/file-input/dist/fileinput.css" />
+    <script type="text/javascript" src="~/lib/file-input/dist/fileinput.js"></script>
+
+    <script type="text/javascript">
+
+        var addInputFileButton = 
+            "<br/>"+"<div class=\"fileinput fileinput-new\" data-provides=\"fileinput\">"+
+            "<div class=\"input-group input-large\">" +
+            "<div class=\"form-control uneditable-input input-fixed input-medium\" data-trigger=\"fileinput\">" +
+            "<i class=\"fa fa-file fileinput-exists\"></i>&nbsp;" +
+            "<span class=\"fileinput-filename\"> </span>" +
+            "</div>" +
+            "<span class=\"input-group-addon btn default btn-file\">" +
+            "<span class=\"fileinput-new\"> Select file </span>" +
+            "<span class=\"fileinput-exists\"> Change </span>" +
+            "<input asp-for=\"ModuleSampleName\" type=\"file\" name=\"files\">" +
+            "</span>" +
+            "<a href=\"javascript:;\" class=\"input-group-addon btn red-sunglo fileinput-exists\" data-dismiss=\"fileinput\"> Remove </a>" +
+            "</div></div>";
+
+        var maxAddButton = 10;
+        var buttonIndex = 1;
+
+        $(document).ready(function () {
+            $("#addInputFileButton").click(function (e) {
+                e.preventDefault();
+                if (buttonIndex < maxAddButton) {
+                    buttonIndex++;
+                    $("#fileInputForm").append(addInputFileButton);
+                }
+            });
+        });
+
+
+        var moduleSampleDictionary = [];
+
+        $(document).ready(function () {
+
+            $(".figure-caption").each(function () {
+
+                moduleSampleDictionary.push({
+                    key: $(this).attr("accesskey"),
+                    value: $(this).attr("id")
+                });
+            });
+
+            $("[role=button]").click(function (e) {
+                console.log(moduleSampleDictionary[$(this).attr("id")]);
+                var selecttedModuleName = moduleSampleDictionary[$(this).attr("id")];
+                $.ajax({
+                    url: "@Url.Action("DeleteModuleSample", "Module")",
+                    data: { moduleName: selecttedModuleName.value, id: @moduleId },
+                    success: function (result) {
+                        //console.log("Result:" + result);
+                        location.reload();
+                    },
+                    error: function (error) {
+                        //console.log("Error:" + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

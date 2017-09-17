@@ -1,0 +1,102 @@
+@model ImpactLeapApp.Models.OrderModels.Saving
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="alert alert-danger alert-danger-deletion">
+                <h3>Please confirm before delete</h3>
+            </div>
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Saving Details </span>
+                    <span class="caption-helper"> |@Html.DisplayFor(model => model.SavingName)</span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label asp-for="SavingName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.SavingName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.DiscountMethod)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SavingRate" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @if (Model.DiscountMethod == SavingDiscountMethodList.Fixed)
+                            {
+                                <span>
+                                    @Model.SavingRate.ToString("C0", formatProvider)
+                                </span>
+                            }
+                            else if (Model.DiscountMethod == SavingDiscountMethodList.Percentage)
+                            {
+                                <span>
+                                    @Html.DisplayFor(model => model.SavingRate)%
+                                </span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SelectFrom" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.SelectFrom)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SelectTo" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.SelectTo)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.Description)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IsActive" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.IsActive)
+                        </div>
+                    </div>
+                </div>
+
+                <br /><br />
+                <form asp-action="Delete">
+                    <a asp-action="Index" class="btn blue-chambray" role="button">
+                        Order Dashboard
+                    </a>
+
+                    <input type="submit" value="Delete" class="btn red-sunglo btn-left-margin" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+@model ImpactLeapApp.Models.OrderModels.Order
+
+@{
+    ViewData["Title"] = "Edit Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    var totalAmount = Model.TotalToPay / 100;
+    var uploadedFileNameList = ViewBag.UploadedFileList;
+}
+
+<form asp-action="Edit">
+
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                <span class="caption-helper">| @Html.DisplayFor(Model => Model.OrderNum)</span>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
+
+                <!-- Sort by Order model-->
+                <input type="hidden" asp-for="OrderId" />
+                <input type="hidden" asp-for="OrderNum" />
+                <input type="hidden" asp-for="UserEmail" />
+                <input type="hidden" asp-for="UserId" />
+
+                <input type="hidden" asp-for="OrderedDate" />
+
+                <input type="hidden" asp-for="NoteFromUser" />
+
+                <input type="hidden" asp-for="ModuleIds" />
+                <input type="hidden" asp-for="TotalPrice" />
+                <input type="hidden" asp-for="SavingDiscount" />
+                <input type="hidden" asp-for="SavingDiscountMethod" />
+                <input type="hidden" asp-for="TotalToPay" />
+                <input type="hidden" asp-for="PromotionId" />
+                <input type="hidden" asp-for="IsPromotionCodeApplied" />
+                <input type="hidden" asp-for="UploadedFilePath" />
+                <input type="hidden" asp-for="UploadedFileName" />
+                <input type="hidden" asp-for="PortfolioId" />
+
+                <input type="hidden" asp-for="ModifiedDate" />
+
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.UserEmail)
+                    </div>
+                </div>
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.OrderedDate)</label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.OrderedDate)
+                    </div>
+                </div>
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalToPay)</label>
+                    <div class="col-md-10 admin-align-middle">
+                        @totalAmount.ToString("C0", formatProvider)
+                    </div>
+                </div>
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UploadedFileName)</label>
+                    <div class="col-md-10 admin-align-middle">
+                        @if (uploadedFileNameList != null || uploadedFileNameList.Any())
+                        {
+                            @foreach (var fileName in uploadedFileNameList)
+                            {
+                                var filePath = Model.UploadedFilePath;
+                                string fileLink = filePath + fileName;
+                                <a href="@fileLink">
+                                    @fileName
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.NoteFromUser)</label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.NoteFromUser)
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <label asp-for="OrderStatus" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="OrderStatus"
+                                asp-items="Html.GetEnumSelectList<ImpactLeapApp.Models.OrderModels.OrderStatusList>()"
+                                class="form-control input-medium"></select>
+                        <span asp-validation-for="OrderStatus" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SalesRep" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="SalesRep" type="text" class="form-control input-medium" />
+                        <span asp-validation-for="SalesRep" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group form-no-max-width">
+                    <label asp-for="NoteFromAdmin" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="NoteFromAdmin" type="text" class="form-control">@Html.DisplayFor(model => model.NoteFromAdmin)</textarea>
+                        <span asp-validation-for="NoteFromAdmin" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DeliveredDate" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="DeliveredDate" type="text" id="datepicker" class="form-control input-medium" />
+                        <span asp-validation-for="DeliveredDate" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+            <a asp-action="Details" asp-route-id="@Model.OrderId"
+               role="button" class="btn blue-madison">
+                Details
+            </a>
+
+            <input type="submit" value="Save" class="btn blue-chambray btn-left-margin" />
+
+        </div>
+
+    </div>
+
+    @section scripts
+{
+
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+        <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+        <script>
+            $(function () {
+                $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" });
+            });
+        </script>
+    }
+
+
+</form>

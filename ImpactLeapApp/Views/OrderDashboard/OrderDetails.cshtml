@@ -1,0 +1,148 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetailViewModel>
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+@{
+    string strSpacer = "&nbsp;&nbsp;";
+    var orderNum = Model.FirstOrDefault().OrderNum;
+    var noteFromUser = Model.FirstOrDefault().NoteFromUser;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                    <span class="caption-helper">| @Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <!-- START PORTLET FOR MODULE -->
+                        <div class="portlet blue-madison box">
+                            <div class="portlet-title">
+                                <div class="caption"> Modules </div>
+                            </div>
+                            <div class="portlet-body">
+                                <table class="table order-summary-buttom-margin">
+                                    <thead class="thead-default">
+                                        <tr class="active">
+                                            <th>#</th>
+                                            <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            var moduleNum = @i + 1;
+                                            <tr>
+                                                <td>@Model.ElementAt(@i).ModuleId</td>
+                                                <td>@Model.ElementAt(@i).ModuleName</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- END PORTLET FOR MODULE -->
+
+                        <a asp-action="Index"
+                           class="btn blue-chambray" role="button">
+                            Order Dashboard
+                        </a>
+                    </div>
+
+                    <!-- START PORTLET FOR PORTFOLIO -->
+                    @if (ViewBag.UploadedFileList != null || noteFromUser != null)
+                    {
+                        <div class="col-md-6">
+                            <div class="portlet blue-madison box">
+                                <div class="portlet-title">
+                                    <div class="caption"> Portfolio </div>
+                                </div>
+
+                                @if (ViewBag.UploadedFileList != null)
+                                {
+                                    <div class="portlet-body">
+                                        <table class="table order-summary-buttom-margin">
+                                            <thead>
+                                                <tr class="active">
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.UploadedFileName)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @foreach (var fileName in ViewBag.UploadedFileList)
+                                                        {
+                                                            var filePath = Model.FirstOrDefault().UploadedFilePath;
+                                                            string fileLink = filePath + fileName;
+                                                            <a href="@fileLink">                             
+                                                                @fileName
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>                                
+                                }
+
+                                @if (noteFromUser != null)
+                                {
+                                    <div class="portlet-body">
+
+                                        <table class="table displayFullNote order-summary-buttom-margin">
+                                            <thead>
+                                                <tr class="active">
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.NoteFromUser)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <!-- delete edit function by request. Uncomment when it is needed
+
+                                        <a asp-controller="OrderDashboard"
+                                           asp-action="EditNote"
+                                           asp-route-id="@ViewData["OrderNum"]"
+                                           class="btn btn-primary"
+                                           role="button">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            @Html.Raw(strSpacer)Edit
+                                        </a>
+                                        -->
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    }
+                    <!-- END PORTLET FOR PORTFOLIO -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

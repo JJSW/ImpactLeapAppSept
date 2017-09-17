@@ -1,0 +1,93 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.Order>
+
+@{
+    ViewData["Title"] = "Order Cancel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="page-title">
+    Order Cancelled
+</h1>
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Order Dashboard</span>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Order Summary</span>
+        </li>
+    </ul>
+</div>
+
+<!-- BEGIN ROW -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Order Summary </span>
+                    <span class="caption-helper">| Order cancelled</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderNum)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalToPay)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderStatus)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var totalAmountDollar = item.TotalToPay / 100;
+                            <tr class="odd gradeX">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderNum)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderedDate)
+                                </td>
+                                <td>
+                                    $@totalAmountDollar
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <a asp-controller="OrderDashboard"
+               asp-action="Index"
+               class="btn btn-default blue-chambray" 
+               role="button">
+                Order Dashboard
+            </a>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END ROW -->

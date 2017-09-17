@@ -1,0 +1,44 @@
+@model Promotion
+@using ImpactLeapApp.Models.OrderModels
+@{
+    ViewData["Title"] = "Promotion";
+}
+<form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Billing" method="post" role="form">
+    <div class="modal-header" style="margin-bottom: 10px;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">Enter Your Promotional Code</h4>
+    </div>
+    <div class="modal-body">
+        <div class="col-sm-6 col-sm-offset-3">
+            <input asp-for="PromotionCode" class="form-control" placeholder="promotion code" />
+            <span asp-validation-for="PromotionCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer" style="margin-top: 45px;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <input type="submit" id="submitPromotionCode" class="btn red" value="Apply" />
+    </div>
+</form>
+
+<script type="text/javascript" src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+    $('#submitPromotionCode').on('click', function (e) {
+        if ($(this).valid()) {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success == false) {
+                        alert('The promotion code is not available');
+                    }
+                },
+            });
+        };
+    });
+</script>
+
+

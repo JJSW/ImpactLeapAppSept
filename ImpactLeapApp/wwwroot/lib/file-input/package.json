@@ -1,0 +1,21 @@
+{
+  "name": "file-input",
+  "version": "1.0.1",
+  "description": "Just an extract of Jasny File Input component",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasbui/file-input.git"
+  },
+  "author": "Nicolas BUI",
+  "license": "MIT",
+  "homepage": "https://github.com/nicolasbui/file-input#README",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.1.5",
+    "gulp-rename": "^1.2.2"
+  }
+}

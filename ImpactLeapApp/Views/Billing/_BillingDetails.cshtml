@@ -1,0 +1,126 @@
+@using ImpactLeapApp.Models.BillingModels
+@model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
+
+@{
+    ViewData["Title"] = "Billing Details";
+}
+
+@{
+    string noteFromUser = null;
+    string uploadedFileName = null;
+    if (Model != null)
+    {
+        noteFromUser = Model.FirstOrDefault().NoteFromUser;
+        uploadedFileName = Model.FirstOrDefault().UploadedFileName;
+    }
+}
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+
+            <!-- START PORTLET FOR MODULE -->
+            <div class="portlet blue-madison box">
+                <div class="portlet-title">
+                    <div class="caption"> Modules </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table order-summary-buttom-margin">
+                        <thead class="thead-default">
+                            <tr class="active">
+                                <th>#</th>
+                                <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
+                                <th class="text-center">Unit Price</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var moduleNum = @i + 1;
+                                <tr>
+                                    <td>@Model.ElementAt(@i).ModuleId</td>
+                                    <td>@Model.ElementAt(@i).ModuleName</td>
+                                    <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END PORTLET FOR MODULE -->
+        </div>
+
+        <!-- START PORTLET FOR PORTFOLIO -->
+        @if (uploadedFileName != null || noteFromUser != null)
+        {                        
+            <div class="col-md-6">
+            <div class="portlet blue-madison box">
+                <div class="portlet-title">
+                    <div class="caption"> Portfolio </div>
+                </div>
+
+                @if (uploadedFileName != null)
+                    {
+                    <div class="portlet-body">
+
+                        <table class="table order-summary-buttom-margin">
+                            <thead>
+                                <tr class="active">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UploadedFileName)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                @if (noteFromUser != null)
+                    {
+                    <div class="portlet-body">
+
+                        <table class="table displayFullNote order-summary-buttom-margin">
+                            <thead>
+                                <tr class="active">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoteFromUser)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+        }
+        <!-- END PORTLET FOR PORTFOLIO -->
+    </div>
+}
+else
+{
+    <div class="alert alert-warning" style="margin: 30px; display:table;">
+        <p>You haven't selected any module yet. </p>
+        <br />
+        <a class="btn btn-primary" asp-controller="Order" asp-action="Index">
+            Start Analysis
+        </a>
+    </div>
+}
+
+

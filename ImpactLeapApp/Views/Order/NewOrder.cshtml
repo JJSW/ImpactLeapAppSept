@@ -1,0 +1,476 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.OrderDetail>
+@using ImpactLeapApp.Models.OrderModels
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "New Order - Upload Portfolio";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    int dollarCent = 100;
+    double savingDiscountRate = 0.0;
+}
+
+<!-- BEGIN PAGE TITLE-->
+<h1 class="page-title">
+    Step 2. Upload Portfolio
+</h1>
+<!-- END PAGE TITLE-->
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Start Analysis</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Impact Categories</span>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Upload Portfolio</span>
+        </li>
+    </ul>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN ROW -->
+<div class="row">
+    <!-- BEGIN LEFT COLUMN-->
+    <div class="col-md-6">
+        <!-- BEGIN Portlet PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold font-yellow-casablanca">  Manually upload your portfolio </span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <div class="col-md-12 name">
+                        Please upload details of your portfolio for analysis and enter any additional comments in the area below.
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-12">
+
+                        @if (ViewBag.IsReturnedFromPartial != null)
+                        {
+                            @if (ViewBag.IsReturnedFromPartial)
+                            {
+                                @if (ViewData["UploadedFileName"] != null)
+                                {
+                                    <!-- BEGIN Portlet PORTLET-->
+                                    <div class="portlet box blue-madison">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                Below portfolio is already uploaded
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div style="margin-top:5px;">
+                                                @ViewData["UploadedFileName"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form class="dropzone dropzone-file-area dropzone-area-margin"
+                                          id="dropzoneForm"
+                                          asp-action="UploadFile"
+                                          asp-controller="Order"
+                                          method="post">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple />
+                                        </div>
+                                    </form>
+                                }
+
+                                @if (ViewData["NoteFromUser"] != null)
+                                {
+                                    <form id="noteFromUserForm" method="post" role="form">
+                                        <div class="form-group">
+                                            <textarea disabled
+                                                      id="noteFromUser"
+                                                      name="noteFromUser"
+                                                      class="form-control"
+                                                      placeholder="@ViewBag.NoteFromUser"
+                                                      rows="3"
+                                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                        </div>
+                                    </form>
+
+                                }
+                                else
+                                {
+                                    <form id="noteFromUserForm" method="post" role="form">
+                                        <div class="form-group">
+                                            <textarea id="noteFromUser"
+                                                      name="noteFromUser"
+                                                      class="form-control"
+                                                      placeholder="Add any additional comments"
+                                                      rows="3"
+                                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                        </div>
+                                    </form>
+                                }
+                            }
+                        }
+                        // Default
+                        else
+                        {
+                            <form class="dropzone dropzone-file-area dropzone-area-margin"
+                                  id="dropzoneForm"
+                                  asp-action="UploadFile"
+                                  asp-controller="Order"
+                                  method="post">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                </div>
+                            </form>
+
+                            <form id="noteFromUserForm" method="post" role="form">
+                                <div class="form-group">
+                                    <textarea id="noteFromUser"
+                                              name="noteFromUser"
+                                              class="form-control"
+                                              placeholder="Add any additional comments"
+                                              rows="3"
+                                              style="margin-top:10px; margin-bottom:20px;"></textarea>
+                                </div>
+                            </form>
+                        }
+
+                        <button id="submitFileComment" type="submit" value="Submit"
+                                class="btn btn-default blue-chambray">
+                            Upload files / comments
+                        </button>
+
+                        <span id="submitResult"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END LEFT COLUMN -->
+    <!-- BEGIN Portlet PORTLET-->
+    <div class="col-md-6">
+        <!-- BEGIN Sub-portlet PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+
+                    <span class="caption-subject bold">  Your information </span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <div class="col-md-7 name"> Where shall we send your analysis? </div>
+                </div>
+                <form role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <b>
+                                        <input class="form-control"
+                                               disabled="disabled"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]" />
+                                    </b>
+                                }
+                                else
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <b>
+                                        <input class="form-control"
+                                               disabled="disabled"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]" />
+                                    </b>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a href="@Url.Action("Index", "Billing", new { @id = ViewData["OrderId"] })"
+                       class="btn btn-default blue-chambray"
+                       role="button"
+                       id="proceedButton">
+                        Proceed to payment
+                    </a>
+                }
+                else
+                {
+                    <a id="proceedButton"
+                       asp-controller="Order"
+                       asp-action="CheckTempUser"
+                       asp-route-id="@ViewData["OrderId"]"
+                       class="btn btn-default blue-chambray"
+                       role="button">
+                        Proceed to payment
+                    </a>
+                }
+            </div>
+        </div>
+        <!-- END Sub-portlet PORTLET-->
+        <!-- BEGIN Sub-portlet PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <span class="caption-subject bold"> Total order value </span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="well">
+
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name"> Sub Total: </div>
+                        <div class="col-md-3 value">
+                            <span name="totalPrice">
+                                @{ var totalPrice = (int)TempData["TotalPrice"]; }
+                                @totalPrice.ToString("C0", formatProvider)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name"> Multiple Module Savings: </div>
+                        <div class="col-md-3 value">
+
+                            @{ int tempSavingDiscount = (int)TempData["SavingDiscount"]; }
+
+                            @if (tempSavingDiscount != 0)
+                            {
+                                if (ViewBag.SavingDiscountMethod != null)
+                                {
+                                    if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
+                                    {
+                                        var tempTotalPrice = TempData["TotalPrice"];
+                                        var tempDiscountRate = TempData["SavingDiscount"];
+
+                                        savingDiscountRate = (Convert.ToDouble(tempTotalPrice) * Convert.ToDouble(tempDiscountRate)) / dollarCent;
+                                        <span class="text-danger">
+                                            -@savingDiscountRate.ToString("C", formatProvider) (@tempSavingDiscount%)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        savingDiscountRate = (int)TempData["SavingDiscount"];
+                                        <span class="text-danger">
+                                            -@tempSavingDiscount.ToString("C0", formatProvider)
+                                        </span>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-danger">
+                                    $0
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="row static-info align-reverse">
+                        <div class="col-md-8 name"> Grand Total: </div>
+                        <div class="col-md-3 value">
+                            @{ var totalToPay = (int)TempData["TotalToPay"]; }
+
+                            @if (totalToPay != 0)
+                            {
+                                <span>
+                                    @totalToPay.ToString("C0", formatProvider)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>$0</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- END Sub-portlet PORTLET-->
+    </div>
+    <!-- END Portlet PORTLET-->
+
+</div>
+
+<div id="checkProceedForm"></div>
+
+<!-- Start modal -->
+<div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Did you forget to upload comment or file?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning text-center">
+                    Please click the upload button to proceed
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <!--dropzone-->
+    <link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
+    <link rel="stylesheet" href="~/lib/dropzone/dist/basic.css" />
+    <link rel="stylesheet" href="~/css/plugins.css" />
+    <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>-->
+
+    <!--jquery UI-->
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>-->
+
+
+    <script type="text/javascript">
+
+        var isCommentSubmitted = false;
+        var isFileSubmitted = false;
+        var isFileInQueue = false;
+
+        $(document).ready(function () {
+
+            $("#proceedButton").on("click", function (e) {
+                console.log(noteFromUser);
+
+                if (isFileInQueue) {
+                    if (isFileSubmitted == false) {
+                        $("#warningModal").modal("show");
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                if ($("#noteFromUser").val() || $.trim("#noteFromUser").val()) {
+                    if (isCommentSubmitted == false) {
+                        $("#warningModal").modal("show");
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+            });
+        });
+
+        $(document).ready(function () {
+            $("#submitFileComment").on("click", function () {
+                submitNote();
+            });
+            return false;
+        });
+
+        function submitNote() {
+            var isSuccess = false;
+
+            if ($("#noteFromUser").val() != "") {
+                var noteFromUser = { noteFromUser: $("#noteFromUser").val() }
+                $.ajax({
+                    type: "POST",
+                    url: "/Order/SubmitNote",
+                    data: noteFromUser,
+                    dataType: "json",
+                    success: function (result, status, xhr) {
+
+                    },
+                });
+                isSuccess = true;
+            }
+            if (isSuccess) {
+                $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;comment saved</span>");
+                isCommentSubmitted = true;
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        Dropzone.options.dropzoneForm = {
+
+            maxFiles: 10,
+            //Prevent Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            parallelUploads: 10,
+            paramName: "file",
+            dictDefaultMessage: "<div class=\"text-center\"><h3 class=\"sbold\">Drop files here or click to upload</h3>"
+            + "<h5> Include holding names, ISINs, positions(number of shares or debt held) and other relevant information. </h5></div>",
+
+            init: function () {
+                var submitButton = document.querySelector("#submitFileComment");
+                var myDropzone = this; //closure
+
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue();
+                    var acceptedFileCount = myDropzone.getAcceptedFiles().length;
+                    console.log(acceptedFileCount);
+
+                    if (acceptedFileCount > 0) {
+                        isFileSubmitted = true;
+                    }
+                });
+
+                // Send additional parameter (optional) - submit files and comments together
+                /*this.on("sending", function (file, xhr, formData) {
+                  formData.append("noteFromUser", $("#noteFromUser").val());
+                });*/
+
+                this.on("maxfilesexceeded", function (data) {
+                    var res = eval('(' + data.xhr.responseText + ')');
+                });
+
+                this.on("addedfile", function (file) {
+
+                    if (file.size > 0) {
+                        isFileInQueue = true;
+                    }
+
+                    console.log(isFileInQueue, isFileSubmitted);
+
+                    var removeButton = Dropzone.createElement("<button class=\"btn red btn-block\">Remove file</button>");
+
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        _this.removeFile(file);
+                        // AJAX request to delete file (optional)
+                    });
+                    file.previewElement.appendChild(removeButton);
+                });
+
+                this.on("complete", function (file) {
+                    if (this.getUploadingFiles().length() === 0 && this.getQueuedFiles().length === 0) {
+                        $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;file saved</span>");
+                    }
+                });
+            }
+        }
+    </script>
+
+}

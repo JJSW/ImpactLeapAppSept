@@ -1,0 +1,371 @@
+@using Microsoft.Extensions.Options
+@using ImpactLeapApp.Models.BillingModels
+@using ImpactLeapApp.Models.OrderModels
+@model IEnumerable<ImpactLeapApp.Models.BillingModels.BillingDetailViewModel>
+
+@inject IOptions<StripeSettings> Stripe
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Billing";
+}
+
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    var orderId = 0;
+    var bAddressId = (int)@ViewData["BillingAddressId"];
+    string strSpacer = "&nbsp;&nbsp;";
+    int dollarCent = 100;
+    double savingDiscountRate = 0.0;
+}
+
+@if (Model != null)
+{
+    <h1 class="page-title">
+        Order Summary
+    </h1>
+        <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html">Start Analysis</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Impact Categories</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Upload Portfolio</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Order Summary</span>
+            </li>
+        </ul>
+    </div>
+    <!-- END PAGE BAR -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold font-yellow-casablanca"> ORDER #@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum) </span>
+                        <span class="caption-helper">| @Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate) </span>
+                    </div>
+                </div>
+
+                <!-- START PORTLET BODY -->
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="portlet green-meadow box">
+                                <div class="portlet-title">
+                                    <div class="caption"> Order Details </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Customer email: </div>
+                                        <div class="col-md-7 value">@ViewData["Email"]</div>
+                                    </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Order Date & Time: </div>
+                                        @{ var orderedDate = Model.FirstOrDefault().OrderedDate; }
+                                        @if (orderedDate != null)
+                                        {
+                                            <div class="col-md-7 value">@orderedDate.ToString("MMMM dd, yyyy h:mm tt", formatProvider)</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-7 value"></div>
+                                        }
+                                    </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Order Status: </div>
+                                        <div class="col-md-7 value">@Html.DisplayFor(Model => Model.FirstOrDefault().OrderStatus)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="portlet box grey-cascade">
+                                <div class="portlet-title">
+                                    <div class="caption"> Total Due </div>
+                                    <div class="actions">
+                                        @if ((int)ViewData["TotalToPayDisplay"] != 0)
+                                        {
+                                            @if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Ready || (PromotionStatusList)TempData["PromotionStatus"] == null)
+                                            {
+                                                <a role="button" id="promoCode" class="btn red sbold"
+                                                   data-toggle="modal">
+                                                    Enter Promotional Code
+                                                </a>
+                                            }
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Applied)
+                                            {
+                                                <button class="btn btn-success disabled" pointer-events:none;">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                    @Html.Raw(strSpacer)Applied
+                                                </button>
+                                            }
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Used)
+                                            {
+                                                <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
+                                                    @Html.Raw(strSpacer)The promotion code is already used
+                                                </span>
+                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal" style="margin-bottom:2px;">
+                                                    Enter Promotional Code
+                                                </a>
+                                            }
+                                            else if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Invalid)
+                                            {
+                                                <span class="alert alert-warning alert-custom sbold" style="margin-right:5px; padding:3px;">
+                                                    @Html.Raw(strSpacer)The promotion code is invaild
+                                                </span>
+                                                <a role="button" id="promoCode" class="btn red sbold" data-toggle="modal" style="margin-bottom:2px;">
+                                                    Enter Promotional Code
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Sub total: </div>
+                                        <div class="col-md-7 value">
+                                            @{ var subTotal = ViewBag.TotalPrice;}
+                                            @subTotal.ToString("C0", formatProvider)
+                                        </div>
+                                    </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Multiple Modules Saving: </div>
+                                        <div class="col-md-7 value">
+
+                                            @{ int tempSavingDiscount = (int)ViewData["SavingDiscount"]; }
+
+                                            @if (tempSavingDiscount != 0)
+                                            {
+                                                if (ViewBag.SavingDiscountMethod != null)
+                                                {
+                                                    if (ViewBag.SavingDiscountMethod == SavingDiscountMethodList.Percentage)
+                                                    {
+                                                        var tempTotalPrice = ViewData["TotalPrice"];
+                                                        var tempDiscountRate = ViewData["SavingDiscount"];
+
+                                                        savingDiscountRate = (Convert.ToDouble(tempTotalPrice) * Convert.ToDouble(tempDiscountRate)) / dollarCent;
+                                                        <span class="text-danger">
+                                                            -@savingDiscountRate.ToString("C", formatProvider) (@tempSavingDiscount%)
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        savingDiscountRate = (int)ViewData["SavingDiscount"];
+                                                        <span class="text-danger">
+                                                            -@tempSavingDiscount.ToString("C0", formatProvider)
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">
+                                                    $0
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Promotional Discounts: </div>
+                                        <div class="col-md-7 value">
+
+                                            @{ int tempPromotionDiscount = (int)ViewData["PromotionDiscountRate"]; }
+
+                                            @if (tempPromotionDiscount != 0)
+                                            {
+                                                if (ViewBag.PromotionDiscountMethod != null)
+                                                {
+                                                    if (ViewBag.PromotionDiscountMethod == PromotionDiscountMethodList.Percentage)
+                                                    {
+                                                        var tempPromotionDiscountRate = ViewData["PromotionDiscountRate"];
+                                                        double tempPromotionDiscountRateFixed = (double)ViewData["PromotionDiscountRateFixed"];
+
+                                                        <span class="text-danger">
+                                                            -@tempPromotionDiscountRateFixed.ToString("C", formatProvider) (@tempPromotionDiscountRate%)
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        int tempPromotionDiscountRate = (int)ViewData["PromotionDiscountRate"];
+
+                                                        <span class="text-danger">
+                                                            -@tempPromotionDiscountRate.ToString("C0", formatProvider)
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">
+                                                    $0
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-5 name"> Total Due: </div>
+                                        @{ int totalToPayDisplay = (int)ViewData["TotalToPayDisplay"];  }
+                                        <div class="col-md-7 value">
+                                            @totalToPayDisplay.ToString("C0", formatProvider)
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <!--
+                                        Display and connect to Stripe API
+                                        There are 3 conditions to be able to proceed the payment.
+                                        1. Total amount exists
+                                        2. Total amount is not 0 (default module)
+                                        3. The client has a billing address (optional)
+                                    -->
+                                    @if (@ViewData["TotalToPay"] != null && (int)@ViewData["TotalToPay"] != 0)
+                                    {
+                                        foreach (var m in Model) { orderId = m.OrderId; }
+
+                                        <!--
+                                            Create options to send to Stripe API.
+                                            Billing address can be sent from the API by turning on the option.
+                                            Default currecty is CAD, however it can be changed by dynmically with extented functions
+                                        -->
+                                        <form action="/Billing/Charge" method="post">
+
+                                            <input type="submit"
+                                                   id="StripePay"
+                                                   value="Pay with card"
+                                                   class="btn btn-default blue-chambray"
+                                                   role="button"
+                                                   data-key='@Stripe.Value.PublishableKey'
+                                                   data-amount="@ViewData["TotalToPay"]"
+                                                   data-currency="USD"
+                                                   data-name="Impact Website"
+                                                   data-description="@ViewData["ModuleCount"] Module(s)"
+                                                   data-email="@ViewData["Email"]"
+                                                   data-billing-address="false"
+                                                   data-zip-code="false"
+                                                   data-locale="auto"
+                                                   data-image="/images/favicon.png" />
+
+                                            <span>
+                                                <a asp-controller="Billing"
+                                                   asp-action="Cancel"
+                                                   asp-route-id="@ViewData["OrderId"]"
+                                                   role="button"
+                                                   class="btn btn-default"
+                                                   style="margin-left:10px;">
+                                                    Cancel
+                                                </a>
+                                            </span>
+
+
+                                        </form>
+                                    }
+                                    else if (@ViewData["TotalToPay"] != null && (int)@ViewData["TotalToPay"] == 0)
+                                    {
+                                        foreach (var a in Model) { orderId = a.OrderId; }
+
+                                        <div class="btn-center">
+                                            <a class="btn btn-default blue-chambray"
+                                               href="@Url.Action("ChargeDefault", "Billing", new { id = @orderId})">
+                                                Complete Order
+                                            </a>
+
+                                            <span>
+                                                <a asp-controller="Billing"
+                                                   asp-action="Cancel"
+                                                   asp-route-id="@ViewData["OrderId"]"
+                                                   role="button"
+                                                   class="btn btn-default btn-left-margin">
+                                                    Cancel
+                                                </a>
+                                            </span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="margin:30px; display:table;">
+                                            <div class="alert alert-warning">No payment to make</div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PORTLET BODY -->
+
+                <br />
+                <!--Display module details as a partial view -->
+                @Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
+            </div>
+        </div>
+    </div>
+
+    <div id="promotionCodeForm"></div>
+
+                                            }
+<!-- promotionModal -->
+<div class="modal fade" id="promotionModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <!--
+        Creates Stripe tokens for custom payment process.
+        In this case, deals with a specific order with a specific user billing address
+    -->
+    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        // Stripe
+        $('#StripePay').on('click', function (event) {
+            event.preventDefault();
+            var $button = $(this),
+                $form = $button.parents('form');
+            var opts = $.extend({}, $button.data(), {
+                token: function (result) {
+
+                    var $stripeToken = $('<input>').attr({ type: 'hidden', name: 'stripeToken', value: result.id })
+                    var $stripeEmail = $('<input>').attr({ type: 'hidden', name: 'stripeEmail', value: result.email })
+                    var $orderId = $('<input>').attr({ type: 'hidden', name: 'orderId', value: @orderId })
+                    var $bAddressId =$('<input>').attr({ type: 'hidden', name: 'bAddressId', value: @bAddressId })
+
+                    $form.append($stripeToken).append($stripeEmail).append($orderId).append($bAddressId)
+                    .submit();
+                }
+            });
+            StripeCheckout.open(opts);
+        });
+
+        // Promotion modal
+        $("#promoCode").on("click", function (e) {
+            $("#promotionModal").modal({
+                keyboard: false,
+                remote: "/Billing/SubmitPromoCode",
+            }).show();
+        });
+    });
+    </script>
+}

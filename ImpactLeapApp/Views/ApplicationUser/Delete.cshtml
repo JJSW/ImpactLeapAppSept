@@ -1,0 +1,104 @@
+@model ImpactLeapApp.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="alert alert-danger alert-danger-deletion">
+                <h3>Please confirm before delete</h3>
+            </div>
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> User Details </span>
+                    <span class="caption-helper">| @Model.Email</span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label asp-for="Email" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Model.Email
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.FirstName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.LastName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.CompanyName)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserRole" class="col-md-2 control-label"></label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.UserRole)
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <form asp-action="Delete">
+                    <a asp-action="Index" class="btn blue-chambray" role="button">
+                        Order Dashboard
+                    </a>
+
+                    <button class="btn red-sunglo btn-left-margin"
+                            data-toggle="modal"
+                            href="#warningModal"
+                            type="button">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="modalLabel" role="dialog" tabindex="-1" id="warningModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete Confirm</h4>
+            </div>
+
+            <form asp-action="Delete" method="post">
+
+                <br />
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center">
+                        You will not be able to access this user's data
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Confirm" class="btn btn-danger" />
+
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

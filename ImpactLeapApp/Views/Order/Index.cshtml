@@ -1,0 +1,392 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.TempOrderViewModel>
+@using ImpactLeapApp.Models.OrderModels;
+
+@using Microsoft.AspNetCore.Identity
+@using ImpactLeapApp.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Order";
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+<h1 class="page-title">
+    Step 1. Impact Categories
+</h1>
+
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Start Analysis</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Impact Categories</span>
+        </li>
+    </ul>
+
+    <!-- Switching to portfolio - removed by request
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-fit-height green dropdown-toggle" data-toggle="dropdown">
+                Start with Impact Categories
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#"> Start with Portfolio Selection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    -->
+</div>
+<!-- END PAGE BAR -->
+
+<form action="/Order/NewOrder" method="post">
+    <!-- BEGIN Portlet PORTLET-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption ">
+                        <span class="caption-subject bold font-yellow-casablanca"> Select your Impact Categories </span>
+                        <span class="caption-helper">| Select the areas of impact analysis that you are interested in</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="moduleTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:3%;">#</th>
+                                    <th style="width:17%;">Impact Category</th>
+                                    <th style="width:53%">Description</th>
+                                    <th style="width:9%">View sample</th>
+                                    <th style="width:9%">Price (USD)</th>
+                                    <th style="width:9%">Select</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    var moduleNumber = i + 1;
+                                    <tr>
+                                        <td>@moduleNumber</td>
+                                        <td>
+                                            <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                @Model.ElementAt(@i).Modules.ModuleName
+                                            </label>
+                                        </td>
+                                        <td>
+                                            @Model.ElementAt(@i).Modules.Description
+                                        </td>
+
+                                        <td>
+                                            <div class="lightgallery">
+                                                <a class="btn btn-circle dark btn-outline lightgallery-trigger">
+                                                    <i class="fa fa-search"></i>
+                                                    @Html.Raw(strSpacer)View
+                                                </a>
+                                                <ul class="lightgallery-images">
+                                                    @{
+                                                        var moduleSamplePath = Model.ElementAt(@i).Modules.ModuleSamplePath;
+                                                        var moduleSampleName = Model.ElementAt(@i).Modules.ModuleSampleName;
+                                                        var moduleName = Model.ElementAt(@i).Modules.ModuleName;
+
+                                                        if (moduleSampleName != null)
+                                                        {
+                                                            List<string> moduleSampleNameList = new List<string>();
+                                                            moduleSampleNameList = moduleSampleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                                                            foreach (var sample in moduleSampleNameList)
+                                                            {
+                                                                var samplePath = moduleSamplePath + sample;
+
+                                                                <li data-src="@samplePath"
+                                                                    data-sub-html="Sample report for : @moduleName">
+                                                                    <img src="@samplePath" alt="Image" />
+                                                                </li>
+                                                            }
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                @if (String.Equals(Model.ElementAt(@i).Modules.UnitPrice.ToString(), "0"))
+                                                {
+                                                    <span class="label label-sm label-danger">FREE</span>
+                                                }
+                                                else
+                                                {
+                                                    @Model.ElementAt(@i).Modules.UnitPrice.ToString("C0", formatProvider)
+                                                }
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            @if (@i == 0)
+                                            {
+                                                <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="icheck" data-checkbox="icheckbox_flat-blue" />
+                                                <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="icheck" data-checkbox="icheckbox_flat-blue" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="chkBox icheck" data-checkbox="icheckbox_flat-blue" />
+                                            }
+                                        </td>
+                                    </tr>
+                                                        }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END Portlet PORTLET-->
+    <!-- BEGIN ROW -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject bold">  Your information </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-7 name"> Where shall we send your analysis? </div>
+                    </div>
+
+                    <!-- Email form -->
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <!-- Check if user already selected a portfolio - removed by request
+                                    if (ViewData["PortfolioId"] != null)
+                                    {
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        <b>
+                                            <input class="form-control"
+                                                   disabled="disabled"
+                                                   type="email"
+                                                   required="required"
+                                                   name="email"
+                                                   value="@ViewData["Email"]" />
+                                        </b>
+                                    }
+                                    else
+                                    {
+                                    -->
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <b>
+                                        <input class="form-control"
+                                               type="email"
+                                               required="required"
+                                               name="email"
+                                               value="@ViewData["Email"]"
+                                               placeholder="Enter your email" />
+                                    </b>
+                                    <!--}-->
+                                }
+                                else
+                                {
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <input class="form-control"
+                                           type="email"
+                                           required="required"
+                                           name="email"
+                                           placeholder="Enter your email" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next button-->
+                    @if (ViewData["PortfolioId"] != null)
+                    {
+                        <input type="hidden" name="portfolioIdFromModule" value="@ViewData["PortfolioId"]" />
+                        <button type="submit" class="btn btn-default blue-chambray">
+                            Next step
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-default blue-chambray">
+                            Next step
+                        </button>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <!-- END Portlet PORTLET-->
+        <!-- BEGIN Portlet PORTLET-->
+        <div class="col-md-6">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <span class="caption-subject bold"> Total order value </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="well">
+                        <div class="row static-info align-reverse">
+                            <div class="col-md-8 name"> Sub Total: </div>
+                            <div class="col-md-3 value">
+                                <input type="hidden" name="totalPrice" />
+                                <span name="totalPriceDisplay"></span>
+                            </div>
+                        </div>
+                        <div class="row static-info align-reverse">
+                            <div class="col-md-8 name"> Multiple Module Savings: </div>
+                            <div class="col-md-3 value">
+                                <input type="hidden" name="savingDiscountMethod" />
+                                <input type="hidden" name="savingDiscount" style="width:50px; border:none;" />
+                                <span class="text-danger" name="savingDiscountDisplay"></span>
+                            </div>
+                        </div>
+                        <div class="row static-info align-reverse">
+                            <div class="col-md-8 name"> Grand Total: </div>
+                            <div class="col-md-3 value">
+                                <input type="hidden" name="totalToPay" style="width:60px; border:none;" />
+                                <span name="totalToPayDisplay"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Portlet PORTLET-->
+    </div>
+</form>
+
+<div id="AddUserForm"></div>
+
+@section scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <!--iCheck -->
+    <script type="text/javascript" src="~/js/icheck-init.js"></script>
+    <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+
+    <!--LightGallery -->
+    <script type="text/javascript" src="~/lib/lightgallery/lib/picturefill.min.js"></script>
+    <script type="text/javascript" src="~/lib/lightgallery/lib/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="~/lib/lightgallery/js/lightgallery-all.js"></script>
+    <script type="text/javascript" src="~/js/lightgallery-init.js"></script>
+
+    <script type="text/javascript">
+
+        var totalPrice = 0;
+        var savingDiscount = 0;
+        var totalToPay = 0;
+
+        $(document).ready(function () {
+            $("#moduleTable").on("ifChanged", ":checkbox", function () {
+                calculateTotal();
+            });
+        });
+
+        function calculateTotal() {
+
+            var tempTotalPrice = 0;
+            var tempSavingDiscount = 0;
+            var tempSavingDiscountMethod;
+            var tempTotalToPay = 0;
+            var dollarCent = 100;
+
+            var isFixedSaving = false;
+            var isPercentageSaving = false;
+
+            $(":checkbox:checked.chkBox").each(function () {
+                var jsonObj = JSON.parse($(this).val());
+                //console.log($(this).val());
+                tempTotalPrice += jsonObj.modules.unitPrice;
+            });
+
+            var selectedModules = $(":checkbox:checked.chkBox").length;
+
+            var savingData = @savingDataJson;
+            console.log(savingData);
+
+            $.each(savingData, function (key, value) {
+                if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
+                    if (value.discountMethod == 0) {
+                        isFixedSaving = true;
+                        isPercentageSaving = false;
+                    } else if (value.discountMethod == 1) {
+                        isPercentageSaving = true;
+                        isFixedSaving = false;
+                    }
+                    tempSavingDiscount = value.savingRate;
+                    tempSavingDiscountMethod = value.discountMethod;
+                }
+            });
+
+            $("span[name=totalPriceDisplay]").text("$" + tempTotalPrice);
+            $("input[name=totalPrice]").val(tempTotalPrice);
+
+            // Multiple saving
+            $("input[name=savingDiscountMethod]").val(tempSavingDiscountMethod);
+            $("input[name=savingDiscount]").val(tempSavingDiscount);
+
+            if (tempSavingDiscount != null || tempSavingDiscount != 0) {
+
+                if (isFixedSaving) {
+                    $("span[name=savingDiscountDisplay]").text("-$" + tempSavingDiscount);
+                } else if (isPercentageSaving) {
+                    var percentageSaving = (tempTotalPrice * tempSavingDiscount) / dollarCent;
+                    console.log(percentageSaving);
+                    $("span[name=savingDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSavingDiscount + "%)");
+                    tempSavingDiscount = percentageSaving;
+                } else {
+                    $("span[name=savingDiscountDisplay]").text("-$" + tempSavingDiscount);
+                }
+            }
+
+            // Total to pay
+            tempTotalToPay = Math.floor(tempTotalPrice - tempSavingDiscount);
+
+            $("input[name=totalToPay]").val(tempTotalToPay);
+
+            if (tempTotalToPay != null || tempTotalToPay != 0) {
+                $("span[name=totalToPayDisplay]").text("$" + tempTotalToPay.toFixed(0));
+            }
+
+            totalPrice = tempTotalPrice;
+            savingDiscount = tempSavingDiscount;
+            tempSavingDiscountMethod = tempSavingDiscountMethod;
+            totalToPay = tempTotalToPay;
+        }
+
+    </script>
+
+}

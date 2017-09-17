@@ -1,0 +1,57 @@
+@model ImpactLeapApp.Models.OrderModels.Order
+
+@{
+    ViewData["Title"] = "Edit Note";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="col-md-10">
+    <div class="page-heading">
+        <h3 class="inv-col">
+            Order Details : <span>@Html.DisplayFor(Model => Model.OrderNum) </span>
+        </h3>
+        <ul class="breadcrumb">
+            <li>
+                Order Summary
+            </li>
+            <li class="active">Order Details</li>
+        </ul>
+    </div>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <form asp-action="EditNote" 
+                              asp-controller="OrderDashboard"
+                              method="post" role="form">
+                            <table class="table displayFullNote">
+                                <tr class="active">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoteFromUser)
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <textarea type="text" asp-for="NoteFromUser" rows="15" class="form-control">@Model.NoteFromUser</textarea>
+                                        <input type="hidden" asp-for="OrderNum" value="@Model.OrderNum"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                @Html.Raw(strSpacer)Save
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

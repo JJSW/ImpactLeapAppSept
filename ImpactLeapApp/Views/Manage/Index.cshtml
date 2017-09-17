@@ -1,0 +1,75 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "User Profile";
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+<!-- BEGIN PROFILE CONTENT -->
+<div class="row">
+    <div class="col-md-6 center-column">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <span class="caption-subject font-blue-madison bold uppercase">User Profile</span>
+                </div>
+            </div>
+
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+
+                        <div class="form-group form-md-line-input has-success">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.Email)</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control readonly-mouse-cursor" readonly value="@Model.Email">
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input has-success">
+                            <label class="col-md-3 control-label" for="form_control_1">Name</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control readonly-mouse-cursor" readonly value="@Html.DisplayFor(Model => Model.FirstName) @Html.DisplayFor(Model => Model.LastName)">
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input has-success">
+                            <label class="col-md-3 control-label" for="form_control_1">@Html.DisplayNameFor(Model => Model.CompanyName)</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control readonly-mouse-cursor" readonly value="@Html.DisplayFor(Model => Model.CompanyName)">
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input has-success">
+                            <label class="col-md-3 control-label" for="form_control_1">Password</label>
+                            <div class="col-md-8">
+                                @if (Model.PasswordHash != null)
+                                {
+                                    <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">
+                                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                        @Html.Raw(strSpacer)Change
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">
+                                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                        @Html.Raw(strSpacer)Create
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
+                        <br />
+                        <a asp-controller="Manage"
+                           asp-action="EditUserProfile"
+                           class="btn blue-chambray"
+                           role="button">
+                            Edit User Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

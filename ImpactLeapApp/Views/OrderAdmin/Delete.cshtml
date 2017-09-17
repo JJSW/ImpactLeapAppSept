@@ -1,0 +1,96 @@
+@model ImpactLeapApp.Models.OrderModels.Order
+
+@{
+    ViewData["Title"] = "Delete Order";
+}
+
+@{
+    var totalAmount = Model.TotalToPay / 100;
+    var uploadedFileName = Model.UploadedFileName;
+    var filePath = Model.UploadedFilePath;
+    string fileLink = filePath + uploadedFileName;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="alert alert-danger alert-danger-deletion">
+                <h3>Please confirm before delete</h3>
+            </div>
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
+                    <span class="caption-helper">| @Html.DisplayFor(Model => Model.OrderNum)</span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(Model => Model.UserEmail)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderedDate)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.OrderedDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.TotalToPay)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            $@totalAmount
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderStatus)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.OrderStatus)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.SalesRep)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.SalesRep)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.NoteFromAdmin)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.NoteFromAdmin)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.DeliveredDate)</label>
+                        <div class="col-md-10 admin-align-middle">
+                            @Html.DisplayFor(model => model.DeliveredDate)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br />
+
+            <form asp-action="Delete">
+                <a asp-action="Index" class="btn blue-chambray" role="button">
+                    Order Dashboard
+                </a>
+
+                <input type="submit" value="Delete" class="btn red-sunglo btn-left-margin" />
+            </form>
+
+        </div>
+    </div>
+</div>

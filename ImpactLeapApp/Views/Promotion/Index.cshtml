@@ -1,0 +1,156 @@
+@model IEnumerable<ImpactLeapApp.Models.OrderModels.Promotion>
+@using ImpactLeapApp.Models.OrderModels
+
+@{
+    ViewData["Title"] = "Admin / Promotions";
+}
+
+@{
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    string strSpacer = "&nbsp;&nbsp;";
+}
+
+<h1 class="page-title">
+    Promotions
+</h1>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span>Promotions</span>
+        </li>
+    </ul>
+</div>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+    <a asp-action="Create" role="button" class="btn sbold green">
+        Add New @Html.Raw(strSpacer)<span class="fa fa-plus"></span>
+    </a>
+}
+
+<br /><br />
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+
+            <div class="portlet-title">
+                <div class="caption ">
+                    <span class="caption-subject bold font-yellow-casablanca">Promotions</span>
+                    <span class="caption-helper">@Html.Raw(strSpacer)| @Html.Raw(strSpacer)Promotion details</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PromotionId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PromotionName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PromotionCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DiscountRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateFrom)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateTo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PromotionId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PromotionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PromotionCode)
+                                </td>
+                                @if (item.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                                {
+                                    <td>
+                                        @item.DiscountRate.ToString("C0", formatProvider)
+                                    </td>
+                                }
+                                else if (item.DiscountMethod == PromotionDiscountMethodList.Percentage)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DiscountRate)%
+                                    </td>
+                                }
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateFrom)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateTo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.PromotionId"
+                                       class="btn blue-madison btn-sm"
+                                       role="button">
+                                        Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.PromotionId"
+                                       class="btn green-meadow btn-sm"
+                                       role="button">
+                                        Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.PromotionId"
+                                       class="btn red-sunglo btn-sm"
+                                       role="button">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" />
+    <script type="text/javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization-->
+    <script type="text/javascript" src="~/js/datatables.bootstrap-init.js"></script>
+    <script type="text/javascript" src="~/js/datatables-custom-user.js"></script>
+}

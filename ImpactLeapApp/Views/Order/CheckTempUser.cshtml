@@ -1,0 +1,111 @@
+
+@{
+    ViewData["Title"] = "Check Temp User";
+}
+
+@if (ViewData["CheckUser"].Equals("NeedRegister"))
+{
+    <h1 class="page-title">
+        Registration required
+    </h1>
+
+    <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html">Start Analysis</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Impact Categories</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Portfolio</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Order Summary</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <!-- START PORTLET -->
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="fa fa-bar-chart font-blue-madison"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Registration required</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <h4>This email is not registered.</h4>
+                    <p>Please register to proceed with your order.</p>
+                    <a id="Register" asp-controller="Order" asp-action="PartialRegister" class="btn btn-default blue-chambray">
+                        Register
+                    </a>
+                </div>
+            </div>
+            <!-- END PORTLET -->
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        </div>
+    </div>
+}
+else if (ViewData["CheckUser"].Equals("NeedLogin"))
+{
+    <h1 class="page-title">
+        Login required
+    </h1>
+
+    <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html">Start Analysis</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Impact Categories</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Portfolio</span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span>Order Summary</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-bottom-10">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <!-- START PORTLET -->
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="fa fa-bar-chart font-blue-madison"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Login required</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <h4>This email is already registered.</h4>
+                    <p>Please login to proceed with your order.</p>
+                    <a id="Register" asp-controller="Order" asp-action="PartialLogin" class="btn btn-default blue-chambray">
+                        Login
+                    </a>
+                </div>
+            </div>
+            <!-- END PORTLET -->
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        </div>
+    </div>
+}

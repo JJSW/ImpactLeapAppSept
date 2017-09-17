@@ -1,0 +1,115 @@
+@model ImpactLeapApp.Models.OrderModels.Module
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+
+        <div class="portlet-title">
+            <div class="caption ">
+                <span class="caption-subject bold font-yellow-casablanca"> Create Module </span>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="form-horizontal edit-bottom-margin">
+
+                <div class="form-group">
+                    <label asp-for="ModuleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="ModuleName" class="form-control" />
+                        <span asp-validation-for="ModuleName" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea asp-for="Description" class="form-control">@Html.DisplayFor(model => model.Description)</textarea>
+                        <span asp-validation-for="Description" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UnitPrice" class="form-control input-medium" />
+                        <span asp-validation-for="UnitPrice" class="text-danger admin-align-middle"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ModuleSampleName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10" id="fileInputForm">
+
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="input-group input-large">
+                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                    <span class="fileinput-filename"> </span>
+                                </div>
+                                <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Select file </span>
+                                    <span class="fileinput-exists"> Change </span>
+                                    <input asp-for="ModuleSampleName" type="file" name="files">
+                                </span>
+                                <a href="javascript:;" class="input-group-addon btn red-sunglo fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                <a id="addInputFileButton" role="button" class="input-group-addon btn green-meadow fileinput-exists"> Add </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <br /><br />
+            <a asp-action="Index" class="btn blue-chambray" role="button">
+                Module Summary
+            </a>
+
+            <input type="submit" value="Create" class="btn green btn-left-margin" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link rel="stylesheet" href="~/lib/file-input/dist/fileinput.css" />
+    <script type="text/javascript" src="~/lib/file-input/dist/fileinput.js"></script>
+  
+    <script type="text/javascript">
+
+        var addInputFileButton =
+            "<br/>"+
+            "<div class=\"fileinput fileinput-new\" data-provides=\"fileinput\">"+
+            "<div class=\"input-group input-large\">" +
+            "<div class=\"form-control uneditable-input input-fixed input-medium\" data-trigger=\"fileinput\">" +
+            "<i class=\"fa fa-file fileinput-exists\"></i>&nbsp;" +
+            "<span class=\"fileinput-filename\"> </span>" +
+            "</div>" +
+            "<span class=\"input-group-addon btn default btn-file\">" +
+            "<span class=\"fileinput-new\"> Select file </span>" +
+            "<span class=\"fileinput-exists\"> Change </span>" +
+            "<input asp-for=\"ModuleSampleName\" type=\"file\" name=\"files\">" +
+            "</span>" +
+            "<a href=\"javascript:;\" class=\"input-group-addon btn red-sunglo fileinput-exists\" data-dismiss=\"fileinput\"> Remove </a>" +
+            "</div></div>";
+
+        var maxAddButton = 10;
+        var buttonIndex = 1;
+
+        $(document).ready(function () {
+            $("#addInputFileButton").click(function (e) {
+                e.preventDefault();
+                if (buttonIndex < maxAddButton) {
+                    buttonIndex++;
+                    $("#fileInputForm").append(addInputFileButton);
+                }
+            });
+        });
+    </script>
+}
