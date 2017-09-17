@@ -8,7 +8,6 @@
     var totalAmount = Model.FirstOrDefault().TotalToPay / 100;
     var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
-    var uploadedFileNameList = ViewBag.UploadedFileList;
 }
 
 <div class="row">
@@ -116,7 +115,7 @@
                 </div>
 
                 <!-- START PORTLET FOR PORTFOLIO -->
-                @if (uploadedFileNameList != null || noteFromUser != null)
+                @if (ViewBag.UploadedFileList != null || noteFromUser != null)
                 {
                     <div class="col-md-6">
                         <div class="portlet blue-madison box">
@@ -124,7 +123,7 @@
                                 <div class="caption"> Portfolio </div>
                             </div>
 
-                            @if (uploadedFileNameList != null)
+                            @if (ViewBag.UploadedFileList != null)
                             {
                                 <div class="portlet-body">
 
@@ -139,7 +138,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    @foreach (var fileName in uploadedFileNameList)
+                                                    @foreach (var fileName in ViewBag.UploadedFileList)
                                                     {
                                                         var filePath = Model.FirstOrDefault().UploadedFilePath;
                                                         string fileLink = filePath + fileName;

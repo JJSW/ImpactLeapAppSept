@@ -8,17 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using ImpactLeapApp.Models;
 using ImpactLeapApp.Models.OrderModels;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using ImpactLeapApp.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
 
 namespace ImpactLeapApp.Controllers
 {

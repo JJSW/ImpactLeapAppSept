@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +10,6 @@ using ImpactLeapApp.Models;
 using ImpactLeapApp.Models.ManageViewModels;
 using ImpactLeapApp.Services;
 using ImpactLeapApp.Data;
-using ImpactLeapApp.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImpactLeapApp.Controllers

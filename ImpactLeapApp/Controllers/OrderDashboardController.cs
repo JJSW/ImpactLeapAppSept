@@ -97,6 +97,7 @@ namespace ImpactLeapApp.Controllers
 
             // Pass uploaded file list
             ViewData["OrderId"] = id;
+            ViewBag.UploadedFileList = new string[] { "" };
 
             if (_context.Orders.SingleOrDefault(o => o.OrderId == id).UploadedFileName != null)
             {
