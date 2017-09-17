@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ 
+@{
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var totalAmount = Model.TotalToPay / 100;
     var uploadedFileNameList = ViewBag.UploadedFileList;
@@ -74,13 +74,16 @@
                 <div class="form-group edit-bottom-default-margin">
                     <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UploadedFileName)</label>
                     <div class="col-md-10 admin-align-middle">
-                        @foreach (var fileName in uploadedFileNameList)
+                        @if (uploadedFileNameList != null || uploadedFileNameList.Any())
                         {
-                            var filePath = Model.UploadedFilePath;
-                            string fileLink = filePath + fileName;
-                            <a href="@fileLink">
-                                @fileName
-                            </a>
+                            @foreach (var fileName in uploadedFileNameList)
+                            {
+                                var filePath = Model.UploadedFilePath;
+                                string fileLink = filePath + fileName;
+                                <a href="@fileLink">
+                                    @fileName
+                                </a>
+                            }
                         }
                     </div>
                 </div>
