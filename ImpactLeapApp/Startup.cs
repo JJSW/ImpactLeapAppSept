@@ -13,6 +13,7 @@ using ImpactLeapApp.Models.BillingModels;
 using ImpactLeapApp.Models.SampleSeedData;
 using ImpactLeapApp.Services;
 using Stripe;
+using Microsoft.AspNetCore.Owin;
 
 namespace ImpactLeapApp
 {
@@ -108,6 +109,8 @@ namespace ImpactLeapApp
 
             SeedData.Initialize(context);
             RoleSeedData.Initialize(app.ApplicationServices);
+
         }
     }
+
 }
