@@ -3,6 +3,12 @@
              General
 -------------------------------*/
 
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+   
+
+
 /*-------------------------------
              Custom
 -------------------------------*/
@@ -79,9 +85,13 @@ module-sample-table-border {
     text-align: center;
 }
 
-.promo-modal-margin{
-    margin-top:40px;
-    margin-bottom:40px;
+.promo-modal-margin {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.buttons-margin {
+    margin-top: 150px;
 }
 
 /* 500 page error */

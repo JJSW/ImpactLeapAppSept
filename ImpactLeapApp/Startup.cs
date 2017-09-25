@@ -14,6 +14,7 @@ using ImpactLeapApp.Models.SampleSeedData;
 using ImpactLeapApp.Services;
 using Stripe;
 using Microsoft.AspNetCore.Owin;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ImpactLeapApp
 {
@@ -73,6 +74,12 @@ namespace ImpactLeapApp
 
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            // Add role auth
+            services.AddAuthentication(options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,6 +116,15 @@ namespace ImpactLeapApp
 
             SeedData.Initialize(context);
             RoleSeedData.Initialize(app.ApplicationServices);
+
+
+            // Auth
+            app.UseCookieAuthentication();
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
+                ClientId = Configuration["AzureAd:ClientId"],
+                Authority = string.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:TenantId"]),
+                CallbackPath = Configuration["AzureAd:AuthCallback"]
+            });
 
         }
     }

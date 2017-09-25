@@ -3,11 +3,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@{ string strSpacer = "&nbsp;"; }
+@{  string strSpacer = "&nbsp;&nbsp;"; }
 
 <!-- BEGIN USER LOGIN DROPDOWN -->
 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+@if (User.Identity.Name == "admin@impactleap.com" || User.Identity.Name == "manager@impactleap.com")
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
         <ul class="nav navbar-nav pull-right">
@@ -84,7 +84,7 @@ else if (SignInManager.IsSignedIn(User))
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-default" aria-labelledby="dropdownMenuButton">
-                    
+
                     <li class="divider"> </li>
 
                     <li>

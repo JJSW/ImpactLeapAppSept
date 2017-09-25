@@ -68,6 +68,23 @@ namespace ImpactLeapApp.Models
                 UserRole = UserRoleList.Admin,
             };
 
+            var manager = new ApplicationUser
+            {
+                FirstName = "manager",
+                LastName = "administrator",
+                Email = "manager@impactleap.com",
+                NormalizedEmail = "MANAGER@IMPACTLEAP.COM",
+                UserName = "manager@impactleap.com",
+                NormalizedUserName = "MANAGER@IMPACTLEAP.COM",
+                PhoneNumber = "000-000-0000",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                CompanyName = "Impact Leap",
+                ModifiedDate = DateTime.Now,
+                UserRole = UserRoleList.Manager,
+            };
+
             var temp = new ApplicationUser
             {
                 FirstName = "temp",

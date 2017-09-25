@@ -7,6 +7,7 @@ using ImpactLeapApp.Data;
 using ImpactLeapApp.Models;
 using Microsoft.Extensions.Options;
 using ImpactLeapApp.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace ImpactLeapApp.Controllers
 {
