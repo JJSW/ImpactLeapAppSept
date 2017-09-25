@@ -82,7 +82,7 @@ namespace ImpactLeapApp
             {
                 options.AddPolicy("Admin", policy => policy.Requirements.Add(new UserNamesRequirement("admin@impactleap.com", "manager@impactleap.com")));
             });
-            services.AddSingleton<IAuthorizationHandler, UserNamesHandler>();
+            services.AddSingleton<IAuthorizationHandler, UserNamesPolicyHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

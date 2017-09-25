@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactLeapApp.Extensions
 {
-    public class UserNamesHandler : AuthorizationHandler<UserNamesRequirement>
+    public class UserNamesPolicyHandler : AuthorizationHandler<UserNamesRequirement>
     {
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserNamesRequirement requirement)
