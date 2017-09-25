@@ -24,7 +24,7 @@
     </ul>
 </div>
 
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+@if (User.Identity.Name == "admin@impactleap.com" || User.Identity.Name == "manager@impactleap.com")
 {
     <a asp-action="Create" role="button" class="btn sbold green">
         Add New @Html.Raw(strSpacer)<span class="fa fa-plus"></span>
@@ -96,7 +96,7 @@
                                 </td>
 
                                 <td>
-                                    @if (User.IsInRole("Admin"))
+                                    @if (User.Identity.Name == "admin@impactleap.com")
                                     {
                                         <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
                                            class="btn blue-madison btn-sm"
@@ -114,7 +114,7 @@
                                             Delete
                                         </a>
                                     }
-                                    else if (User.IsInRole("Manager"))
+                                    else if (User.Identity.Name == "manager@impactleap.com")
                                     {
                                         if (Model.ElementAt(@i).UserRole == UserRoleList.Admin)
                                         {

@@ -25,7 +25,7 @@
     </ul>
 </div>
 
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+@if (User.Identity.Name == "admin@impactleap.com" || User.Identity.Name == "manager@impactleap.com")
 {
     <a asp-action="Create" role="button" class="btn sbold green">
         Add New @Html.Raw(strSpacer)<span class="fa fa-plus"></span>

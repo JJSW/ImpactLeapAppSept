@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactLeapApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Policy = "Admin")]
     public class PromotionController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -47,10 +47,13 @@ namespace ImpactLeapApp.Controllers
         // GET: Promotions/Create
         public IActionResult Create()
         {
-            var promotion = new Promotion();
-            promotion.PromotionCode = GetPromoCode();
-            promotion.DateFrom = DateTime.Now;
-            promotion.DateTo = DateTime.Now.AddYears(+1);
+            var promotion = new Promotion()
+            {
+                PromotionCode = GetPromoCode(),
+                DateFrom = DateTime.Now,
+                DateTo = DateTime.Now.AddYears(+1)
+            };
+
             return View(promotion);
         }
 

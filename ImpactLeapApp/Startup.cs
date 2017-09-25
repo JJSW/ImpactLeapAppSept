@@ -15,6 +15,8 @@ using ImpactLeapApp.Services;
 using Stripe;
 using Microsoft.AspNetCore.Owin;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ImpactLeapApp.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactLeapApp
 {
@@ -75,11 +77,12 @@ namespace ImpactLeapApp
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
-            // Add role auth
-            services.AddAuthentication(options =>
+            // Add Auth
+            services.AddAuthorization(options =>
             {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.AddPolicy("Admin", policy => policy.Requirements.Add(new UserNamesRequirement("admin@impactleap.com", "manager@impactleap.com")));
             });
+            services.AddSingleton<IAuthorizationHandler, UserNamesHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,7 +123,8 @@ namespace ImpactLeapApp
 
             // Auth
             app.UseCookieAuthentication();
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            {
                 ClientId = Configuration["AzureAd:ClientId"],
                 Authority = string.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:TenantId"]),
                 CallbackPath = Configuration["AzureAd:AuthCallback"]

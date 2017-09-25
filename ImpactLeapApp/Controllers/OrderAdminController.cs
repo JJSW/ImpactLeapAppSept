@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactLeapApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Policy = "Admin")]
     public class OrderAdminController : Controller
     {
         private readonly ApplicationDbContext _context;

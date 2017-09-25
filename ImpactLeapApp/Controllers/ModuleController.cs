@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ImpactLeapApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Policy = "Admin")]
     public class ModuleController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -16,7 +16,7 @@ using static ImpactLeapApp.Controllers.ManageController;
 
 namespace ImpactLeapApp.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Policy = "Admin")]
     public class ApplicationUserController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -71,7 +71,7 @@ namespace ImpactLeapApp.Models
             var manager = new ApplicationUser
             {
                 FirstName = "manager",
-                LastName = "administrator",
+                LastName = "manager",
                 Email = "manager@impactleap.com",
                 NormalizedEmail = "MANAGER@IMPACTLEAP.COM",
                 UserName = "manager@impactleap.com",
@@ -129,6 +129,18 @@ namespace ImpactLeapApp.Models
                 var result = userStore.CreateAsync(admin);
 
                 await AssignRoles(isp, admin.Email, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == manager.UserName))
+            {
+                var password = new PasswordHasher<ApplicationUser>();
+                var hashed = password.HashPassword(manager, "Password1!");
+                manager.PasswordHash = hashed;
+
+                var userStore = new UserStore<ApplicationUser>(context);
+                var result = userStore.CreateAsync(manager);
+
+                await AssignRoles(isp, manager.Email, "Manager");
             }
 
             if (!context.Users.Any(u => u.UserName == temp.UserName))
