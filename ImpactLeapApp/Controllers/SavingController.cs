@@ -94,7 +94,7 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
+        public async Task<IActionResult> Create([Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive,ModifiedDate")] Saving saving)
         {
             if (_context.Savings.Any())
             {
@@ -209,8 +209,11 @@ namespace ImpactLeapApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
+        public async Task<IActionResult> Edit(int id, [Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive,ModifiedDate")] Saving saving)
         {
+            bool isValidRange = true;
+            /*
+            bool isValidRange = false;
             var currentSelectFrom = _context.Savings.SingleOrDefault(s => s.SavingId == id).SelectFrom;
             var currentSelectTo = _context.Savings.SingleOrDefault(s => s.SavingId == id).SelectTo;
 
@@ -229,7 +232,6 @@ namespace ImpactLeapApp.Controllers
                 _maxSelectTo = 0;
             }
 
-            bool isValidRange = false;
 
             if (id != saving.SavingId)
             {
@@ -238,87 +240,69 @@ namespace ImpactLeapApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+
+                if (saving.SelectFrom < _minSelectFrom)
                 {
-                    if (saving.SelectFrom < _minSelectFrom)
+                    if (saving.SelectTo < _minSelectFrom)
                     {
-                        if (saving.SelectTo < _minSelectFrom)
-                        {
-                            isValidRange = true;
-                        }
+                        isValidRange = true;
                     }
-                    else if (saving.SelectFrom > _minSelectFrom)
+                }
+                else if (saving.SelectFrom > _minSelectFrom)
+                {
+                    if (saving.SelectFrom > _maxSelectTo)
                     {
-                        if (saving.SelectFrom > _maxSelectTo)
-                        {
-                            isValidRange = true;
-                        }
-
-                        if (saving.SelectTo < _minSelectTo)
-                        {
-                            isValidRange = true;
-                        }
+                        isValidRange = true;
                     }
 
-                    if (saving.SelectFrom < _maxSelectFrom)
+                    if (saving.SelectTo < _minSelectTo)
                     {
-                        if (saving.SelectFrom > _minSelectTo)
+                        isValidRange = true;
+                    }
+                }
+
+                if (saving.SelectFrom < _maxSelectFrom)
+                {
+                    if (saving.SelectFrom > _minSelectTo)
+                    {
+                        if (saving.SelectTo < _maxSelectTo)
                         {
-                            if (saving.SelectTo < _maxSelectTo)
+                            if (saving.SelectTo < _maxSelectFrom)
                             {
-                                if (saving.SelectTo < _maxSelectFrom)
-                                {
-                                    isValidRange = true;
-                                }
+                                isValidRange = true;
                             }
                         }
                     }
+                }
 
-                    foreach(var selectFrom in _context.Savings.Select(s => saving.SelectFrom))
+                foreach (var selectFrom in _context.Savings.Select(s => saving.SelectFrom))
+                {
+                    foreach (var selectTo in _context.Savings.Select(s => s.SelectTo))
                     {
-                        foreach(var selectTo in _context.Savings.Select(s => s.SelectTo))
+                        if (selectFrom == selectTo)
                         {
-                            if(selectFrom == selectTo)
-                            {
-                                ModelState.AddModelError("SelectTo", "Range error : 'select from' can't be overlapped 'select to'");
-                                return View(saving);
-                            }
+                            ModelState.AddModelError("SelectTo", "Range error : 'select from' can't be overlapped 'select to'");
+                            return View(saving);
                         }
                     }
-
-                    if (saving.SelectFrom > saving.SelectTo)
-                    {
-                        ModelState.AddModelError("SelectTo", "Range error : 'select from' must be smaller than 'select to'");
-                        return View(saving);
-                    }
-
-                    if (isValidRange)
-                    {
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).SavingName = saving.SavingName;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).DiscountMethod = saving.DiscountMethod;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).SavingRate = saving.SavingRate;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).SelectFrom = saving.SelectFrom;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).SelectTo = saving.SelectTo;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).Description = saving.Description;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).IsActive = saving.IsActive;
-                        _context.Savings.SingleOrDefault(p => p.SavingId == id).ModifiedDate = DateTime.Now;
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index");
-                    }
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (saving.SelectFrom > saving.SelectTo)
                 {
-                    if (!SavingExists(saving.SavingId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("SelectTo", "Range error : 'select from' must be smaller than 'select to'");
+                    return View(saving);
                 }
+                */
+
+            if (isValidRange)
+            {
+                _context.Update(saving);
+                _context.Savings.SingleOrDefault(p => p.SavingId == id).ModifiedDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            ModelState.AddModelError("SelectTo", "Range error");
+            //}
             return View(saving);
         }
 

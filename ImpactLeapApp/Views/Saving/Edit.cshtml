@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <form asp-action="Edit">
@@ -13,7 +12,7 @@
         <div class="portlet-title">
             <div class="caption ">
                 <span class="caption-subject bold font-yellow-casablanca"> Order Details </span>
-                <span class="caption-helper">|@Html.DisplayFor(Model => Model.SavingName)</span>
+                <span class="caption-helper">| @Html.DisplayFor(Model => Model.SavingName)</span>
             </div>
         </div>
 
@@ -21,6 +20,13 @@
             <div class="form-horizontal edit-bottom-margin">
 
                 <input type="hidden" asp-for="SavingId" />
+
+                <div class="form-group edit-bottom-default-margin">
+                    <label asp-for="SavingId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10 admin-align-middle">
+                        @Html.DisplayFor(model => model.SavingId)
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label asp-for="SavingName" class="col-md-2 control-label"></label>
@@ -65,7 +71,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group form-no-max-width">
                     <label asp-for="Description" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
                         <input asp-for="Description" class="form-control" />

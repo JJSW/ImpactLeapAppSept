@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ImpactLeapApp.Data;
-using ImpactLeapApp.Models.OrderModels;
+using ImpactLeapApp.Models.BillingModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactLeapApp.Controllers

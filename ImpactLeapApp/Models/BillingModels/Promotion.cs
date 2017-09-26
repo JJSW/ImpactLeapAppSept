@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ImpactLeapApp.Models.OrderModels
+namespace ImpactLeapApp.Models.BillingModels
 {
     public enum PromotionDiscountMethodList
     {
