@@ -170,7 +170,7 @@
             });
 
             $("[role=button]").click(function (e) {
-                console.log(moduleSampleDictionary[$(this).attr("id")]);
+                //console.log(moduleSampleDictionary[$(this).attr("id")]);
                 var selecttedModuleName = moduleSampleDictionary[$(this).attr("id")];
                 $.ajax({
                     url: "@Url.Action("DeleteModuleSample", "Module")",

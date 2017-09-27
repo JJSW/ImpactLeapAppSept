@@ -335,7 +335,7 @@
             var selectedModules = $(":checkbox:checked.chkBox").length;
 
             var savingData = @savingDataJson;
-            console.log(savingData);
+            //console.log(savingData);
 
             $.each(savingData, function (key, value) {
                 if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
@@ -354,7 +354,7 @@
             $("span[name=totalPriceDisplay]").text("$" + tempTotalPrice);
             $("input[name=totalPrice]").val(tempTotalPrice);
 
-            // Multiple saving
+            // Multiple selection saving
             $("input[name=savingDiscountMethod]").val(tempSavingDiscountMethod);
             $("input[name=savingDiscount]").val(tempSavingDiscount);
 
@@ -364,7 +364,7 @@
                     $("span[name=savingDiscountDisplay]").text("-$" + tempSavingDiscount);
                 } else if (isPercentageSaving) {
                     var percentageSaving = (tempTotalPrice * tempSavingDiscount) / dollarCent;
-                    console.log(percentageSaving);
+                    //console.log(percentageSaving);
                     $("span[name=savingDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSavingDiscount + "%)");
                     tempSavingDiscount = percentageSaving;
                 } else {
@@ -381,10 +381,10 @@
                 $("span[name=totalToPayDisplay]").text("$" + tempTotalToPay.toFixed(0));
             }
 
-            totalPrice = tempTotalPrice;
-            savingDiscount = tempSavingDiscount;
-            tempSavingDiscountMethod = tempSavingDiscountMethod;
-            totalToPay = tempTotalToPay;
+            //totalPrice = tempTotalPrice;
+            //savingDiscount = tempSavingDiscount;
+            //tempSavingDiscountMethod = tempSavingDiscountMethod;
+            //totalToPay = tempTotalToPay;
         }
 
     </script>

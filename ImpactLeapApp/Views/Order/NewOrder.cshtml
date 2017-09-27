@@ -355,7 +355,7 @@
         $(document).ready(function () {
 
             $("#proceedButton").on("click", function (e) {
-                console.log(noteFromUser);
+                //console.log(noteFromUser);
 
                 if (isFileInQueue) {
                     if (isFileSubmitted == false) {
@@ -425,7 +425,7 @@
                 submitButton.addEventListener("click", function () {
                     myDropzone.processQueue();
                     var acceptedFileCount = myDropzone.getAcceptedFiles().length;
-                    console.log(acceptedFileCount);
+                    //console.log(acceptedFileCount);
 
                     if (acceptedFileCount > 0) {
                         isFileSubmitted = true;
@@ -447,7 +447,7 @@
                         isFileInQueue = true;
                     }
 
-                    console.log(isFileInQueue, isFileSubmitted);
+                    //console.log(isFileInQueue, isFileSubmitted);
 
                     var removeButton = Dropzone.createElement("<button class=\"btn red btn-block\">Remove file</button>");
 
