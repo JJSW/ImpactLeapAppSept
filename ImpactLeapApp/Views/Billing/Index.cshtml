@@ -96,7 +96,7 @@
                                     <div class="actions">
                                         @if ((int)ViewData["TotalToPayDisplay"] != 0)
                                         {
-                                            @if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Ready || (PromotionStatusList)TempData["PromotionStatus"] == null)
+                                            @if ((PromotionStatusList)TempData["PromotionStatus"] == PromotionStatusList.Ready)
                                             {
                                                 <a role="button" id="promoCode" class="btn red sbold"
                                                    data-toggle="modal">
