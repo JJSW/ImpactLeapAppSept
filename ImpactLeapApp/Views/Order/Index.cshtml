@@ -1,5 +1,6 @@
 @model IEnumerable<ImpactLeapApp.Models.OrderModels.TempOrderViewModel>
-@using ImpactLeapApp.Models.OrderModels;
+@using Newtonsoft.Json;
+
 
 @using Microsoft.AspNetCore.Identity
 @using ImpactLeapApp.Models
@@ -9,10 +10,19 @@
 
 @{
     ViewData["Title"] = "Order";
+}
+
+@{
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
     string strSpacer = "&nbsp;&nbsp;";
+
+    JsonSerializerSettings settings = new JsonSerializerSettings
+    {
+        StringEscapeHandling = StringEscapeHandling.EscapeHtml
+    };
 }
+
 
 <h1 class="page-title">
     Step 1. Impact Categories
@@ -139,16 +149,16 @@
                                         <td>
                                             @if (@i == 0)
                                             {
-                                                <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="icheck" data-checkbox="icheckbox_flat-blue" />
-                                                <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="icheck" data-checkbox="icheckbox_flat-blue" />
+                                                <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(JsonConvert.SerializeObject(Model.ElementAt(@i), settings))' class="icheck" data-checkbox="icheckbox_flat-blue" />
+                                                <input type="hidden" name="modules" value='@Html.Raw(JsonConvert.SerializeObject(Model.ElementAt(@i), settings))' class="icheck" data-checkbox="icheckbox_flat-blue" />
                                             }
                                             else
                                             {
-                                                <input type="checkbox" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' class="chkBox icheck" data-checkbox="icheckbox_flat-blue" />
+                                                <input type="checkbox" name="modules" value='@Html.Raw(JsonConvert.SerializeObject(Model.ElementAt(@i), settings))' class="chkBox icheck" data-checkbox="icheckbox_flat-blue" />
                                             }
                                         </td>
                                     </tr>
-                                                        }
+                                    }
 
                             </tbody>
                         </table>
@@ -326,10 +336,12 @@
             var isFixedSaving = false;
             var isPercentageSaving = false;
 
+            
+
             $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
-                //console.log($(this).val());
-                tempTotalPrice += jsonObj.modules.unitPrice;
+                //console.log(jsonObj);
+                tempTotalPrice += jsonObj.Modules.UnitPrice;
             });
 
             var selectedModules = $(":checkbox:checked.chkBox").length;
