@@ -13,8 +13,6 @@ using ImpactLeapApp.Models.BillingModels;
 using ImpactLeapApp.Models.SampleSeedData;
 using ImpactLeapApp.Services;
 using Stripe;
-using Microsoft.AspNetCore.Owin;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using ImpactLeapApp.Extensions;
 using Microsoft.AspNetCore.Authorization;
 
